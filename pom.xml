@@ -1,25 +1,42 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>hu.schonherz.java.training.project</groupId>
-  <artifactId>admin</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <modules>
-  	<module>admin-service-api</module>
-  	<module>admin-ear</module>
-  	<module>admin-service</module>
-  	<module>admin-web</module>
-  	<module>admin-data</module>
-  </modules>
-  
-  <build>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>hu.schonherz.java.training.project</groupId>
+    <artifactId>admin</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>admin-service-api</module>
+        <module>admin-ear</module>
+        <module>admin-service</module>
+        <module>admin-web</module>
+        <module>admin-data</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Logging plugins -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.22</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.1.8</version>
+            </dependency>
+            <!-- /Logging plugins -->
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
         <defaultGoal>install</defaultGoal>
         <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.2</version>
+                    <version>3.6.1</version>
                     <configuration>
                         <source>1.8</source>
                         <target>1.8</target>
@@ -28,5 +45,5 @@
             </plugins>
         </pluginManagement>
     </build>
-    
+
 </project>
