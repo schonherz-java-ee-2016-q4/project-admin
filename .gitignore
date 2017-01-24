@@ -1,6 +1,6 @@
-/target
-/bin
-/logs
+target/
+bin/
+logs/
 
 # IDEA-specific
 *.iml
