@@ -5,6 +5,14 @@
     <artifactId>admin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+	
+	<modules>
+        <module>admin-data</module>
+        <module>admin-service-api</module>
+        <module>admin-service</module>
+        <module>admin-web</module>
+        <module>admin-ear</module>
+    </modules>
 
     <properties>
         <spring.webflow.version>2.4.0.RELEASE</spring.webflow.version>
