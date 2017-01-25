@@ -1,13 +1,14 @@
 package hu.schonherz.project.admin.data.dao;
 
 import hu.schonherz.project.admin.data.entity.TestEntity;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface TestDao {
-
-    void save(TestEntity entity);
-
-    List<TestEntity> findAll();
+@Repository
+@Transactional(propagation = Propagation.SUPPORTS)
+public interface TestDao extends JpaRepository<TestEntity, Long> {
 
     TestEntity findByUsername(String username);
 
