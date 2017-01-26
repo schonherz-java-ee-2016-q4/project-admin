@@ -2,26 +2,47 @@ package hu.schonherz.project.admin.service.mapper.user;
 
 import hu.schonherz.project.admin.data.entity.TestEntity;
 import hu.schonherz.project.admin.service.api.vo.TestUserVo;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.NonNull;
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 
 public class TestUserVoMapper {
 
-	public static TestUserVo toVo(@NonNull TestEntity test) {
-		TestUserVo testUser = new TestUserVo();
-		testUser.setId(test.getId());
-		testUser.setUsername(test.getUsername());
-		testUser.setEmail(test.getEmail());
-		testUser.setPassword(test.getPassword());
-		return testUser;
-	}
+    static Mapper mapper = new DozerBeanMapper();
 
-	public static TestEntity toEntity(@NonNull TestUserVo userVO) {
-		TestEntity testEntity = new TestEntity();
-		testEntity.setId(userVO.getId());
-		testEntity.setUsername(userVO.getUsername());
-		testEntity.setEmail(userVO.getEmail());
-		testEntity.setPassword(userVO.getPassword());
-		
-		return testEntity;
-	}
+    private TestUserVoMapper() {
+    }
+
+    public static TestUserVo toVo(@NonNull TestEntity userEntity) {
+        return mapper.map(userEntity, TestUserVo.class);
+    }
+
+    public static TestEntity toEntity(@NonNull TestUserVo userVo) {
+        return mapper.map(userVo, TestEntity.class);
+    }
+
+    public static List<TestUserVo> toVo(@NonNull Collection<TestEntity> entities) {
+        if (entities.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return entities.stream()
+                .map(entity -> toVo(entity))
+                .collect(Collectors.toList());
+    }
+
+    public static List<TestEntity> toEntity(@NonNull Collection<TestUserVo> vos) {
+        if (vos.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        return vos.stream()
+                .map(vo -> toEntity(vo))
+                .collect(Collectors.toList());
+    }
+
 }

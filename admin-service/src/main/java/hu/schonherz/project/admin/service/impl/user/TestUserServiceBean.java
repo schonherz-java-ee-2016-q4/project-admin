@@ -14,24 +14,37 @@ import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.TestUserVo;
 import hu.schonherz.project.admin.service.mapper.user.TestUserVoMapper;
-import hu.schonherz.project.admin.service.user.TestUserService;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Stateless(mappedName = "UserService")
 @Remote(UserServiceRemote.class)
 @Local(UserServiceLocal.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
-public class TestUserServiceBean implements TestUserService {
-	@Autowired
-	TestDao testDao;
+public class TestUserServiceBean implements UserServiceLocal, UserServiceRemote {
 
-	public TestUserVo findByUsername(String username) {
-		TestEntity test = testDao.findByUsername(username);
-		return TestUserVoMapper.toVo(test);
-	}
+    @Autowired
+    TestDao testDao;
 
-	public TestUserVo registrationUser(TestUserVo userVo) {
-		TestEntity test = TestUserVoMapper.toEntity(userVo);
-		test = testDao.save(test);
-		return TestUserVoMapper.toVo(test);
-	}
+    @Override
+    public TestUserVo findByUsername(String username) {
+        TestEntity test = testDao.findByUsername(username);
+        return TestUserVoMapper.toVo(test);
+    }
+
+    @Override
+    public TestUserVo registrationUser(TestUserVo userVo) {
+        TestEntity test = TestUserVoMapper.toEntity(userVo);
+        test = testDao.save(test);
+        return TestUserVoMapper.toVo(test);
+    }
+
+    @Override
+    public List<TestUserVo> findAll() {
+        List<TestEntity> allEntities = testDao.findAll();
+        return allEntities.stream()
+                .map(entity -> TestUserVoMapper.toVo(entity))
+                .collect(Collectors.toList());
+    }
+
 }
