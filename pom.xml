@@ -76,11 +76,10 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven -->
             <dependency>
                 <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-maven</artifactId>
-                <version>1.16.12.0</version>
+                <artifactId>lombok</artifactId>
+                <version>1.16.12</version>
             </dependency>
             <!-- Logging dependencies -->
             <dependency>
@@ -250,8 +249,133 @@
                         <target>1.8</target>
                     </configuration>
                 </plugin>
+                <!-- Code style plugins -->
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>${version.plugin.versions}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${version.plugin.release}</version>
+                    <configuration>
+                        <tagNameFormat>${project.version}</tagNameFormat>
+                        <releaseProfiles>skipChecks</releaseProfiles>
+                    </configuration>
+                </plugin>
+
+                <!-- Code Quality Plugins -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${version.plugin.checkstyle}</version>
+                    <configuration>
+                        <configLocation>code-quality/checkstyle/checks.xml</configLocation>
+                        <suppressionsLocation>${dir.codequality}/checkstyle/suppressions.xml</suppressionsLocation>
+                        <violationSeverity>warning</violationSeverity>
+                        <failOnViolation>true</failOnViolation>
+                        <failsOnError>false</failsOnError>
+                        <linkXRef>false</linkXRef>
+                        <consoleOutput>false</consoleOutput>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>${version.plugin.findbugs}</version>
+                    <configuration>
+                        <xmlOutput>true</xmlOutput>
+                        <effort>Max</effort>
+                        <threshold>Medium</threshold>
+                        <excludeFilterFile>${dir.codequality}/findbugs/findbugs-exclude.xml</excludeFilterFile>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-pmd-plugin</artifactId>
+                    <version>${version.plugin.pmd}</version>
+                    <configuration>
+                        <failOnViolation>true</failOnViolation>
+                        <linkXRef>false</linkXRef>
+                        <rulesets>
+                            <ruleset>${dir.codequality}/pmd/basic.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/braces.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/codesize.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/design.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/empty.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/javabeans.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/strings.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/typeresolution.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/unnecessary.xml</ruleset>
+                            <ruleset>${dir.codequality}/pmd/unusedcode.xml</ruleset>
+                        </rulesets>
+                    </configuration>
+                </plugin>
+                <!-- /Code style plugins -->
             </plugins>
         </pluginManagement>
     </build>
+
+    <profiles>
+        <profile>
+            <id>code-check</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-checkstyle-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>checkstyle-code-verification</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>check</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-pmd-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>pmd-code-verification</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>check</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.codehaus.mojo</groupId>
+                            <artifactId>findbugs-maven-plugin</artifactId>
+                            <executions>
+                                <execution>
+                                    <id>findbugs-code-verification</id>
+                                    <phase>verify</phase>
+                                    <goals>
+                                        <goal>findbugs</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+
+        <profile>
+            <id>skipChecks</id>
+        </profile>
+    </profiles>
+
 
 </project>
