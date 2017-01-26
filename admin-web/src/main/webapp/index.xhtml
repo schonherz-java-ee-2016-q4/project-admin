@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <h:body>
+        <h:form id="registratonForm">
+            <h:outputLabel value="Username:" for="username" />
+            <p:inputText id="username"
+                value="#{registrationView.testUserVo.username}" required="true" />
+            <p:message for="username" />
+
+            <h:outputLabel value="Password" for="password" />
+            <p:password id="password" value="#{registrationView.testUserVo.password}"
+                required="true">
+                <f:validateLength minimum="6"></f:validateLength>
+            </p:password>
+            <p:message for="password" />
+
+            <p:commandButton value="Registration"
+                actionListener="#{registrationView.registration()}"></p:commandButton>
+        </h:form>
+    </h:body>
+</html>
