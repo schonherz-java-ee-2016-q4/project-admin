@@ -9,10 +9,9 @@
     <artifactId>admin-data</artifactId>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven -->
         <dependency>
             <groupId>org.projectlombok</groupId>
-            <artifactId>lombok-maven</artifactId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <!-- Spring -->
         <dependency>
@@ -66,12 +65,6 @@
             <artifactId>hibernate-validator</artifactId>
         </dependency>
         <!-- /Hibernate -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.8</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
 
     <build>
