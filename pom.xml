@@ -5,8 +5,8 @@
     <artifactId>admin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-	
-	<modules>
+
+    <modules>
         <module>admin-data</module>
         <module>admin-service-api</module>
         <module>admin-service</module>
@@ -31,11 +31,15 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven -->
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>5.5.1</version>
+            </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-maven</artifactId>
-                <version>1.16.12.0</version>
+                <artifactId>lombok</artifactId>
+                <version>1.16.12</version>
             </dependency>
             <!-- Logging dependencies -->
             <dependency>
@@ -85,7 +89,7 @@
                 <artifactId>spring-data-jpa</artifactId>
                 <version>1.10.6.RELEASE</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.hibernate.javax.persistence</groupId>
                 <artifactId>hibernate-jpa-2.0-api</artifactId>
