@@ -5,7 +5,6 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import hu.schonherz.project.admin.service.api.service.UserService;
 import hu.schonherz.project.admin.service.api.vo.TestUserVo;
 import lombok.Data;
 
@@ -15,7 +14,6 @@ import lombok.Data;
 public class RegistrationView {
     
     private TestUserVo testUserVo;
-    private UserService userService;
 
     @PostConstruct
     public void init() {
@@ -23,6 +21,6 @@ public class RegistrationView {
     }
     
     public void registration() {
-        userService.registrationUser(testUserVo);
+//        Need implementation
     }
 }
