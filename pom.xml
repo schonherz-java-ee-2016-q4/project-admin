@@ -18,7 +18,7 @@
     <description>Parent maven project for the Admin branch-project of the Help Desk Platform</description>
     <inceptionYear>2017</inceptionYear>
     <organization>
-        <name>Schönherz Iskolaszövetkezet</name>
+        <name>Schï¿½nherz Iskolaszï¿½vetkezet</name>
     </organization>
 
     <developers>
@@ -31,21 +31,21 @@
         </developer>
         <developer>
             <id>gergofazekas</id>
-            <name>Fazekas Gergõ</name>
+            <name>Fazekas Gergï¿½</name>
             <roles>
                 <role>Java EE Developer</role>
             </roles>
         </developer>
         <developer>
             <id>tamaskovacs</id>
-            <name>Kovács Tamás</name>
+            <name>Kovï¿½cs Tamï¿½s</name>
             <roles>
                 <role>Java EE Developer</role>
             </roles>
         </developer>
         <developer>
             <id>sandorsuto</id>
-            <name>Sütõ Sándor</name>
+            <name>Sï¿½tï¿½ Sï¿½ndor</name>
             <roles>
                 <role>Java EE Developer</role>
             </roles>
@@ -65,6 +65,7 @@
         <jsf.version>2.2.14</jsf.version>
         <activate.code.check.profile>true</activate.code.check.profile>
         <activate.skip.checks.profile>false</activate.skip.checks.profile>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <repositories>
@@ -386,6 +387,5 @@
             <id>skipChecks</id>
         </profile>
     </profiles>
-
 
 </project>
