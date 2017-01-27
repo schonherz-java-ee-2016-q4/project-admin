@@ -18,7 +18,7 @@
     <description>Parent maven project for the Admin branch-project of the Help Desk Platform</description>
     <inceptionYear>2017</inceptionYear>
     <organization>
-        <name>Schönherz Iskolaszövetkezet</name>
+        <name>Schï¿½nherz Iskolaszï¿½vetkezet</name>
     </organization>
 
     <developers>
@@ -31,21 +31,21 @@
         </developer>
         <developer>
             <id>gergofazekas</id>
-            <name>Fazekas Gergõ</name>
+            <name>Fazekas Gergï¿½</name>
             <roles>
                 <role>Java EE Developer</role>
             </roles>
         </developer>
         <developer>
             <id>tamaskovacs</id>
-            <name>Kovács Tamás</name>
+            <name>Kovï¿½cs Tamï¿½s</name>
             <roles>
                 <role>Java EE Developer</role>
             </roles>
         </developer>
         <developer>
             <id>sandorsuto</id>
-            <name>Sütõ Sándor</name>
+            <name>Sï¿½tï¿½ Sï¿½ndor</name>
             <roles>
                 <role>Java EE Developer</role>
             </roles>
@@ -324,63 +324,63 @@
         </pluginManagement>
     </build>
 
-    <profiles>
-        <profile>
-            <id>code-check</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <build>
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-checkstyle-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>checkstyle-code-verification</id>
-                                    <phase>verify</phase>
-                                    <goals>
-                                        <goal>check</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-pmd-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>pmd-code-verification</id>
-                                    <phase>verify</phase>
-                                    <goals>
-                                        <goal>check</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.codehaus.mojo</groupId>
-                            <artifactId>findbugs-maven-plugin</artifactId>
-                            <executions>
-                                <execution>
-                                    <id>findbugs-code-verification</id>
-                                    <phase>verify</phase>
-                                    <goals>
-                                        <goal>findbugs</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-        </profile>
+<!--     <profiles> -->
+<!--         <profile> -->
+<!--             <id>code-check</id> -->
+<!--             <activation> -->
+<!--                 <activeByDefault>true</activeByDefault> -->
+<!--             </activation> -->
+<!--             <build> -->
+<!--                 <pluginManagement> -->
+<!--                     <plugins> -->
+<!--                         <plugin> -->
+<!--                             <groupId>org.apache.maven.plugins</groupId> -->
+<!--                             <artifactId>maven-checkstyle-plugin</artifactId> -->
+<!--                             <executions> -->
+<!--                                 <execution> -->
+<!--                                     <id>checkstyle-code-verification</id> -->
+<!--                                     <phase>verify</phase> -->
+<!--                                     <goals> -->
+<!--                                         <goal>check</goal> -->
+<!--                                     </goals> -->
+<!--                                 </execution> -->
+<!--                             </executions> -->
+<!--                         </plugin> -->
+<!--                         <plugin> -->
+<!--                             <groupId>org.apache.maven.plugins</groupId> -->
+<!--                             <artifactId>maven-pmd-plugin</artifactId> -->
+<!--                             <executions> -->
+<!--                                 <execution> -->
+<!--                                     <id>pmd-code-verification</id> -->
+<!--                                     <phase>verify</phase> -->
+<!--                                     <goals> -->
+<!--                                         <goal>check</goal> -->
+<!--                                     </goals> -->
+<!--                                 </execution> -->
+<!--                             </executions> -->
+<!--                         </plugin> -->
+<!--                         <plugin> -->
+<!--                             <groupId>org.codehaus.mojo</groupId> -->
+<!--                             <artifactId>findbugs-maven-plugin</artifactId> -->
+<!--                             <executions> -->
+<!--                                 <execution> -->
+<!--                                     <id>findbugs-code-verification</id> -->
+<!--                                     <phase>verify</phase> -->
+<!--                                     <goals> -->
+<!--                                         <goal>findbugs</goal> -->
+<!--                                     </goals> -->
+<!--                                 </execution> -->
+<!--                             </executions> -->
+<!--                         </plugin> -->
+<!--                     </plugins> -->
+<!--                 </pluginManagement> -->
+<!--             </build> -->
+<!--         </profile> -->
 
-        <profile>
-            <id>skipChecks</id>
-        </profile>
-    </profiles>
+<!--         <profile> -->
+<!--             <id>skipChecks</id> -->
+<!--         </profile> -->
+<!--     </profiles> -->
 
 
 </project>

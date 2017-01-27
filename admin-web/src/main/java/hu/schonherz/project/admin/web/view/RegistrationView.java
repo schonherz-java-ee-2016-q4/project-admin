@@ -2,9 +2,13 @@ package hu.schonherz.project.admin.web.view;
 
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
+import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.TestUserVo;
 import lombok.Data;
 
@@ -15,12 +19,17 @@ public class RegistrationView {
     
     private TestUserVo testUserVo;
 
+    @EJB
+    private UserServiceRemote userServiceRemote;
+    
     @PostConstruct
     public void init() {
         testUserVo = new TestUserVo();
     }
     
     public void registration() {
-//        Need implementation
+        FacesContext context = FacesContext.getCurrentInstance();
+        userServiceRemote.registrationUser(testUserVo);
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Registration!"));
     }
 }
