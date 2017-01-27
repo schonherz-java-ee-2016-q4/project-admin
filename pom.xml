@@ -63,6 +63,8 @@
         <spring.webflow.version>2.4.0.RELEASE</spring.webflow.version>
         <spring.version>4.3.5.RELEASE</spring.version>
         <jsf.version>2.2.14</jsf.version>
+        <activate.code.check.profile>true</activate.code.check.profile>
+        <activate.skip.checks.profile>false</activate.skip.checks.profile>
     </properties>
 
     <repositories>
@@ -326,10 +328,10 @@
 
     <profiles>
         <profile>
-            <id>code-check</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <activeByDefault>${activate.code.check.profile}</activeByDefault>
             </activation>
+            <id>code-check</id>
             <build>
                 <pluginManagement>
                     <plugins>
@@ -378,6 +380,9 @@
         </profile>
 
         <profile>
+            <activation>
+                <activeByDefault>${activate.skip.checks.profile}</activeByDefault>
+            </activation>
             <id>skipChecks</id>
         </profile>
     </profiles>
