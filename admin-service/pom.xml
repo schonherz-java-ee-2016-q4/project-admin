@@ -7,7 +7,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>admin-service</artifactId>
-
+    <properties>
+        <dir.codequality>${project.parent.basedir}/code-quality/</dir.codequality>
+    </properties>
     <packaging>ejb</packaging>
 
     <dependencies>

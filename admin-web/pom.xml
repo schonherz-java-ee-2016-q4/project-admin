@@ -10,6 +10,9 @@
 	</parent>
 	<artifactId>admin-web</artifactId>
 	<packaging>war</packaging>
+	<properties>
+		<dir.codequality>${project.parent.basedir}/code-quality/</dir.codequality>
+	</properties>
 
 	<dependencies>
 
