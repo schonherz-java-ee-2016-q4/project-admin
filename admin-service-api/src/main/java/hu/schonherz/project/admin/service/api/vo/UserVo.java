@@ -1,7 +1,6 @@
 package hu.schonherz.project.admin.service.api.vo;
 
 import java.io.Serializable;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 
 import lombok.Getter;
@@ -12,11 +11,14 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @NoArgsConstructor
-public class TestUserVo extends TestBaseVo implements Serializable {
+public class UserVo extends BaseVo implements Serializable {
 
-    private static final long serialVersionUID = 5534955718398254750L;
+	private static final long serialVersionUID = 4339751308790693753L;
 
     @Getter
+    @Setter
+    private String email;
+	@Getter
     @Setter
     private String username;
     @Getter
@@ -24,6 +26,5 @@ public class TestUserVo extends TestBaseVo implements Serializable {
     private String password;
     @Getter
     @Setter
-    private String email;
-
+    private boolean active;
 }
