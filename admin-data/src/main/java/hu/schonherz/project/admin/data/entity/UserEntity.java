@@ -15,11 +15,10 @@ public class UserEntity extends BaseEntity implements Serializable{
 
     private static final long serialVersionUID = 1L;
     
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @Getter @Setter private String email;
     
-//  This can be null, if the Administrator register a company,
-//      because the email field is the only one, which is required!
+    @Column(nullable = false, unique = true)
     @Getter @Setter private String username;
     
     @Column(nullable = false)
