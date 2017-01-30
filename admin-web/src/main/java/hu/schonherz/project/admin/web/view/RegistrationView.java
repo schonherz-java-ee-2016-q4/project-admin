@@ -9,7 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
-import hu.schonherz.project.admin.service.api.vo.TestUserVo;
+import hu.schonherz.project.admin.service.api.vo.UserVo;
 import lombok.Data;
 
 @ManagedBean(name = "registrationView")
@@ -17,14 +17,14 @@ import lombok.Data;
 @Data
 public class RegistrationView {
     
-    private TestUserVo testUserVo;
+    private UserVo testUserVo;
 
     @EJB
     private UserServiceRemote userServiceRemote;
     
     @PostConstruct
     public void init() {
-        testUserVo = new TestUserVo();
+        testUserVo = new UserVo();
     }
     
     public void registration() {

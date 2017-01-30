@@ -1,7 +1,8 @@
 package hu.schonherz.project.admin.service.mapper.user;
 
-import hu.schonherz.project.admin.data.entity.TestEntity;
-import hu.schonherz.project.admin.service.api.vo.TestUserVo;
+import hu.schonherz.project.admin.data.entity.UserEntity;
+import hu.schonherz.project.admin.service.api.vo.UserVo;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -10,22 +11,22 @@ import lombok.NonNull;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 
-public class TestUserVoMapper {
+public class UserVoMapper {
 
     static Mapper mapper = new DozerBeanMapper();
 
-    private TestUserVoMapper() {
+    private UserVoMapper() {
     }
 
-    public static TestUserVo toVo(@NonNull TestEntity userEntity) {
-        return mapper.map(userEntity, TestUserVo.class);
+    public static UserVo toVo(@NonNull UserEntity userEntity) {
+        return mapper.map(userEntity, UserVo.class);
     }
 
-    public static TestEntity toEntity(@NonNull TestUserVo userVo) {
-        return mapper.map(userVo, TestEntity.class);
+    public static UserEntity toEntity(@NonNull UserVo userVo) {
+        return mapper.map(userVo, UserEntity.class);
     }
 
-    public static List<TestUserVo> toVo(@NonNull Collection<TestEntity> entities) {
+    public static List<UserVo> toVo(@NonNull Collection<UserEntity> entities) {
         if (entities.isEmpty()) {
             return new ArrayList<>();
         }
@@ -35,7 +36,7 @@ public class TestUserVoMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<TestEntity> toEntity(@NonNull Collection<TestUserVo> vos) {
+    public static List<UserEntity> toEntity(@NonNull Collection<UserVo> vos) {
         if (vos.isEmpty()) {
             return new ArrayList<>();
         }
