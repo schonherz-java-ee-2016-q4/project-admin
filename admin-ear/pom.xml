@@ -7,6 +7,10 @@
     </parent>
     <artifactId>admin-ear</artifactId>
     <packaging>ear</packaging>
+    
+    <properties>
+        <dir.codequality>${project.parent.basedir}/code-quality/</dir.codequality>
+    </properties>
 
     <dependencies>
         <dependency>
