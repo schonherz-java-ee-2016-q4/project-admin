@@ -17,12 +17,16 @@ import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mapper.user.UserVoMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Stateless(mappedName = "UserService")
 @Remote(UserServiceRemote.class)
 @Local(UserServiceLocal.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
 public class UserServiceBean implements UserServiceLocal, UserServiceRemote {
+
+    private static final Logger LOG = LoggerFactory.getLogger(UserServiceBean.class);
 
     @Autowired
     UserRepository userRepository;
@@ -35,9 +39,14 @@ public class UserServiceBean implements UserServiceLocal, UserServiceRemote {
 
     @Override
     public UserVo registrationUser(UserVo userVo) {
+        try {
             UserEntity user = UserVoMapper.toEntity(userVo);
             user = userRepository.save(user);
             return UserVoMapper.toVo(user);
+        } catch (Throwable t) {
+            LOG.error("----- The exception was caught in the service layer! -----");
+            return null;
+        }
     }
 
     @Override
