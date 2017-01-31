@@ -17,19 +17,19 @@ import lombok.Data;
 @Data
 public class RegistrationView {
     
-    private UserVo testUserVo;
+    private UserVo userVo;
 
     @EJB
     private UserServiceRemote userServiceRemote;
     
     @PostConstruct
     public void init() {
-        testUserVo = new UserVo();
+        userVo = new UserVo();
     }
     
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
-        userServiceRemote.registrationUser(testUserVo);
+        userServiceRemote.registrationUser(userVo);
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Registration!"));
     }
 }
