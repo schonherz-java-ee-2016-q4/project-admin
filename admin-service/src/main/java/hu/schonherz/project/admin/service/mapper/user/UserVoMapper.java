@@ -1,17 +1,18 @@
 package hu.schonherz.project.admin.service.mapper.user;
 
-import hu.schonherz.project.admin.data.entity.UserEntity;
-import hu.schonherz.project.admin.service.api.vo.UserVo;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.NonNull;
+
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 
-public class UserVoMapper {
+import hu.schonherz.project.admin.data.entity.UserEntity;
+import hu.schonherz.project.admin.service.api.vo.UserVo;
+import lombok.NonNull;
+
+public final class UserVoMapper {
 
     static Mapper mapper = new DozerBeanMapper();
 
