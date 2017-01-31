@@ -9,13 +9,17 @@
     
     <h:body>
         <h:form id="registratonForm">
+            <h:outputLabel value="Email:" for="email" />
+            <p:inputText id="email"
+                value="#{registrationView.userVo.email}" required="true" />
+            <p:message for="email" />
             <h:outputLabel value="Username:" for="username" />
             <p:inputText id="username"
-                value="#{registrationView.testUserVo.username}" required="true" />
+                value="#{registrationView.userVo.username}" required="true" />
             <p:message for="username" />
 
             <h:outputLabel value="Password" for="password" />
-            <p:password id="password" value="#{registrationView.testUserVo.password}"
+            <p:password id="password" value="#{registrationView.userVo.password}"
                 required="true">
                 <f:validateLength minimum="6"></f:validateLength>
             </p:password>
