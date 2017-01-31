@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.ejb.Local;
-import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 
@@ -14,17 +13,15 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import hu.schonherz.project.admin.data.entity.UserEntity;
 import hu.schonherz.project.admin.data.repository.UserRepository;
 import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
-import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mapper.user.UserVoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Stateless(mappedName = "UserService")
-@Remote(UserServiceRemote.class)
 @Local(UserServiceLocal.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
-public class UserServiceBean implements UserServiceLocal, UserServiceRemote {
+public class UserServiceBean implements UserServiceLocal {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceBean.class);
 
