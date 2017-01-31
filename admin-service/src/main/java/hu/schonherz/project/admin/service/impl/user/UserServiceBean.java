@@ -15,12 +15,19 @@ import hu.schonherz.project.admin.data.repository.UserRepository;
 import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mapper.user.UserVoMapper;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 @Stateless(mappedName = "UserService")
 @Local(UserServiceLocal.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
+@TransactionManagement(TransactionManagementType.CONTAINER)
+@Transactional
 public class UserServiceBean implements UserServiceLocal {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceBean.class);
@@ -35,6 +42,7 @@ public class UserServiceBean implements UserServiceLocal {
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public UserVo registrationUser(UserVo userVo) {
         try {
             UserEntity user = UserVoMapper.toEntity(userVo);

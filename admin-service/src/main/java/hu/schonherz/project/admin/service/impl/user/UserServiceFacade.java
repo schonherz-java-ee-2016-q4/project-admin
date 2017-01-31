@@ -7,16 +7,11 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Stateless(mappedName = "UserServiceFacade")
 @Remote(UserServiceRemote.class)
-@TransactionManagement(TransactionManagementType.CONTAINER)
 public class UserServiceFacade implements UserServiceRemote {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceFacade.class);
@@ -30,7 +25,6 @@ public class UserServiceFacade implements UserServiceRemote {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public UserVo registrationUser(UserVo userVo) {
         try {
             return realService.registrationUser(userVo);
