@@ -11,7 +11,9 @@ import org.slf4j.LoggerFactory;
 
 import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import javax.ejb.EJBTransactionRolledbackException;
 
 @Stateless(mappedName = "UserServiceFacade")
 @Remote(UserServiceRemote.class)
@@ -28,12 +30,11 @@ public class UserServiceFacade implements UserServiceRemote {
     }
 
     @Override
-    public UserVo registrationUser(final UserVo userVo) {
+    public UserVo registrationUser(final UserVo userVo) throws InvalidUserDataException {
         try {
             return realService.registrationUser(userVo);
-        } catch (Throwable t) {
-            LOG.error("----- Exception was caught in the facade! -----");
-            return null;
+        } catch (EJBTransactionRolledbackException rolledBackException) {
+            throw new InvalidUserDataException("Could not save user!", rolledBackException);
         }
     }
 

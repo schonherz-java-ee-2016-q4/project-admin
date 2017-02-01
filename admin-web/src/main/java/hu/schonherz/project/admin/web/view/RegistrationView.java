@@ -8,6 +8,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import lombok.Data;
 import org.slf4j.Logger;
@@ -31,12 +32,16 @@ public class RegistrationView {
     }
 
     public void registration() {
+        FacesContext context = FacesContext.getCurrentInstance();
         try {
-            FacesContext context = FacesContext.getCurrentInstance();
             userServiceRemote.registrationUser(userVo);
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Registration!"));
-        } catch (Throwable t) {
-            LOG.error("----- The exception was caught in the web layer! -----");
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Registration was successful."
+                    + "Username or email already in use."));
+        } catch (InvalidUserDataException iude) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed!", "Invalid user data. "
+                    + "Username or email already in use."));
+            LOG.warn("Unsuccessful registration attempt with data:{}{} ",
+                    System.getProperty("line.separator"), userVo);
         }
     }
 }
