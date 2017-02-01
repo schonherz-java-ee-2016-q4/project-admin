@@ -39,7 +39,7 @@ public class UserServiceFacade implements UserServiceRemote {
 
     @Override
     public List<UserVo> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return realService.findAll();
     }
 
 }
