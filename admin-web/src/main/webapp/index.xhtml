@@ -1,32 +1,81 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui"
-    template="/resources/templates/masterLayout.xhtml">
-    
-    <ui:define name="customTitle">Index page</ui:define>
-	    <ui:define name="customBody">
-	        <h:form id="registratonForm">
-	            <h:outputLabel value="Email:" for="email" />
-	            <p:inputText id="email"
-	                value="#{registrationView.userVo.email}" required="true" />
-	            <p:message for="email" />
-	            <h:outputLabel value="Username:" for="username" />
-	            <p:inputText id="username"
-	                value="#{registrationView.userVo.username}" required="true" />
-	            <p:message for="username" />
-	
-	            <h:outputLabel value="Password" for="password" />
-	            <p:password id="password" value="#{registrationView.userVo.password}"
-	                required="true">
-	                <f:validateLength minimum="6"></f:validateLength>
-	            </p:password>
-	            <p:message for="password" />
-	
-	            <p:commandButton value="Registration"
-	                actionListener="#{registrationView.registration()}"></p:commandButton>
-	        </h:form>        
-	    </ui:define>
-    
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/masterLayout.xhtml">
+
+	<ui:define name="customTitle">Index page</ui:define>
+	<ui:define name="customBody">
+		<h:head>
+			<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<meta name="viewport"
+				content="width=device-width, initial-scale=1.0, user-scalable=no" />
+
+			<h:outputStylesheet library="css" name="bootstrap.css" />
+			<h:outputStylesheet library="css" name="dashboard.css" />
+			<h:outputStylesheet library="css" name="style.css" />
+			<h:outputStylesheet library="css" name="helpdek-platform.css" />
+
+
+			<title><ui:insert name="pageTitle"></ui:insert></title>
+			<ui:insert name="head-extra" />
+
+		</h:head>
+		<h:body>
+			<div class="ui-g">
+				<div class="ui-g-10 ui-md-10 ui-lg-8"  >
+					<h:form id="registratonForm">
+						<p:panel header="Registration form">
+							<div class="ui-g">
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<h:outputLabel value="Email:" for="email" />
+								</div>
+								<div class="ui-g-12 ui-md-5 ui-lg-5">
+									<p:inputText id="email"
+										value="#{registrationView.userVo.email}" required="true"
+										placeholder="example@example.com" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:message for="email" />
+								</div>
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<h:outputLabel value="Username:" for="username" />
+								</div>
+								<div class="ui-g-12 ui-md-5 ui-lg-5">
+									<p:inputText id="username"
+										value="#{registrationView.userVo.username}" required="true"
+										placeholder="Username" />
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:message for="username" />
+								</div>
+								<div class="ui-g-12 ui-md-3 ui-lg-3">
+									<h:outputLabel value="Password:" for="password" />
+								</div>
+								<div class="ui-g-12 ui-md-5 ui-lg-5">
+									<p:password id="password"
+										value="#{registrationView.userVo.password}" required="true"
+										placeholder="Password">
+										<f:validateLength minimum="6"></f:validateLength>
+									</p:password>
+								</div>
+								<div class="ui-g-12 ui-md-4 ui-lg-4">
+									<p:message for="password" />
+									<h:outputText />
+								</div>
+								<div class="ui-g-12 ui-md-12 ui-lg-12"
+									style="text-align: right;">
+									<p:commandButton value="Register" icon="ui-icon-plusthick"
+										actionListener="#{registrationView.registration()}"></p:commandButton>
+								</div>
+							</div>
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</h:body>
+	</ui:define>
+
 </ui:composition>
