@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -23,7 +24,15 @@ public class UsersView {
 
     @PostConstruct
     public void init() {
+        initializeList();
         users = userServiceRemote.findAll();
     }
+    
+    private void initializeList() {
+       if (users == null) {
+           users = new ArrayList<>(); 
+       }
+    }
+    
 
 }
