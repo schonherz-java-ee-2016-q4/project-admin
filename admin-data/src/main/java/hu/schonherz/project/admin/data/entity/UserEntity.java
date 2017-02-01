@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "User", schema = "public")
+@Table(name = "user", schema = "public")
 public class UserEntity extends BaseEntity implements Serializable{
 
     private static final long serialVersionUID = 1L;
@@ -25,5 +25,5 @@ public class UserEntity extends BaseEntity implements Serializable{
     @Getter @Setter private String password;
     
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
-    @Getter @Setter private boolean active;
+    private boolean active;
 }

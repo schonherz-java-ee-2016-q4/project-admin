@@ -1,19 +1,26 @@
 package hu.schonherz.project.admin.service.impl.user;
 
-import hu.schonherz.project.admin.data.entity.UserEntity;
-import hu.schonherz.project.admin.data.repository.UserRepository;
-import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
-import hu.schonherz.project.admin.service.api.vo.UserVo;
-import hu.schonherz.project.admin.service.mapper.user.UserVoMapper;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
-import javax.ejb.*;
-import javax.interceptor.Interceptors;
-import java.util.List;
-import java.util.stream.Collectors;
+import hu.schonherz.project.admin.data.entity.UserEntity;
+import hu.schonherz.project.admin.data.repository.UserRepository;
+import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
+import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.service.mapper.user.UserVoMapper;
 
 @Stateless(mappedName = "UserService")
 @Local(UserServiceLocal.class)
@@ -24,17 +31,17 @@ public class UserServiceBean implements UserServiceLocal {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceBean.class);
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
-    public UserVo findByUsername(String username) {
+    public UserVo findByUsername(final String username) {
         UserEntity user = userRepository.findByUsername(username);
         return UserVoMapper.toVo(user);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public UserVo registrationUser(UserVo userVo) {
+    public UserVo registrationUser(final UserVo userVo) {
         try {
             UserEntity user = UserVoMapper.toEntity(userVo);
             user = userRepository.save(user);
