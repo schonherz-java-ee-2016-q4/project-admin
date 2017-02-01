@@ -1,32 +1,32 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    template="/resources/templates/masterLayout.xhtml">
     
-    <h:body>
-        <h:form id="registratonForm">
-            <h:outputLabel value="Email:" for="email" />
-            <p:inputText id="email"
-                value="#{registrationView.userVo.email}" required="true" />
-            <p:message for="email" />
-            <h:outputLabel value="Username:" for="username" />
-            <p:inputText id="username"
-                value="#{registrationView.userVo.username}" required="true" />
-            <p:message for="username" />
-
-            <h:outputLabel value="Password" for="password" />
-            <p:password id="password" value="#{registrationView.userVo.password}"
-                required="true">
-                <f:validateLength minimum="6"></f:validateLength>
-            </p:password>
-            <p:message for="password" />
-
-            <p:commandButton value="Registration"
-                actionListener="#{registrationView.registration()}"></p:commandButton>
-        </h:form>
-    </h:body>
-</html>
+    <ui:define name="customTitle">Index page</ui:define>
+	    <ui:define name="customBody">
+	        <h:form id="registratonForm">
+	            <h:outputLabel value="Email:" for="email" />
+	            <p:inputText id="email"
+	                value="#{registrationView.userVo.email}" required="true" />
+	            <p:message for="email" />
+	            <h:outputLabel value="Username:" for="username" />
+	            <p:inputText id="username"
+	                value="#{registrationView.userVo.username}" required="true" />
+	            <p:message for="username" />
+	
+	            <h:outputLabel value="Password" for="password" />
+	            <p:password id="password" value="#{registrationView.userVo.password}"
+	                required="true">
+	                <f:validateLength minimum="6"></f:validateLength>
+	            </p:password>
+	            <p:message for="password" />
+	
+	            <p:commandButton value="Registration"
+	                actionListener="#{registrationView.registration()}"></p:commandButton>
+	        </h:form>        
+	    </ui:define>
+    
+</ui:composition>
