@@ -145,3 +145,8 @@ footer {
     font-size: 36px;
     color: #fff;
 }
+
+.ui-g {
+    display: flex;
+    justify-content: center;
+}
