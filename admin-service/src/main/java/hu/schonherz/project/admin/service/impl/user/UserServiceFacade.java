@@ -3,6 +3,7 @@ package hu.schonherz.project.admin.service.impl.user;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
@@ -13,7 +14,6 @@ import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
-import javax.ejb.EJBTransactionRolledbackException;
 
 @Stateless(mappedName = "UserServiceFacade")
 @Remote(UserServiceRemote.class)
@@ -26,7 +26,7 @@ public class UserServiceFacade implements UserServiceRemote {
 
     @Override
     public UserVo findByUsername(final String username) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return realService.findByUsername(username);
     }
 
     @Override
