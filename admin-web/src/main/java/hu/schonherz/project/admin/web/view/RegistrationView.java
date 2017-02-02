@@ -12,6 +12,7 @@ import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataE
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.RegistrationForm;
 import lombok.Data;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,10 +36,12 @@ public class RegistrationView {
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
         final String componentId = "registratonForm";
+        final String failed = "Failed!";
+        final String success = "Success!";
         // Basic validation
         if (hasEmptyUserData()) {
             context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Failed", "All fields must be filled"));
+                    failed, "All fields must be filled"));
             LOG.warn("User tried to register without filling all fields.");
             return;
         }
@@ -47,7 +50,7 @@ public class RegistrationView {
         final int minPasswordLength = 6;
         if (form.getPassword().length() < minPasswordLength) {
             context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Failed", "Password must be at least " + minPasswordLength + " character long."));
+                    failed, "Password must be at least " + minPasswordLength + " character long."));
             LOG.warn("User tried to register with a short password.");
             return;
         }
@@ -55,7 +58,15 @@ public class RegistrationView {
         // Confirm password validation
         if (!form.getPassword().equals(form.getConfirmPassword())) {
             context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Failed", "Password and Confirm password fields must be equal."));
+                    failed, "Password and Confirm password fields must be equal."));
+            LOG.warn("User failed to confirm his password.");
+            return;
+        }
+
+        // email validation
+        if (!EmailValidator.getInstance().isValid(form.getEmail())) {
+            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    failed, "Invalid e-mail address."));
             LOG.warn("User failed to confirm his password.");
             return;
         }
@@ -64,10 +75,10 @@ public class RegistrationView {
         try {
             UserVo userVo = form.getUserVo();
             userServiceRemote.registrationUser(userVo);
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success!", "Registration was successful."));
+            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_INFO, success, "Registration was successful."));
             LOG.info("User '{}' successfully registered.", userVo.getUsername());
         } catch (InvalidUserDataException iude) {
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed!", "Invalid user data. "
+            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR, failed, "Invalid user data. "
                     + "Username or email already in use."));
             LOG.warn("Unsuccessful registration attempt with data:{}{} ",
                     System.getProperty("line.separator"), form);

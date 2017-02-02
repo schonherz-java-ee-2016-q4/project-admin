@@ -78,16 +78,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer</artifactId>
-                <version>5.5.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.16.12</version>
-            </dependency>
             <!-- Logging dependencies -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -240,6 +230,23 @@
                 <version>1.0</version>
             </dependency>
             <!-- /Aop -->
+            <!-- Convenience dependencies -->
+            <dependency>
+                <groupId>commons-validator</groupId>
+                <artifactId>commons-validator</artifactId>
+                <version>1.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>5.5.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.12</version>
+            </dependency>
+            <!-- /Convenience dependencies -->
         </dependencies>
     </dependencyManagement>
 
@@ -280,24 +287,24 @@
                 </executions>
             </plugin>
             <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>findbugs-maven-plugin</artifactId>-->
-                <!--<version>LATEST</version>-->
-                <!--<configuration>-->
-                    <!--<xmlOutput>true</xmlOutput>-->
-                    <!--<effort>Max</effort>-->
-                    <!--<threshold>Medium</threshold>-->
-                    <!--<excludeFilterFile>${dir.codequality}/findbugs/findbugs-exclude.xml</excludeFilterFile>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>findbugs-code-verification</id>-->
-                        <!--<phase>verify</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>findbugs</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
+            <!--<groupId>org.codehaus.mojo</groupId>-->
+            <!--<artifactId>findbugs-maven-plugin</artifactId>-->
+            <!--<version>LATEST</version>-->
+            <!--<configuration>-->
+            <!--<xmlOutput>true</xmlOutput>-->
+            <!--<effort>Max</effort>-->
+            <!--<threshold>Medium</threshold>-->
+            <!--<excludeFilterFile>${dir.codequality}/findbugs/findbugs-exclude.xml</excludeFilterFile>-->
+            <!--</configuration>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>findbugs-code-verification</id>-->
+            <!--<phase>verify</phase>-->
+            <!--<goals>-->
+            <!--<goal>findbugs</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
             <!--</plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
