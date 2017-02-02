@@ -22,6 +22,20 @@
 					<p:column headerText="Status">
 						<h:outputText value="#{user.active ? 'Active' : 'Inactive'}" />
 					</p:column>
+					<p:column headerText="Settings">
+						<p:button id="edit" icon="ui-icon-pencil" title="Edit #{user.username}'s datas">
+							<f:param name="productId" value="30" />
+						</p:button>
+						<p:button icon="ui-icon-power" title="#{user.active ? 'Deactivate' : 'Activate'} #{user.username}">
+							<f:param name="productId" value="30" />
+						</p:button>
+						<p:button icon="ui-icon-refresh" title="Reset #{user.username}'s password">
+							<f:param name="productId" value="30" />
+						</p:button>
+						<p:button icon="ui-icon-trash" title="Delete #{user.username}">
+							<f:param name="productId" value="30" />
+						</p:button>
+					</p:column>
 				</p:dataTable>
 			</div>
 		</div>
