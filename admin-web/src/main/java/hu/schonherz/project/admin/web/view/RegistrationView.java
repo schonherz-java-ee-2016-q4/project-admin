@@ -36,54 +36,55 @@ public class RegistrationView {
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
         final String componentId = "registratonForm";
-        final String failed = "Failed!";
-        final String success = "Success!";
-        // Basic validation
-        if (hasEmptyUserData()) {
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    failed, "All fields must be filled"));
-            LOG.warn("User tried to register without filling all fields.");
-            return;
-        }
 
-        // Password length validation
-        final int minPasswordLength = 6;
-        if (form.getPassword().length() < minPasswordLength) {
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    failed, "Password must be at least " + minPasswordLength + " character long."));
-            LOG.warn("User tried to register with a short password.");
-            return;
-        }
-
-        // Confirm password validation
-        if (!form.getPassword().equals(form.getConfirmPassword())) {
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    failed, "Password and Confirm password fields must be equal."));
-            LOG.warn("User failed to confirm his password.");
-            return;
-        }
-
-        // email validation
-        if (!EmailValidator.getInstance().isValid(form.getEmail())) {
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    failed, "Invalid e-mail address."));
-            LOG.warn("User failed to confirm his password.");
-            return;
+        // Validate fields and notify user if something is wrong.
+        String errorMessage = validateFields();
+        if (errorMessage != null) {
+            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", errorMessage));
         }
 
         // Try to save user data. Notify the user about the result.
         try {
             UserVo userVo = form.getUserVo();
             userServiceRemote.registrationUser(userVo);
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_INFO, success, "Registration was successful."));
+            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Registration was successful."));
             LOG.info("User '{}' successfully registered.", userVo.getUsername());
         } catch (InvalidUserDataException iude) {
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR, failed, "Invalid user data. "
+            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "Invalid user data. "
                     + "Username or email already in use."));
             LOG.warn("Unsuccessful registration attempt with data:{}{} ",
                     System.getProperty("line.separator"), form);
             LOG.warn("Causing exception:" + System.getProperty("line.separator"), iude);
         }
+    }
+
+    private String validateFields() {
+        // All-filled validation
+        if (hasEmptyUserData()) {
+            LOG.warn("User tried to register without filling all fields.");
+            return "All fields must be filled";
+        }
+
+        // Password length validation
+        final int minPasswordLength = 6;
+        if (form.getPassword().length() < minPasswordLength) {
+            LOG.warn("User tried to register with a short password.");
+            return "Password must be at least " + minPasswordLength + " character long.";
+        }
+
+        // Confirm password validation
+        if (!form.getPassword().equals(form.getConfirmPassword())) {
+            LOG.warn("User failed to confirm his password.");
+            return "Password and Confirm password fields must be equal.";
+        }
+
+        // e-mail validation
+        if (!EmailValidator.getInstance().isValid(form.getEmail())) {
+            LOG.warn("User failed to confirm his password.");
+            return "Invalid e-mail address.";
+        }
+
+        return null;
     }
 
     private boolean hasEmptyUserData() {
