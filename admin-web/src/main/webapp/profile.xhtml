@@ -16,7 +16,7 @@
 								<h:outputLabel value="Email:" for="email" />
 							</div>
 							<div class="ui-g-12 ui-md-5 ui-lg-5">
-								<p:inputText id="email" value="#{registrationView.userVo.email}"
+								<p:inputText id="email" value="#{profileView.userVo.email}"
 									required="true" />
 							</div>
 							<div class="ui-g-12 ui-md-4 ui-lg-4">
@@ -27,7 +27,7 @@
 							</div>
 							<div class="ui-g-12 ui-md-5 ui-lg-5">
 								<p:inputText id="username"
-									value="#{registrationView.userVo.username}" readonly="true" />
+									value="#{profileView.userVo.username}" readonly="true" />
 							</div>
 							<div class="ui-g-12 ui-md-4 ui-lg-4">
 								<p:message for="username" />
@@ -37,7 +37,7 @@
 							</div>
 							<div class="ui-g-12 ui-md-5 ui-lg-5">
 								<p:password id="password"
-									value="#{registrationView.userVo.password}" required="true"
+									value="" required="true"
 									placeholder="Password">
 									<f:validateLength minimum="6"></f:validateLength>
 								</p:password>
@@ -54,7 +54,7 @@
 							</div>
 							<div class="ui-g-12 ui-md-5 ui-lg-5">
 								<p:password id="newPassword"
-									value="#{registrationView.userVo.password}"
+									value=""
 									placeholder="Password">
 									<f:validateLength minimum="6"></f:validateLength>
 								</p:password>
@@ -68,7 +68,7 @@
 							</div>
 							<div class="ui-g-12 ui-md-5 ui-lg-5">
 								<p:password id="newPasswordConfirm"
-									value="#{registrationView.userVo.password}"
+									value=""
 									placeholder="Password">
 									<f:validateLength minimum="6"></f:validateLength>
 								</p:password>
@@ -78,7 +78,7 @@
 								<h:outputText />
 							</div>
 							<div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
-								<p:commandButton value="Save" icon="ui-icon-pencil"
+								<p:commandButton value="Save" icon="ui-icon-pencil" actionListener="#{profileView.save()}"
 									update="profileForm" ajax="false" validateClient="true"></p:commandButton>
 							</div>
 						</div>
