@@ -10,19 +10,32 @@ import javax.faces.context.FacesContext;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.web.view.form.FormValidator;
+import hu.schonherz.project.admin.web.view.form.FormValidator.MessageBinding;
 import hu.schonherz.project.admin.web.view.form.RegistrationForm;
 import lombok.Data;
-import org.apache.commons.validator.routines.EmailValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 @ManagedBean(name = "registrationView")
 @ViewScoped
 @Data
+@Slf4j
 public class RegistrationView {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RegistrationView.class);
+    // Short messages
+    private static final String SUCCESS = "Success";
+    private static final String FAILURE = "Failure";
+    // Detailed messages
+    private static final String SUCCESSFUL_REGISTRATION = "Registration was successful";
+    private static final String DUPLICATION = "Invalid user data, username or e-mail already in use";
+    // Ids of message components
+    private static final String BASE_COMP_ID = "registratonForm:";
+    private static final String EMAIL_COMP_ID = BASE_COMP_ID + "email";
+    private static final String USERNAME_COMP_ID = BASE_COMP_ID + "username";
+    private static final String PASSWORD_COMP_ID = BASE_COMP_ID + "password";
+    private static final String GLOBAL_COMP_ID = "registratonForm";
 
+    // Wired to the registration xhtml
     private RegistrationForm form;
 
     @EJB
@@ -35,62 +48,49 @@ public class RegistrationView {
 
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
-        final String componentId = "registratonForm";
 
-        // Validate fields and notify user if something is wrong.
-        String errorMessage = validateFields();
-        if (errorMessage != null) {
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", errorMessage));
+        // Validate fields and notify user if something is wrong
+        MessageBinding binding = FormValidator.validateRegistrationForm(form);
+        if (!binding.isEmpty()) {
+            sendValidationMessages(binding, context);
+            return;
         }
 
-        // Try to save user data. Notify the user about the result.
         try {
+            // Try to save user data
             UserVo userVo = form.getUserVo();
             userServiceRemote.registrationUser(userVo);
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Registration was successful."));
-            LOG.info("User '{}' successfully registered.", userVo.getUsername());
+
+            // Notify user about success and log it
+            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO, SUCCESS, SUCCESSFUL_REGISTRATION));
+            log.info("User '{}' successfully registered.", userVo.getUsername());
         } catch (InvalidUserDataException iude) {
-            context.addMessage(componentId, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Failed", "Invalid user data. "
-                    + "Username or email already in use."));
-            LOG.warn("Unsuccessful registration attempt with data:{}{} ",
-                    System.getProperty("line.separator"), form);
-            LOG.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+            // Notify user about duplication and log it with details
+            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, DUPLICATION));
+            log.warn("Unsuccessful registration attempt with data:{}{} ", System.getProperty("line.separator"), form);
+            log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
         }
     }
 
-    private String validateFields() {
-        // All-filled validation
-        if (hasEmptyUserData()) {
-            LOG.warn("User tried to register without filling all fields.");
-            return "All fields must be filled";
+    private void sendValidationMessages(MessageBinding binding, FacesContext context) {
+        String message;
+        // Send e-mail validation message if there is one
+        if (binding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.EMAIL)) {
+            message = binding.getMessage(MessageBinding.MESSAGE_TYPES.EMAIL);
+            context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
 
-        // Password length validation
-        final int minPasswordLength = 6;
-        if (form.getPassword().length() < minPasswordLength) {
-            LOG.warn("User tried to register with a short password.");
-            return "Password must be at least " + minPasswordLength + " character long.";
+        // Send username validation message if there is one
+        if (binding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.USERNAME)) {
+            message = binding.getMessage(MessageBinding.MESSAGE_TYPES.USERNAME);
+            context.addMessage(USERNAME_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
 
-        // Confirm password validation
-        if (!form.getPassword().equals(form.getConfirmPassword())) {
-            LOG.warn("User failed to confirm his password.");
-            return "Password and Confirm password fields must be equal.";
+        // Send password validation message if there is one
+        if (binding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.PASSWORD)) {
+            message = binding.getMessage(MessageBinding.MESSAGE_TYPES.PASSWORD);
+            context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
-
-        // e-mail validation
-        if (!EmailValidator.getInstance().isValid(form.getEmail())) {
-            LOG.warn("User failed to confirm his password.");
-            return "Invalid e-mail address.";
-        }
-
-        return null;
     }
 
-    private boolean hasEmptyUserData() {
-        return !(form.getEmail() != null && !form.getEmail().isEmpty()
-                && form.getUsername() != null && !form.getUsername().isEmpty()
-                && form.getPassword() != null && !form.getPassword().isEmpty()
-                && form.getConfirmPassword() != null && !form.getConfirmPassword().isEmpty());
-    }
 }

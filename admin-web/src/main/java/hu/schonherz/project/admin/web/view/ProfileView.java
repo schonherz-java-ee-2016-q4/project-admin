@@ -9,15 +9,13 @@ import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 @ManagedBean(name = "profileView")
 @ViewScoped
 @Data
+@Slf4j
 public class ProfileView {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ProfileView.class);
 
     private UserVo userVo;
 
@@ -36,7 +34,7 @@ public class ProfileView {
         try {
             userServiceRemote.registrationUser(userVo);
         } catch (InvalidUserDataException iude) {
-            LOG.warn("Could not update user " + userVo.getUsername(), iude);
+            log.warn("Could not update user " + userVo.getUsername(), iude);
         }
     }
 }

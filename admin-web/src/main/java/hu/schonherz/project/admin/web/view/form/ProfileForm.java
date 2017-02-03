@@ -5,10 +5,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-public class RegistrationForm extends UserForm {
+public class ProfileForm extends UserForm {
 
     @Getter
     @Setter
-    private String confirmPassword;
+    private String newPassword;
+
+    @Getter
+    @Setter
+    private String confirmNewPassword;
 
 }

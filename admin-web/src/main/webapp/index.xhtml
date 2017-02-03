@@ -55,14 +55,13 @@
                                 </p:password>
                             </div>
                             <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="password" id="passwordMessage" />
                                 <p:message for="registratonForm" id="registrationNotification"/>
                                 <h:outputText />
                             </div>
                             <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
                                 <p:commandButton value="Register" icon="ui-icon-plusthick"
                                                  actionListener="#{registrationView.registration()}"
-                                                 update="registrationNotification"
+                                                 update="registratonForm"
                                                  ></p:commandButton>
                             </div>
                         </div>
