@@ -22,7 +22,7 @@ public class FormValidator {
         private final Map<MESSAGE_TYPES, String> binding;
 
         public enum MESSAGE_TYPES {
-            EMAIL, USERNAME, PASSWORD
+            EMAIL, USERNAME, PASSWORD, NEW_PASSWORD
         }
 
         public MessageBinding() {
@@ -41,12 +41,43 @@ public class FormValidator {
             return binding.containsKey(type);
         }
 
+        public void removeMessageOfType(@NonNull MESSAGE_TYPES type) {
+            binding.remove(type);
+        }
+
         public boolean isEmpty() {
             return binding.isEmpty();
         }
     }
 
     private FormValidator() {
+    }
+
+    public static MessageBinding validateProfileForm(@NonNull ProfileForm form) {
+        MessageBinding binding = new MessageBinding();
+        // Validate basic user data
+        validateUserForm(form, binding);
+        if (!binding.isEmpty()) {
+            return binding;
+        }
+
+        // Validate new password, if the user gave one
+        String newPassword = form.getNewPassword();
+        String confirmNewPassword = form.getConfirmNewPassword();
+        if (form.getNewPassword() != null && !(form.getNewPassword().isEmpty())) {
+            if (newPassword.length() < MIN_PASSWORD_LENGTH) {
+                binding.addMessage(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD, SHORT_PASSWORD);
+            }
+            if (newPassword.length() > MAX_FIELD_LENGTH) {
+                binding.addMessage(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD, TOO_LONG_FIELD);
+            }
+
+            if (!newPassword.equals(confirmNewPassword)) {
+                binding.addMessage(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD, CONFIRM_PASSWORD);
+            }
+        }
+
+        return binding;
     }
 
     public static MessageBinding validateRegistrationForm(@NonNull RegistrationForm form) {
