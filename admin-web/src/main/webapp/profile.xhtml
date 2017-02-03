@@ -15,44 +15,51 @@
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
+								<!-- Email -->
 								<p:outputLabel for="email" value="Email" />
 								<p:inputText id="email" value="#{profileView.userVo.email}" />
 								<h:outputText value="Something" />
-
+								<!-- Username -->
 								<p:outputLabel for="username" value="Username" />
 								<p:inputText id="username"
 									value="#{profileView.userVo.username}" readonly="true" />
 								<h:outputText value="You cannot change your username!" />
-
+                                <!-- Current Password -->
 								<p:outputLabel for="currentPassword" value="Current Password" />
 								<p:password id="currentPassword" />
 								<h:outputText
 									value="You have to type your current password to edit your settings." />
-
 								<p:separator />
 								<h:outputText
 									value="Do you want to set a new password for your profile?" />
 								<p:separator />
-
+                                <!-- New password -->
 								<p:outputLabel for="newPassword" value="New Password" />
 								<p:password id="newPassword" />
 								<h:outputText value="New password" />
-
+                                <!-- New password confirm -->
 								<p:outputLabel for="newPasswordConfirm"
 									value="New Password Confirm" />
 								<p:password id="newPasswordConfirm" />
 								<h:outputText value="Confirm your new password" />
-
 							</p:panelGrid>
 							<p:separator />
-							<p:commandButton value="Reset fields" update="profilePanel"
-								process="@this">
-								<p:resetInput target="profilePanel" />
-							</p:commandButton>
-							<p:commandButton value="Save" icon="ui-icon-pencil"
-								actionListener="#{profileView.save()}" update="profileForm"
-								ajax="false" validateClient="true">
-							</p:commandButton>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<!-- Reset Fields Button -->
+								<p:commandButton value="Reset fields" update="profilePanel"
+									process="@this">
+									<p:resetInput target="profilePanel" />
+								</p:commandButton>
+								<div></div>
+								<!-- Save button -->
+								<p:commandButton value="Save" icon="ui-icon-pencil"
+									actionListener="#{profileView.save()}" update="profileForm"
+									ajax="false" validateClient="true">
+								</p:commandButton>
+							</p:panelGrid>
+
 						</div>
 					</h:form>
 				</p:panel>
