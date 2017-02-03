@@ -1,74 +1,85 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/resources/templates/masterLayout.xhtml">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/masterLayout.xhtml">
 
-    <ui:define name="customTitle">Index page</ui:define>
-    <ui:define name="customBody">
-        <div class="ui-g">
-            <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <h:form id="registratonForm">
-                    <p:panel header="Registration form">
-                        <div class="ui-g">
-                            <div class="ui-g-12 ui-md-3 ui-lg-3">
-                                <h:outputLabel value="Email:" for="email" />
-                            </div>
-                            <div class="ui-g-12 ui-md-5 ui-lg-5">
-                                <p:inputText id="email" value="#{registrationView.form.email}"
-                                             required="false" placeholder="example@example.com" type="email"/>
-                            </div>
-                            <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="email" />
-                            </div>
-                            <div class="ui-g-12 ui-md-3 ui-lg-3">
-                                <h:outputLabel value="Username:" for="username" />
-                            </div>
-                            <div class="ui-g-12 ui-md-5 ui-lg-5">
-                                <p:inputText id="username"
-                                             value="#{registrationView.form.username}" required="false"
-                                             placeholder="Username" />
-                            </div>
-                            <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="username" />
-                            </div>
-                            <div class="ui-g-12 ui-md-3 ui-lg-3">
-                                <h:outputLabel value="Password:" for="password" />
-                            </div>
-                            <div class="ui-g-12 ui-md-5 ui-lg-5">
-                                <p:password id="password"
-                                            value="#{registrationView.form.password}" required="false"
-                                            placeholder="Password">
-                                </p:password>
-                            </div>
-                            <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="password" />
-                            </div>
-                            <div class="ui-g-12 ui-md-3 ui-lg-3">
-                                <h:outputLabel value="Confirm password:" for="confirmPassword" />
-                            </div>
-                            <div class="ui-g-12 ui-md-5 ui-lg-5">
-                                <p:password id="confirmPassword"
-                                            value="#{registrationView.form.confirmPassword}" required="false"
-                                            placeholder="Password">
-                                </p:password>
-                            </div>
-                            <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="password" id="passwordMessage" />
-                                <p:message for="registratonForm" id="registrationNotification"/>
-                                <h:outputText />
-                            </div>
-                            <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
-                                <p:commandButton value="Register" icon="ui-icon-plusthick"
-                                                 actionListener="#{registrationView.registration()}"
-                                                 update="registrationNotification"
-                                                 ></p:commandButton>
-                            </div>
-                        </div>
-                    </p:panel>
-                </h:form>
-            </div>
-        </div>
-    </ui:define>
+	<ui:define name="customTitle">Index page</ui:define>
+	<ui:define name="customBody">
+		<div class="ui-g">
+			<div class="ui-g-9 ui-md-9 ui-lg-9">
+				<h:form id="registratonForm">
+					<p:panel header="Registration form" id="registrationPanel">
+						<div class="ui-g">
+							<div class="ui-g-12 ui-md-3 ui-lg-3">
+								<h:outputLabel value="Email:" for="email" />
+							</div>
+							<div class="ui-g-12 ui-md-5 ui-lg-5">
+								<p:inputText id="email" value="#{registrationView.form.email}"
+									required="false" placeholder="example@example.com" type="email" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:message for="email" />
+							</div>
+							<div class="ui-g-12 ui-md-3 ui-lg-3">
+								<h:outputLabel value="Username:" for="username" />
+							</div>
+							<div class="ui-g-12 ui-md-5 ui-lg-5">
+								<p:inputText id="username"
+									value="#{registrationView.form.username}" required="false"
+									placeholder="Username" />
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:message for="username" />
+							</div>
+							<div class="ui-g-12 ui-md-3 ui-lg-3">
+								<h:outputLabel value="Password:" for="password" />
+							</div>
+							<div class="ui-g-12 ui-md-5 ui-lg-5">
+								<p:password id="password"
+									value="#{registrationView.form.password}" required="false"
+									placeholder="Password">
+								</p:password>
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:message for="password" />
+							</div>
+							<div class="ui-g-12 ui-md-3 ui-lg-3">
+								<h:outputLabel value="Confirm password:" for="confirmPassword" />
+							</div>
+							<div class="ui-g-12 ui-md-5 ui-lg-5">
+								<p:password id="confirmPassword"
+									value="#{registrationView.form.confirmPassword}"
+									required="false" placeholder="Password">
+								</p:password>
+							</div>
+							<div class="ui-g-12 ui-md-4 ui-lg-4">
+								<p:message for="password" id="passwordMessage" />
+								<p:message for="registratonForm" id="registrationNotification" />
+								<h:outputText />
+							</div>
+							<div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
+								<p:panelGrid columns="3"
+									columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+									layout="grid" styleClass="ui-panelgrid-blank">
+									<!-- Clear Fields Button -->
+									<p:commandButton value="Clear fields"
+										update="registrationPanel" process="@this">
+										<p:resetInput target="registrationPanel" />
+									</p:commandButton>
+									<div></div>
+									<!-- Register button -->
+									<p:commandButton value="Register" icon="ui-icon-plusthick"
+										actionListener="#{registrationView.registration()}"
+										update="registrationNotification">
+									</p:commandButton>
+								</p:panelGrid>
+							</div>
+						</div>
+					</p:panel>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
 </ui:composition>
