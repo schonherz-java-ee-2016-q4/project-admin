@@ -8,92 +8,54 @@
 	<ui:define name="customTitle">Profile page</ui:define>
 	<ui:define name="customBody">
 		<div class="ui-g">
-			<div class="ui-g-10 ui-md-10 ui-lg-8">
-				<h:form id="profileForm">
-					<p:panel header="Profile settings" id="profilePanel">
-						<div class="ui-g">
-							<!--                              Email  -->
-							<div class="ui-g-12 ui-md-3 ui-lg-3">
-								<h:outputLabel value="Email:" for="email" />
-							</div>
-							<div class="ui-g-12 ui-md-5 ui-lg-5">
-								<p:inputText id="email" value="#{profileView.userVo.email}"
-									required="true" />
-							</div>
-							<div class="ui-g-12 ui-md-4 ui-lg-4">
-								<p:message for="email" />
-							</div>
-							<!--                            Username -->
-							<div class="ui-g-12 ui-md-3 ui-lg-3">
-								<h:outputLabel value="Username:" for="username" />
-							</div>
-							<div class="ui-g-12 ui-md-5 ui-lg-5">
+			<div class="ui-g-9 ui-md-9 ui-lg-9">
+				<p:panel header="Profile Settings" id="profilePanel">
+					<h:form id="profileForm">
+						<div class="ui-fluid">
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel for="email" value="Email" />
+								<p:inputText id="email" value="#{profileView.userVo.email}" />
+								<h:outputText value="Something" />
+
+								<p:outputLabel for="username" value="Username" />
 								<p:inputText id="username"
 									value="#{profileView.userVo.username}" readonly="true" />
-							</div>
-							<div class="ui-g-12 ui-md-4 ui-lg-4">
-								<p:message for="username" />
-							</div>
-							<!--                            Current Password -->
-							<div class="ui-g-12 ui-md-3 ui-lg-3">
-								<h:outputLabel value="Current Password:" for="password" />
-							</div>
-							<div class="ui-g-12 ui-md-5 ui-lg-5">
-								<p:password id="password" required="true" placeholder="Password">
-									<f:validateLength minimum="6"></f:validateLength>
-								</p:password>
-							</div>
-							<div class="ui-g-12 ui-md-4 ui-lg-4">
-								<p:message for="password" />
-								<h:outputText />
-							</div>
-							<!--                            Separator line -->
-							<div class="ui-g-12 ui-md-12 ui-lg-12">
+								<h:outputText value="You cannot change your username!" />
+
+								<p:outputLabel for="currentPassword" value="Current Password" />
+								<p:password id="currentPassword" />
+								<h:outputText
+									value="You have to type your current password to edit your settings." />
+
 								<p:separator />
-							</div>
-							<!--                            New password -->
-							<div class="ui-g-12 ui-md-3 ui-lg-3">
-								<h:outputLabel value="New Password:" for="newPassword" />
-							</div>
-							<div class="ui-g-12 ui-md-5 ui-lg-5">
-								<p:password id="newPassword" value="" placeholder="New Password">
-									<f:validateLength minimum="6"></f:validateLength>
-								</p:password>
-							</div>
-							<div class="ui-g-12 ui-md-4 ui-lg-4">
-								<p:message for="newPassword" />
-								<h:outputText />
-							</div>
-							<!--                            New Password Confirm -->
-							<div class="ui-g-12 ui-md-3 ui-lg-3">
-								<h:outputLabel value="New Password Confirm:"
-									for="newPasswordConfirm" />
-							</div>
-							<div class="ui-g-12 ui-md-5 ui-lg-5">
-								<p:password id="newPasswordConfirm" value=""
-									placeholder="Type the new password again">
-									<f:validateLength minimum="6"></f:validateLength>
-								</p:password>
-							</div>
-							<div class="ui-g-12 ui-md-4 ui-lg-4">
-								<p:message for="newPasswordConfirm" />
-								<h:outputText />
-							</div>
-							<!--                            Save button -->
-							<div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: left;">
-								<p:commandButton value="Reset fields" update="profilePanel"
-									process="@this">
-									<p:resetInput target="profilePanel" />
-								</p:commandButton>
-							</div>
-							<div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
-								<p:commandButton value="Save" icon="ui-icon-pencil"
-									actionListener="#{profileView.save()}" update="profileForm"
-									ajax="false" validateClient="true"></p:commandButton>
-							</div>
+								<h:outputText
+									value="Do you want to set a new password for your profile?" />
+								<p:separator />
+
+								<p:outputLabel for="newPassword" value="New Password" />
+								<p:password id="newPassword" />
+								<h:outputText value="New password" />
+
+								<p:outputLabel for="newPasswordConfirm"
+									value="New Password Confirm" />
+								<p:password id="newPasswordConfirm" />
+								<h:outputText value="Confirm your new password" />
+
+							</p:panelGrid>
+							<p:separator />
+							<p:commandButton value="Reset fields" update="profilePanel"
+								process="@this">
+								<p:resetInput target="profilePanel" />
+							</p:commandButton>
+							<p:commandButton value="Save" icon="ui-icon-pencil"
+								actionListener="#{profileView.save()}" update="profileForm"
+								ajax="false" validateClient="true">
+							</p:commandButton>
 						</div>
-					</p:panel>
-				</h:form>
+					</h:form>
+				</p:panel>
 			</div>
 		</div>
 	</ui:define>
