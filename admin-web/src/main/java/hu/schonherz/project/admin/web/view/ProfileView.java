@@ -1,5 +1,7 @@
 package hu.schonherz.project.admin.web.view;
 
+import java.util.Base64;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -58,7 +60,7 @@ public class ProfileView {
             return;
         }
         // Password should match the one read from the database
-        if (!currentUserVo.getPassword().equals(profileForm.getPassword())) {
+        if (!currentUserVo.getPassword().equals(Base64.getEncoder().encodeToString(profileForm.getPassword().getBytes()))) {
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, INVALID_PASSWORD));
             return;
         }
@@ -66,9 +68,10 @@ public class ProfileView {
         try {
             // Get user vo and set new password if given
             UserVo userVo = profileForm.getUserVo();
+            userVo.setPassword(currentUserVo.getPassword());
             String newPassword = profileForm.getNewPassword();
             if (newPassword != null && !newPassword.isEmpty()) {
-                userVo.setPassword(newPassword);
+                userVo.setPassword(Base64.getEncoder().encodeToString(newPassword.getBytes()));
             }
 
             userServiceRemote.registrationUser(userVo);

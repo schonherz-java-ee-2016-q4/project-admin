@@ -1,5 +1,7 @@
 package hu.schonherz.project.admin.web.view;
 
+import java.util.Base64;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -59,6 +61,7 @@ public class RegistrationView {
         try {
             // Try to save user data
             UserVo userVo = form.getUserVo();
+            userVo.setPassword(Base64.getEncoder().encodeToString(form.getUserVo().getPassword().getBytes()));
             userServiceRemote.registrationUser(userVo);
 
             // Notify user about success and log it
