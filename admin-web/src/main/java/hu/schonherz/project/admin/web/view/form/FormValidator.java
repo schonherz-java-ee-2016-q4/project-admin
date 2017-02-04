@@ -3,6 +3,7 @@ package hu.schonherz.project.admin.web.view.form;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.NonNull;
+import lombok.ToString;
 import org.apache.commons.validator.routines.EmailValidator;
 
 public class FormValidator {
@@ -17,6 +18,7 @@ public class FormValidator {
     public static final String INVALID_EMAIL = "Invalid e-mail";
     public static final String CONFIRM_PASSWORD = "Password and Confirm password fields must be equal";
 
+    @ToString
     public static class MessageBinding {
 
         private final Map<MESSAGE_TYPES, String> binding;
@@ -64,7 +66,7 @@ public class FormValidator {
         // Validate new password, if the user gave one
         String newPassword = form.getNewPassword();
         String confirmNewPassword = form.getConfirmNewPassword();
-        if (form.getNewPassword() != null && !(form.getNewPassword().isEmpty())) {
+        if (newPassword != null && !(newPassword.isEmpty())) {
             if (newPassword.length() < MIN_PASSWORD_LENGTH) {
                 binding.addMessage(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD, SHORT_PASSWORD);
             }
