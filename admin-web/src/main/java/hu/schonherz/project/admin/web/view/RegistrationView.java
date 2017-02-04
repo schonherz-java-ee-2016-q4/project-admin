@@ -42,18 +42,15 @@ public class RegistrationView {
     @PostConstruct
     public void init() {
         form = new RegistrationForm();
-        log.info("post construct");
     }
 
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
 
-        log.info("in registration method");
         try {
             // Try to save user data
             UserVo userVo = form.getUserVo();
             userServiceRemote.registrationUser(userVo);
-            log.info("saved it");
 
             // Notify user about success and log it
             context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO, SUCCESS, SUCCESSFUL_REGISTRATION));
