@@ -9,53 +9,64 @@
     <ui:define name="customBody">
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <h:form id="registratonForm">
+                <h:form id="registrationForm">
                     <p:panel header="Registration form" id="registrationPanel">
                         <div class="ui-g">
                             <div class="ui-g-12 ui-md-3 ui-lg-3">
-                            <h:outputLabel value="Email:" for="email" />
-                        </div>
+                                <h:outputLabel value="#{msg.field_email}:" for="email" />
+                            </div>
                             <div class="ui-g-12 ui-md-5 ui-lg-5">
                                 <p:inputText id="email" value="#{registrationView.form.email}"
-                                             required="true" placeholder="example@example.com" type="email" requiredMessage="Nem Üres"/>
+                                             placeholder="example@example.com" type="email"
+                                             required="true" requiredMessage="#{msg.error_empty_field}"
+                                             validatorMessage="#{msg.error_invalid_email}">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                </p:inputText>
                             </div>
                             <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="email" />
+                                <p:message class="user-notification" for="email" />
                             </div>
                             <div class="ui-g-12 ui-md-3 ui-lg-3">
-                                <h:outputLabel value="Username:" for="username" />
+                                <h:outputLabel value="#{msg.field_username}:" for="username" />
                             </div>
                             <div class="ui-g-12 ui-md-5 ui-lg-5">
                                 <p:inputText id="username"
-                                             value="#{registrationView.form.username}" required="false"
-                                             placeholder="Username" />
+                                             value="#{registrationView.form.username}" placeholder="#{msg.field_username}"
+                                             required="true" requiredMessage="#{msg.error_empty_field}"
+                                             validatorMessage="#{msg.error_invalid_length_begin} 2 #{msg.error_invalid_length_middle} 15 #{msg.error_invalid_length_end}">
+                                    <f:validateLength minimum="2" maximum="15" />
+                                </p:inputText>
                             </div>
                             <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="username" />
+                                <p:message class="user-notification" for="username" />
                             </div>
                             <div class="ui-g-12 ui-md-3 ui-lg-3">
-                                <h:outputLabel value="Password:" for="password" />
+                                <h:outputLabel value="#{msg.field_password}:" for="password" />
                             </div>
                             <div class="ui-g-12 ui-md-5 ui-lg-5">
                                 <p:password id="password"
-                                            value="#{registrationView.form.password}" required="false"
-                                            placeholder="Password">
+                                            value="#{registrationView.form.password}" placeholder="#{msg.field_password}"
+                                            required="true" requiredMessage="#{msg.error_empty_field}"
+                                            match="confirmPassword"
+                                            >
+                                    <f:validateLength minimum="6" maximum="15" />
                                 </p:password>
                             </div>
                             <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="password" />
+                                <p:message class="user-notification" for="password" />
                             </div>
                             <div class="ui-g-12 ui-md-3 ui-lg-3">
-                                <h:outputLabel value="Confirm password:" for="confirmPassword" />
+                                <h:outputLabel value="#{msg.field_password_confirm}:" for="confirmPassword" />
                             </div>
                             <div class="ui-g-12 ui-md-5 ui-lg-5">
                                 <p:password id="confirmPassword"
                                             value="#{registrationView.form.confirmPassword}"
-                                            required="false" placeholder="Password">
+                                            placeholder="#{msg.field_password_confirm}"
+                                            required="true" requiredMessage="#{msg.error_empty_field}">
                                 </p:password>
                             </div>
                             <div class="ui-g-12 ui-md-4 ui-lg-4">
-                                <p:message for="registratonForm" id="registrationNotification" />
+                                <p:message class="user-notification" for="registrationForm" id="registrationNotification" />
                                 <h:outputText />
                             </div>
                             <div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: right;">
@@ -63,15 +74,15 @@
                                              columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
                                              layout="grid" styleClass="ui-panelgrid-blank">
                                     <!-- Clear Fields Button -->
-                                    <p:commandButton value="Clear fields"
+                                    <p:commandButton value="#{msg.label_clear_fields}"
                                                      update="registrationPanel" process="@this">
                                         <p:resetInput target="registrationPanel" />
                                     </p:commandButton>
                                     <div></div>
                                     <!-- Register button -->
-                                    <p:commandButton value="Register" icon="ui-icon-plusthick"
+                                    <p:commandButton value="#{msg.label_register}" icon="ui-icon-plusthick"
                                                      actionListener="#{registrationView.registration()}"
-                                                     update="registrationPanel">
+                                                     update="registrationForm">
                                     </p:commandButton>
                                 </p:panelGrid>
                             </div>

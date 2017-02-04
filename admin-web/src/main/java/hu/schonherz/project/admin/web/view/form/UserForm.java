@@ -10,10 +10,10 @@ import lombok.ToString;
 @ToString
 public class UserForm {
 
-    protected Long id;
-    protected String email;
-    protected String username;
-    protected String password;
+    private Long id;
+    private String email;
+    private String username;
+    private String password;
 
     public UserVo getUserVo() {
         UserVo vo = new UserVo();

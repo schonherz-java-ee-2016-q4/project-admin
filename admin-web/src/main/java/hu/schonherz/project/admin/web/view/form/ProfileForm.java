@@ -18,10 +18,10 @@ public class ProfileForm extends UserForm {
     @Setter
     private String confirmNewPassword;
 
-    public ProfileForm(UserVo userVo) {
-        id = userVo.getId();
-        email = userVo.getEmail();
-        username = userVo.getUsername();
+    public ProfileForm(final UserVo userVo) {
+        setId(userVo.getId());
+        setEmail(userVo.getEmail());
+        setUsername(userVo.getUsername());
     }
 
 }
