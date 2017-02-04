@@ -1,6 +1,5 @@
 package hu.schonherz.project.admin.web.view;
 
-import java.util.Base64;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,6 +11,7 @@ import javax.faces.context.FacesContext;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.web.encrypter.Encrypter;
 import hu.schonherz.project.admin.web.view.form.FormValidator;
 import hu.schonherz.project.admin.web.view.form.FormValidator.MessageBinding;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
@@ -60,18 +60,17 @@ public class ProfileView {
             return;
         }
         // Password should match the one read from the database
-        if (!currentUserVo.getPassword().equals(Base64.getEncoder().encodeToString(profileForm.getPassword().getBytes()))) {
+        if (!Encrypter.match(profileForm.getPassword())) {
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, INVALID_PASSWORD));
             return;
         }
-
         try {
             // Get user vo and set new password if given
             UserVo userVo = profileForm.getUserVo();
             userVo.setPassword(currentUserVo.getPassword());
             String newPassword = profileForm.getNewPassword();
             if (newPassword != null && !newPassword.isEmpty()) {
-                userVo.setPassword(Base64.getEncoder().encodeToString(newPassword.getBytes()));
+                userVo.setPassword(Encrypter.encrypt(newPassword));
             }
 
             userServiceRemote.registrationUser(userVo);

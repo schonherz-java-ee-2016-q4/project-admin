@@ -113,7 +113,7 @@ public class FormValidator {
         if (!binding.isEmpty()) {
             return;
         }
-javax.security.auth.
+
         // Validate password length
         if (form.getPassword().length() < MIN_PASSWORD_LENGTH) {
             binding.addMessage(MessageBinding.MessageType.PASSWORD, SHORT_PASSWORD);
