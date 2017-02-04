@@ -1,55 +1,68 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/resources/templates/masterLayout.xhtml">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/templates/masterLayout.xhtml">
 
-    <ui:define name="customTitle">Users page</ui:define>
-    <ui:define name="customBody">
-        <h:form class="ui-g">
-            <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <p:dataTable var="user" value="#{usersView.users}">
-                    <p:column headerText="Username">
-                        <p:commandLink value="#{user.username}"
-                                       action="#{messageboardBean.showThread()}">
-                            <f:param name="threadId" value="#{thread.id}"/>
-                        </p:commandLink>
-                    </p:column>
-                    <p:column headerText="Email">
-                        <h:outputText value="#{user.email}"/>
-                    </p:column>
-                    <p:column headerText="Status">
-                        <h:outputText value="#{user.active ? 'Active' : 'Inactive'}"/>
-                    </p:column>
-                    <p:column headerText="Settings">
-                        <p:button id="edit" icon="ui-icon-pencil" title="Edit #{user.username}'s datas">
-                            <f:param name="productId" value="30"/>
-                        </p:button>
-                        <p:button icon="ui-icon-power"
-                                  title="#{user.active ? 'Deactivate' : 'Activate'} #{user.username}">
-                            <f:param name="productId" value="30"/>
-                        </p:button>
-                        <p:button icon="ui-icon-refresh" title="Reset #{user.username}'s password">
-                            <f:param name="productId" value="30"/>
-                        </p:button>
-                        <p:commandButton icon="ui-icon-trash" title="Delete #{user.username}">
-                            <f:param name="productId" value="30"/>
-                            <p:confirm message="Are you sure?"> </p:confirm>
-                        </p:commandButton>
-                        <p:menuButton value="Options">
-                            <p:menuitem value="Save" icon="ui-icon-disk"/>
-                            <p:menuitem value="Update" icon="ui-icon-arrowrefresh-1-w"/>
-                            <p:menuitem value="Delete" ajax="false" icon="ui-icon-close"/>
-                            <p:menuitem value="Homepage" url="http://www.primefaces.org" icon="ui-icon-extlink"/>
-                        </p:menuButton>
-                    </p:column>
-                </p:dataTable>
-                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>
-                </p:confirmDialog>
-            </div>
-        </h:form>
-    </ui:define>
+	<ui:define name="customTitle">Users page</ui:define>
+	<ui:define name="customBody">
+		<h:form class="ui-g" id="form">
+			<div class="ui-g-9 ui-md-9 ui-lg-9">
+				<p:dataTable var="user" value="#{usersView.users}">
+					<p:column headerText="Username">
+						<p:commandLink value="#{user.username}"
+							action="#{messageboardBean.showThread()}">
+							<f:param name="id" value="#{user.id}" />
+						</p:commandLink>
+					</p:column>
+					<p:column headerText="Email">
+						<h:outputText value="#{user.email}" />
+					</p:column>
+					<p:column headerText="Status">
+						<h:outputText value="#{user.active ? 'Active' : 'Inactive'}" />
+					</p:column>
+					<p:column headerText="Settings">
+						<!-- Edit button -->
+						<p:commandButton id="edit" icon="ui-icon-pencil">
+							<f:param name="id" value="#{user.id}" />
+						</p:commandButton>
+						<!-- Status button -->
+						<p:commandButton id="status" icon="ui-icon-power"
+							actionListener="#{usersView.changeUserStatus(user)}"
+							update="form">
+						</p:commandButton>
+						<!-- Reset password button -->
+						<p:commandButton id="resetPassword" icon="ui-icon-refresh"
+							actionListener="#{usersView.resetUserPassword(user)}"
+							update="form">
+						</p:commandButton>
+						<!-- Delete button -->
+						<p:commandButton id="delete" icon="ui-icon-trash"
+							actionListener="#{usersView.deleteUser(user)}" update="form">
+							<p:confirm message="Are you sure?">
+							</p:confirm>
+						</p:commandButton>
+						<!-- Tooltips -->
+						<p:tooltip id="toolTipEdit" for="edit"
+							value="Edit #{user.username}'s datas" position="top" />
+						<p:tooltip id="toolTipStatus" for="status"
+							value="#{user.active ? 'Deactivate' : 'Activate'} #{user.username}"
+							position="top" />
+						<p:tooltip id="toolTipResetPassword" for="resetPassword"
+							value="Reset #{user.username}'s password" position="top" />
+						<p:tooltip id="toolTipDelete" for="delete"
+							value="Delete #{user.username}" position="top" />
+					</p:column>
+				</p:dataTable>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+					header="Delete #{user.username}?">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</div>
+		</h:form>
+	</ui:define>
 </ui:composition>

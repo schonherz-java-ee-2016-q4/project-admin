@@ -43,4 +43,14 @@ public class UserServiceFacade implements UserServiceRemote {
         return realService.findAll();
     }
 
+    @Override
+    public void delete(Long id) {
+        realService.delete(id);
+    }
+
+    @Override
+    public void changeStatus(Long id) {
+        realService.changeStatus(id);
+    }
+
 }
