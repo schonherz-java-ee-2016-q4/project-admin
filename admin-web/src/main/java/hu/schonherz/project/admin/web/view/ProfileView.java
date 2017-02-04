@@ -60,7 +60,7 @@ public class ProfileView {
             return;
         }
         // Password should match the one read from the database
-        if (!Encrypter.match(profileForm.getPassword())) {
+        if (!Encrypter.match(currentUserVo.getPassword(), profileForm.getPassword())) {
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, INVALID_PASSWORD));
             return;
         }
