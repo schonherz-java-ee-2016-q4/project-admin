@@ -1,343 +1,348 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>hu.schonherz.java.training.project</groupId>
-    <artifactId>admin</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>hu.schonherz.java.training.project</groupId>
+	<artifactId>admin</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
-    <modules>
-        <module>admin-data</module>
-        <module>admin-service-api</module>
-        <module>admin-service</module>
-        <module>admin-web</module>
-        <module>admin-ear</module>
-    </modules>
+	<modules>
+		<module>admin-data</module>
+		<module>admin-service-api</module>
+		<module>admin-service</module>
+		<module>admin-web</module>
+		<module>admin-ear</module>
+	</modules>
 
-    <name>Help Desk Platform - Admin Parent</name>
-    <description>Parent maven project for the Admin branch-project of the Help Desk Platform</description>
-    <inceptionYear>2017</inceptionYear>
-    <organization>
-        <name>Sch�nherz Iskolasz�vetkezet</name>
-    </organization>
+	<name>Help Desk Platform - Admin Parent</name>
+	<description>Parent maven project for the Admin branch-project of the Help Desk Platform</description>
+	<inceptionYear>2017</inceptionYear>
+	<organization>
+		<name>Sch�nherz Iskolasz�vetkezet</name>
+	</organization>
 
-    <developers>
-        <developer>
-            <id>antalkiss</id>
-            <name>Kiss Antal</name>
-            <roles>
-                <role>Team leader</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>gergofazekas</id>
-            <name>Fazekas Gerg�</name>
-            <roles>
-                <role>Java EE Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>tamaskovacs</id>
-            <name>Kov�cs Tam�s</name>
-            <roles>
-                <role>Java EE Developer</role>
-            </roles>
-        </developer>
-        <developer>
-            <id>sandorsuto</id>
-            <name>S�t� S�ndor</name>
-            <roles>
-                <role>Java EE Developer</role>
-            </roles>
-        </developer>
-    </developers>
+	<developers>
+		<developer>
+			<id>antalkiss</id>
+			<name>Kiss Antal</name>
+			<roles>
+				<role>Team leader</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>gergofazekas</id>
+			<name>Fazekas Gerg�</name>
+			<roles>
+				<role>Java EE Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>tamaskovacs</id>
+			<name>Kov�cs Tam�s</name>
+			<roles>
+				<role>Java EE Developer</role>
+			</roles>
+		</developer>
+		<developer>
+			<id>sandorsuto</id>
+			<name>S�t� S�ndor</name>
+			<roles>
+				<role>Java EE Developer</role>
+			</roles>
+		</developer>
+	</developers>
 
-    <scm>
-        <developerConnection>scm:git:git@github.com:schonherz-java-ee-2016-q4/project-admin.git</developerConnection>
-        <connection>scm:git:git@github.com:schonherz-java-ee-2016-q4/project-admin.git</connection>
-        <url>git@github.com:schonherz-java-ee-2016-q4/project-admin.git</url>
-        <tag>HEAD</tag>
-    </scm>
+	<scm>
+		<developerConnection>scm:git:git@github.com:schonherz-java-ee-2016-q4/project-admin.git</developerConnection>
+		<connection>scm:git:git@github.com:schonherz-java-ee-2016-q4/project-admin.git</connection>
+		<url>git@github.com:schonherz-java-ee-2016-q4/project-admin.git</url>
+		<tag>HEAD</tag>
+	</scm>
 
-    <properties>
-        <spring.webflow.version>2.4.0.RELEASE</spring.webflow.version>
-        <spring.version>4.3.5.RELEASE</spring.version>
-        <jsf.version>2.2.14</jsf.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <dir.codequality>${project.basedir}/code-quality/</dir.codequality>
-    </properties>
+	<properties>
+		<spring.webflow.version>2.4.0.RELEASE</spring.webflow.version>
+		<spring.version>4.3.5.RELEASE</spring.version>
+		<jsf.version>2.2.14</jsf.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dir.codequality>${project.basedir}/code-quality/</dir.codequality>
+	</properties>
 
-    <repositories>
-        <repository>
-            <id>prime-repo</id>
-            <name>PrimeFaces Maven Repository</name>
-            <url>http://repository.primefaces.org</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- Logging dependencies -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.7.22</version>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>1.1.8</version>
-            </dependency>
-            <!-- /Logging dependencies -->
-            <!-- Persistence dependencies -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-jdbc</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-tx</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-core</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-orm</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-jpa</artifactId>
-                <version>1.10.6.RELEASE</version>
-            </dependency>
+	<dependencyManagement>
+		<dependencies>
+			<!-- Logging dependencies -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.22</version>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>1.1.8</version>
+			</dependency>
+			<!-- /Logging dependencies -->
+			<!-- Persistence dependencies -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-jdbc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-jpa</artifactId>
+				<version>1.10.6.RELEASE</version>
+			</dependency>
 
-            <dependency>
-                <groupId>org.hibernate.javax.persistence</groupId>
-                <artifactId>hibernate-jpa-2.0-api</artifactId>
-                <version>1.0.1.Final</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>5.2.6.Final</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-entitymanager</artifactId>
-                <version>5.2.6.Final</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate.common</groupId>
-                <artifactId>hibernate-commons-annotations</artifactId>
-                <version>5.0.1.Final</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>5.3.4.Final</version>
-                <scope>provided</scope>
-            </dependency>
-            <!-- /Persistence dependencies -->
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>3.1.0</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>jstl</artifactId>
-                <version>1.2</version>
-            </dependency>
-            <!-- JSF -->
-            <dependency>
-                <groupId>com.sun.faces</groupId>
-                <artifactId>jsf-api</artifactId>
-                <version>${jsf.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.faces</groupId>
-                <artifactId>jsf-impl</artifactId>
-                <version>${jsf.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <!-- /JSF -->
-            <!-- Primefaces -->
-            <dependency>
-                <groupId>org.primefaces</groupId>
-                <artifactId>primefaces</artifactId>
-                <version>6.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.primefaces.themes</groupId>
-                <artifactId>all-themes</artifactId>
-                <version>1.0.10</version>
-            </dependency>
-            <!-- /Primefaces -->
-            <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
-                <version>6.0</version>
-                <scope>provided</scope>
-            </dependency>
-            <!-- Spring webflow -->
-            <dependency>
-                <groupId>org.springframework.webflow</groupId>
-                <artifactId>spring-binding</artifactId>
-                <version>${spring.webflow.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.webflow</groupId>
-                <artifactId>spring-webflow</artifactId>
-                <version>${spring.webflow.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.webflow</groupId>
-                <artifactId>spring-faces</artifactId>
-                <version>${spring.webflow.version}</version>
-            </dependency>
-            <!-- /Spring webflow -->
-            <!-- Aop -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-aop</artifactId>
-                <version>4.1.6.RELEASE</version>
-            </dependency>
-            <dependency>
-                <groupId>aopalliance</groupId>
-                <artifactId>aopalliance</artifactId>
-                <version>1.0</version>
-            </dependency>
-            <!-- /Aop -->
-            <!-- Convenience dependencies -->
-            <dependency>
-                <groupId>commons-validator</groupId>
-                <artifactId>commons-validator</artifactId>
-                <version>1.4.1</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer</artifactId>
-                <version>5.5.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.16.12</version>
-            </dependency>
-            <!-- /Convenience dependencies -->
-        </dependencies>
-    </dependencyManagement>
+			<dependency>
+				<groupId>org.hibernate.javax.persistence</groupId>
+				<artifactId>hibernate-jpa-2.0-api</artifactId>
+				<version>1.0.1.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-core</artifactId>
+				<version>5.2.6.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>5.2.6.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate.common</groupId>
+				<artifactId>hibernate-commons-annotations</artifactId>
+				<version>5.0.1.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>5.3.4.Final</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- /Persistence dependencies -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>3.1.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>jstl</artifactId>
+				<version>1.2</version>
+			</dependency>
+			<!-- JSF -->
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-api</artifactId>
+				<version>${jsf.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>${jsf.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- /JSF -->
+			<!-- Primefaces -->
+			<dependency>
+				<groupId>org.primefaces</groupId>
+				<artifactId>primefaces</artifactId>
+				<version>6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.primefaces.themes</groupId>
+				<artifactId>all-themes</artifactId>
+				<version>1.0.10</version>
+			</dependency>
+			<!-- /Primefaces -->
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>6.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<!-- Spring webflow -->
+			<dependency>
+				<groupId>org.springframework.webflow</groupId>
+				<artifactId>spring-binding</artifactId>
+				<version>${spring.webflow.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.webflow</groupId>
+				<artifactId>spring-webflow</artifactId>
+				<version>${spring.webflow.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.webflow</groupId>
+				<artifactId>spring-faces</artifactId>
+				<version>${spring.webflow.version}</version>
+			</dependency>
+			<!-- /Spring webflow -->
+			<!-- Aop -->
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-aop</artifactId>
+				<version>4.1.6.RELEASE</version>
+			</dependency>
+			<dependency>
+				<groupId>aopalliance</groupId>
+				<artifactId>aopalliance</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<!-- /Aop -->
+			<!-- Convenience dependencies -->
+			<dependency>
+				<groupId>commons-validator</groupId>
+				<artifactId>commons-validator</artifactId>
+				<version>1.4.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.5</version>
+			</dependency>
+			<dependency>
+				<groupId>net.sf.dozer</groupId>
+				<artifactId>dozer</artifactId>
+				<version>5.5.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.16.12</version>
+			</dependency>
+			<!-- /Convenience dependencies -->
+		</dependencies>
+	</dependencyManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <!-- Code style plugins -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-                <configuration>
-                    <configLocation>code-quality/checkstyle/checks.xml</configLocation>
-                    <suppressionsLocation>${dir.codequality}/checkstyle/suppressions.xml</suppressionsLocation>
-                    <violationSeverity>warning</violationSeverity>
-                    <failOnViolation>false</failOnViolation>
-                    <failsOnError>true</failsOnError>
-                    <linkXRef>false</linkXRef>
-                    <consoleOutput>false</consoleOutput>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>checkstyle-code-verification</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--<plugin>-->
-            <!--<groupId>org.codehaus.mojo</groupId>-->
-            <!--<artifactId>findbugs-maven-plugin</artifactId>-->
-            <!--<version>LATEST</version>-->
-            <!--<configuration>-->
-            <!--<xmlOutput>true</xmlOutput>-->
-            <!--<effort>Max</effort>-->
-            <!--<threshold>Medium</threshold>-->
-            <!--<excludeFilterFile>${dir.codequality}/findbugs/findbugs-exclude.xml</excludeFilterFile>-->
-            <!--</configuration>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>findbugs-code-verification</id>-->
-            <!--<phase>verify</phase>-->
-            <!--<goals>-->
-            <!--<goal>findbugs</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.7</version>
-                <configuration>
-                    <failOnViolation>true</failOnViolation>
-                    <linkXRef>false</linkXRef>
-                    <rulesets>
-                        <ruleset>${dir.codequality}/pmd/basic.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/braces.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/codesize.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/design.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/empty.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/javabeans.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/strings.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/typeresolution.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/unnecessary.xml</ruleset>
-                        <ruleset>${dir.codequality}/pmd/unusedcode.xml</ruleset>
-                    </rulesets>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>pmd-code-verification</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- /Code style plugins -->
-        </plugins>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<!-- Code style plugins -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<configLocation>code-quality/checkstyle/checks.xml</configLocation>
+					<suppressionsLocation>${dir.codequality}/checkstyle/suppressions.xml</suppressionsLocation>
+					<violationSeverity>warning</violationSeverity>
+					<failOnViolation>false</failOnViolation>
+					<failsOnError>true</failsOnError>
+					<linkXRef>false</linkXRef>
+					<consoleOutput>false</consoleOutput>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<id>checkstyle-code-verification</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!--<plugin> -->
+			<!--<groupId>org.codehaus.mojo</groupId> -->
+			<!--<artifactId>findbugs-maven-plugin</artifactId> -->
+			<!--<version>LATEST</version> -->
+			<!--<configuration> -->
+			<!--<xmlOutput>true</xmlOutput> -->
+			<!--<effort>Max</effort> -->
+			<!--<threshold>Medium</threshold> -->
+			<!--<excludeFilterFile>${dir.codequality}/findbugs/findbugs-exclude.xml</excludeFilterFile> -->
+			<!--</configuration> -->
+			<!--<executions> -->
+			<!--<execution> -->
+			<!--<id>findbugs-code-verification</id> -->
+			<!--<phase>verify</phase> -->
+			<!--<goals> -->
+			<!--<goal>findbugs</goal> -->
+			<!--</goals> -->
+			<!--</execution> -->
+			<!--</executions> -->
+			<!--</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.7</version>
+				<configuration>
+					<failOnViolation>true</failOnViolation>
+					<linkXRef>false</linkXRef>
+					<rulesets>
+						<ruleset>${dir.codequality}/pmd/basic.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/braces.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/codesize.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/design.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/empty.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/javabeans.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/strings.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/typeresolution.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/unnecessary.xml</ruleset>
+						<ruleset>${dir.codequality}/pmd/unusedcode.xml</ruleset>
+					</rulesets>
+				</configuration>
+				<executions>
+					<execution>
+						<id>pmd-code-verification</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- /Code style plugins -->
+		</plugins>
 
-    </build>
+	</build>
 </project>
