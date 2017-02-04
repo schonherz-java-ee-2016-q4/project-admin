@@ -2,7 +2,6 @@ package hu.schonherz.project.admin.web.view.form;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import lombok.NonNull;
 import lombok.ToString;
@@ -113,7 +112,7 @@ public class FormValidator {
         if (!binding.isEmpty()) {
             return;
         }
-javax.security.auth.
+
         // Validate password length
         if (form.getPassword().length() < MIN_PASSWORD_LENGTH) {
             binding.addMessage(MessageBinding.MessageType.PASSWORD, SHORT_PASSWORD);
