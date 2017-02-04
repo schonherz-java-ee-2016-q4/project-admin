@@ -8,6 +8,7 @@
     <application>
         <locale-config>
             <default-locale>en</default-locale>
+            <supported-locale>hu</supported-locale>
         </locale-config>
         <resource-bundle>
             <base-name>i18n.localization</base-name>
