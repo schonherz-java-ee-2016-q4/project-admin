@@ -16,29 +16,36 @@
                                          columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
                                          layout="grid" styleClass="ui-panelgrid-blank">
                                 <!-- Email -->
-                                <p:outputLabel for="email" value="Email" />
-                                <p:inputText id="email" value="#{profileView.profileForm.email}" />
+                                <p:outputLabel for="email" value="#{msg.field_email}" />
+                                <p:inputText id="email" value="#{profileView.profileForm.email}"
+                                             required="true" requiredMessage="#{msg.error_empty_field}"
+                                             validatorMessage="#{msg.error_invalid_email}">
+                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                </p:inputText>
                                 <p:message for="email" />
                                 <!-- Username -->
-                                <p:outputLabel for="username" value="Username" />
+                                <p:outputLabel for="username" value="#{msg.field_username}" />
                                 <p:inputText id="username"
                                              value="#{profileView.profileForm.username}" readonly="true" />
-                                <h:outputText value="You cannot change your username!" />
+                                <h:outputText value="#{msg.label_username_unmodifiable}" />
                                 <!-- Current Password -->
-                                <p:outputLabel for="currentPassword" value="Current Password" />
-                                <p:password id="currentPassword" value="#{profileView.profileForm.password}" />
+                                <p:outputLabel for="currentPassword" value="#{msg.field_password_current}" />
+                                <p:password id="currentPassword" value="#{profileView.profileForm.password}" required="true"/>
                                 <p:message for="currentPassword" />
                                 <p:separator />
                                 <h:outputText
-                                    value="Do you want to set a new password for your profile?" />
+                                    value="#{msg.label_is_new_password_needed}" />
                                 <p:separator />
                                 <!-- New password -->
-                                <p:outputLabel for="newPassword" value="New Password" />
-                                <p:password id="newPassword" value="#{profileView.profileForm.newPassword}" />
+                                <p:outputLabel for="newPassword" value="#{msg.field_password_new}" />
+                                <p:password id="newPassword" value="#{profileView.profileForm.newPassword}"
+                                            match="newPasswordConfirm">
+                                    <f:validateLength minimum="6" maximum="15" />
+                                </p:password>
                                 <p:message for="newPassword" />
                                 <!-- New password confirm -->
                                 <p:outputLabel for="newPasswordConfirm"
-                                               value="New Password Confirm" />
+                                               value="#{msg.field_password_new_confirm}" />
                                 <p:password id="newPasswordConfirm" value="#{profileView.profileForm.confirmNewPassword}" />
                                 <p:message for="profileForm" />
                             </p:panelGrid>
@@ -47,13 +54,13 @@
                                          columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
                                          layout="grid" styleClass="ui-panelgrid-blank">
                                 <!-- Reset Fields Button -->
-                                <p:commandButton value="Reset fields" update="profilePanel"
+                                <p:commandButton value="#{msg.label_reset_fields}" update="profilePanel"
                                                  process="@this">
                                     <p:resetInput target="profilePanel" />
                                 </p:commandButton>
                                 <div></div>
                                 <!-- Save button -->
-                                <p:commandButton value="Save" icon="ui-icon-pencil"
+                                <p:commandButton value="#{msg.label_save}" icon="ui-icon-pencil"
                                                  actionListener="#{profileView.save()}" update="profileForm"
                                                  ajax="false" validateClient="true">
                                 </p:commandButton>

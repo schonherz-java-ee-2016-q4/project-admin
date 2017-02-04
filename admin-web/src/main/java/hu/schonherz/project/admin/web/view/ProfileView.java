@@ -10,8 +10,6 @@ import javax.faces.context.FacesContext;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
-import hu.schonherz.project.admin.web.view.form.FormValidator;
-import hu.schonherz.project.admin.web.view.form.FormValidator.MessageBinding;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -52,11 +50,6 @@ public class ProfileView {
 
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
-        MessageBinding messageBinding = FormValidator.validateProfileForm(profileForm);
-        if (!messageBinding.isEmpty()) {
-            sendValidationMessages(messageBinding, context);
-            return;
-        }
         // Password should match the one read from the database
         if (!currentUserVo.getPassword().equals(profileForm.getPassword())) {
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, INVALID_PASSWORD));
@@ -85,24 +78,4 @@ public class ProfileView {
         }
     }
 
-    private void sendValidationMessages(MessageBinding messageBinding, FacesContext context) {
-        String message;
-        // Send e-mail validation message if there is one
-        if (messageBinding.hasMessageOfType(MessageBinding.MessageType.EMAIL)) {
-            message = messageBinding.getMessage(MessageBinding.MessageType.EMAIL);
-            context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
-        }
-
-        // Send password validation message if there is one
-        if (messageBinding.hasMessageOfType(MessageBinding.MessageType.PASSWORD)) {
-            message = messageBinding.getMessage(MessageBinding.MessageType.PASSWORD);
-            context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
-        }
-        //Send new password validation message if there is one
-        if (messageBinding.hasMessageOfType(MessageBinding.MessageType.NEW_PASSWORD)) {
-            message = messageBinding.getMessage(MessageBinding.MessageType.NEW_PASSWORD);
-            context.addMessage(NEWPASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
-        }
-
-    }
 }
