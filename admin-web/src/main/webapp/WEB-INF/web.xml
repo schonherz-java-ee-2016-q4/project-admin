@@ -34,6 +34,11 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>afterdark</param-value>
 	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
 	<!-- <ejb-ref> -->
 	<!-- <ejb-ref-name>ejb.userService</ejb-ref-name> -->
 	<!-- <remote>hu.schonherz.jee.service.client.api.service.user.UserServiceRemote</remote> -->

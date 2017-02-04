@@ -61,9 +61,9 @@
             <ui:insert name="customLink5"></ui:insert>
             <ui:insert name="customLink6"></ui:insert>
         </div>
-
-        <ui:insert name="customBody"></ui:insert>
-
+        <div class="container">
+            <ui:insert name="customBody"></ui:insert>
+        </div>
         <footer class="container">
             <ui:insert name="customFooter"></ui:insert>
             <div>
@@ -71,7 +71,6 @@
             </div>
             &copy; 2017 Schönherz Iskolaszövetkezet
         </footer>
-        <h:outputScript library="js" name="jquery.js"/>
         <h:outputScript library="js" name="bootstrap.min.js"/>
         <h:outputScript library="js" name="helpdesk-platform.js"/>
         <ui:insert name="customScripts"></ui:insert>

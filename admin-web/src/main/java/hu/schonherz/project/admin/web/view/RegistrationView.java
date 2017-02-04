@@ -75,20 +75,20 @@ public class RegistrationView {
     private void sendValidationMessages(MessageBinding binding, FacesContext context) {
         String message;
         // Send e-mail validation message if there is one
-        if (binding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.EMAIL)) {
-            message = binding.getMessage(MessageBinding.MESSAGE_TYPES.EMAIL);
+        if (binding.hasMessageOfType(MessageBinding.MessageType.EMAIL)) {
+            message = binding.getMessage(MessageBinding.MessageType.EMAIL);
             context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
 
         // Send username validation message if there is one
-        if (binding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.USERNAME)) {
-            message = binding.getMessage(MessageBinding.MESSAGE_TYPES.USERNAME);
+        if (binding.hasMessageOfType(MessageBinding.MessageType.USERNAME)) {
+            message = binding.getMessage(MessageBinding.MessageType.USERNAME);
             context.addMessage(USERNAME_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
 
         // Send password validation message if there is one
-        if (binding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.PASSWORD)) {
-            message = binding.getMessage(MessageBinding.MESSAGE_TYPES.PASSWORD);
+        if (binding.hasMessageOfType(MessageBinding.MessageType.PASSWORD)) {
+            message = binding.getMessage(MessageBinding.MessageType.PASSWORD);
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
     }

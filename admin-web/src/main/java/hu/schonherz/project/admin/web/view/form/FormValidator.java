@@ -2,6 +2,8 @@ package hu.schonherz.project.admin.web.view.form;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
+
 import lombok.NonNull;
 import org.apache.commons.validator.routines.EmailValidator;
 
@@ -19,9 +21,9 @@ public class FormValidator {
 
     public static class MessageBinding {
 
-        private final Map<MESSAGE_TYPES, String> binding;
+        private final Map<MessageType, String> binding;
 
-        public enum MESSAGE_TYPES {
+        public enum MessageType {
             EMAIL, USERNAME, PASSWORD, NEW_PASSWORD
         }
 
@@ -29,19 +31,19 @@ public class FormValidator {
             binding = new HashMap<>();
         }
 
-        public void addMessage(@NonNull MESSAGE_TYPES type, @NonNull String message) {
+        public void addMessage(@NonNull MessageType type, @NonNull String message) {
             binding.put(type, message);
         }
 
-        public String getMessage(@NonNull MESSAGE_TYPES type) {
+        public String getMessage(@NonNull MessageType type) {
             return binding.get(type);
         }
 
-        public boolean hasMessageOfType(@NonNull MESSAGE_TYPES type) {
+        public boolean hasMessageOfType(@NonNull MessageType type) {
             return binding.containsKey(type);
         }
 
-        public void removeMessageOfType(@NonNull MESSAGE_TYPES type) {
+        public void removeMessageOfType(@NonNull MessageType type) {
             binding.remove(type);
         }
 
@@ -66,14 +68,14 @@ public class FormValidator {
         String confirmNewPassword = form.getConfirmNewPassword();
         if (form.getNewPassword() != null && !(form.getNewPassword().isEmpty())) {
             if (newPassword.length() < MIN_PASSWORD_LENGTH) {
-                binding.addMessage(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD, SHORT_PASSWORD);
+                binding.addMessage(MessageBinding.MessageType.NEW_PASSWORD, SHORT_PASSWORD);
             }
             if (newPassword.length() > MAX_FIELD_LENGTH) {
-                binding.addMessage(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD, TOO_LONG_FIELD);
+                binding.addMessage(MessageBinding.MessageType.NEW_PASSWORD, TOO_LONG_FIELD);
             }
 
             if (!newPassword.equals(confirmNewPassword)) {
-                binding.addMessage(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD, CONFIRM_PASSWORD);
+                binding.addMessage(MessageBinding.MessageType.NEW_PASSWORD, CONFIRM_PASSWORD);
             }
         }
 
@@ -91,7 +93,7 @@ public class FormValidator {
         // Validate the confirm password field
         if (!(form.getConfirmPassword() != null && !form.getConfirmPassword().isEmpty())
                 || !form.getPassword().equals(form.getConfirmPassword())) {
-            binding.addMessage(MessageBinding.MESSAGE_TYPES.PASSWORD, CONFIRM_PASSWORD);
+            binding.addMessage(MessageBinding.MessageType.PASSWORD, CONFIRM_PASSWORD);
         }
 
         return binding;
@@ -109,41 +111,41 @@ public class FormValidator {
         if (!binding.isEmpty()) {
             return;
         }
-
+javax.security.auth.
         // Validate password length
         if (form.getPassword().length() < MIN_PASSWORD_LENGTH) {
-            binding.addMessage(MessageBinding.MESSAGE_TYPES.PASSWORD, SHORT_PASSWORD);
+            binding.addMessage(MessageBinding.MessageType.PASSWORD, SHORT_PASSWORD);
             return;
         }
 
         // Validate e-mail syntax
         if (!EmailValidator.getInstance().isValid(form.getEmail())) {
-            binding.addMessage(MessageBinding.MESSAGE_TYPES.EMAIL, INVALID_EMAIL);
+            binding.addMessage(MessageBinding.MessageType.EMAIL, INVALID_EMAIL);
         }
     }
 
     private static void emptyFieldCheck(UserForm form, MessageBinding binding) {
         // Is email null or empty
-        if (!(form.getEmail() != null && !form.getEmail().isEmpty())) {
-            binding.addMessage(MessageBinding.MESSAGE_TYPES.EMAIL, EMPTY_FIELD);
+        if (form.getEmail() == null || form.getEmail().isEmpty()) {
+            binding.addMessage(MessageBinding.MessageType.EMAIL, EMPTY_FIELD);
         }
         // Is username null or empty
         if (!(form.getUsername() != null && !form.getUsername().isEmpty())) {
-            binding.addMessage(MessageBinding.MESSAGE_TYPES.USERNAME, EMPTY_FIELD);
+            binding.addMessage(MessageBinding.MessageType.USERNAME, EMPTY_FIELD);
         }
         // Is password null or empty
         if (!(form.getPassword() != null && !form.getPassword().isEmpty())) {
-            binding.addMessage(MessageBinding.MESSAGE_TYPES.PASSWORD, EMPTY_FIELD);
+            binding.addMessage(MessageBinding.MessageType.PASSWORD, EMPTY_FIELD);
         }
     }
 
     private static void tooLongFieldCheck(UserForm form, MessageBinding binding) {
         if (form.getUsername().length() > MAX_FIELD_LENGTH) {
-            binding.addMessage(MessageBinding.MESSAGE_TYPES.USERNAME, TOO_LONG_FIELD);
+            binding.addMessage(MessageBinding.MessageType.USERNAME, TOO_LONG_FIELD);
         }
 
         if (form.getPassword().length() > MAX_FIELD_LENGTH) {
-            binding.addMessage(MessageBinding.MESSAGE_TYPES.PASSWORD, TOO_LONG_FIELD);
+            binding.addMessage(MessageBinding.MessageType.PASSWORD, TOO_LONG_FIELD);
         }
     }
 

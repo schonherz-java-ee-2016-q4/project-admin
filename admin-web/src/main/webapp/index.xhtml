@@ -13,11 +13,11 @@
                     <p:panel header="Registration form" id="registrationPanel">
                         <div class="ui-g">
                             <div class="ui-g-12 ui-md-3 ui-lg-3">
-                                <h:outputLabel value="Email:" for="email" />
-                            </div>
+                            <h:outputLabel value="Email:" for="email" />
+                        </div>
                             <div class="ui-g-12 ui-md-5 ui-lg-5">
                                 <p:inputText id="email" value="#{registrationView.form.email}"
-                                             required="false" placeholder="example@example.com" type="email" />
+                                             required="true" placeholder="example@example.com" type="email" requiredMessage="Nem Üres"/>
                             </div>
                             <div class="ui-g-12 ui-md-4 ui-lg-4">
                                 <p:message for="email" />

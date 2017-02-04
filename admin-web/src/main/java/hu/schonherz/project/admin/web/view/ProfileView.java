@@ -74,19 +74,19 @@ public class ProfileView {
     private void sendValidationMessages(MessageBinding messageBinding, FacesContext context) {
         String message;
         // Send e-mail validation message if there is one
-        if (messageBinding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.EMAIL)) {
-            message = messageBinding.getMessage(MessageBinding.MESSAGE_TYPES.EMAIL);
+        if (messageBinding.hasMessageOfType(MessageBinding.MessageType.EMAIL)) {
+            message = messageBinding.getMessage(MessageBinding.MessageType.EMAIL);
             context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
         
         // Send password validation message if there is one
-        if (messageBinding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.PASSWORD)) {
-            message = messageBinding.getMessage(MessageBinding.MESSAGE_TYPES.PASSWORD);
+        if (messageBinding.hasMessageOfType(MessageBinding.MessageType.PASSWORD)) {
+            message = messageBinding.getMessage(MessageBinding.MessageType.PASSWORD);
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
         //Send new password validation message if there is one
-        if (messageBinding.hasMessageOfType(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD)) {
-            message = messageBinding.getMessage(MessageBinding.MESSAGE_TYPES.NEW_PASSWORD);
+        if (messageBinding.hasMessageOfType(MessageBinding.MessageType.NEW_PASSWORD)) {
+            message = messageBinding.getMessage(MessageBinding.MessageType.NEW_PASSWORD);
             context.addMessage(NEWPASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, message));
         }
         
