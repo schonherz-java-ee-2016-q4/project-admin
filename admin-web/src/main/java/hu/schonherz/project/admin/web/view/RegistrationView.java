@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.web.encrypter.Encrypter;
 import hu.schonherz.project.admin.web.view.form.RegistrationForm;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,7 @@ public class RegistrationView {
         try {
             // Try to save user data
             UserVo userVo = form.getUserVo();
+            userVo.setPassword(Encrypter.encrypt(form.getUserVo().getPassword()));
             userServiceRemote.registrationUser(userVo);
 
             // Notify user about success and log it

@@ -19,9 +19,9 @@ public class ProfileForm extends UserForm {
     private String confirmNewPassword;
 
     public ProfileForm(final UserVo userVo) {
-        id = userVo.getId();
-        email = userVo.getEmail();
-        username = userVo.getUsername();
+        setId(userVo.getId());
+        setEmail(userVo.getEmail());
+        setUsername(userVo.getUsername());
     }
 
 }

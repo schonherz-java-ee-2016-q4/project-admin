@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.web.encrypter.Encrypter;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -51,17 +52,17 @@ public class ProfileView {
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
         // Password should match the one read from the database
-        if (!currentUserVo.getPassword().equals(profileForm.getPassword())) {
+        if (!Encrypter.match(currentUserVo.getPassword(), profileForm.getPassword())) {
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, INVALID_PASSWORD));
             return;
         }
-
         try {
             // Get user vo and set new password if given
             UserVo userVo = profileForm.getUserVo();
+            userVo.setPassword(currentUserVo.getPassword());
             String newPassword = profileForm.getNewPassword();
             if (newPassword != null && !newPassword.isEmpty()) {
-                userVo.setPassword(newPassword);
+                userVo.setPassword(Encrypter.encrypt(newPassword));
             }
 
             userServiceRemote.registrationUser(userVo);
