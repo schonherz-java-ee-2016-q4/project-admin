@@ -44,21 +44,21 @@ public class UsersView {
             users = new ArrayList<>();
         }
     }
-    
+
     public void deleteUser(UserVo userVo) {
         userServiceRemote.delete(userVo.getId());
     }
-    
+
     public void changeUserStatus(UserVo userVo) {
         userServiceRemote.changeStatus(userVo.getId());
+        init();
     }
-    
+
     public void resetUserPassword(UserVo userVo) {
         String generatedPassword = RandomStringUtils.randomAlphanumeric(8);
         encoder.encode(generatedPassword);
         //Need implementation
     }
-    
-    
+
 
 }
