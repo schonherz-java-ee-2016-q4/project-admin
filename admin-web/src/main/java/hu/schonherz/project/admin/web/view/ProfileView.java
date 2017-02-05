@@ -57,15 +57,7 @@ public class ProfileView {
             throw new IllegalStateException(message, e);
         }
     }
-    public void toggleChangePassword() {
-        disableNewPassword=!disableNewPassword;
-    }
-    public String changeLabel() {
-        if (disableNewPassword) {
-            return "Yes";
-        }
-        return "No";
-    }
+
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
         // Password should match the one read from the database

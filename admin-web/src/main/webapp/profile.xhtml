@@ -35,11 +35,22 @@
 								<p:password id="currentPassword"
 									value="#{profileView.profileForm.password}" required="true" />
 								<p:message for="currentPassword" />
-								<p:separator />
+							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-5,ui-grid-col-2,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
 								<h:outputText value="#{msg.label_is_new_password_needed}" />
-								<p:commandButton value="#{profileView.changeLabel()}"
-									update="profilePanel" process="@this"
-									actionListener="#{profileView.toggleChangePassword()}" />
+								<p:selectBooleanButton id="boolButton"
+									value="#{profileView.disableNewPassword}"
+									onLabel="#{msg.label_yes}" offLabel="#{msg.label_no}"
+									onIcon="ui-icon-check" offIcon="ui-icon-close">
+									<p:ajax update="profilePanel" />
+								</p:selectBooleanButton>
+								<p:separator />
+							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
 								<!-- New password -->
 								<p:outputLabel for="newPassword"
 									value="#{msg.field_password_new}" />
