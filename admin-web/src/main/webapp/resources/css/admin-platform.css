@@ -2,3 +2,15 @@
 	display: flex;
 	justify-content: center;
 }
+
+.user-table-content {
+	text-align: center;
+}
+
+.active-status {
+	color: #81c784;
+}
+
+.inactive-status {
+	color: #e57373;
+}

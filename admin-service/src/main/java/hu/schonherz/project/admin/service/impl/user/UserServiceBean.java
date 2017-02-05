@@ -58,4 +58,15 @@ public class UserServiceBean implements UserServiceLocal {
         return allEntities.stream().map(entity -> UserVoMapper.toVo(entity)).collect(Collectors.toList());
     }
 
+    @Override
+    public void delete(Long id) {
+        userRepository.delete(id);
+    }
+
+    @Override
+    public void changeStatus(Long id) {
+        UserEntity userEntity = userRepository.findOne(id);
+        userEntity.setActive(!(userEntity.isActive()));
+    }
+
 }

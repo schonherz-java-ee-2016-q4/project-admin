@@ -25,5 +25,5 @@ public class UserEntity extends BaseEntity implements Serializable{
     @Getter @Setter private String password;
     
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private boolean active;
+    @Getter @Setter private boolean active;
 }
