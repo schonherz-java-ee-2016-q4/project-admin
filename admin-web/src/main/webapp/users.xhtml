@@ -31,20 +31,24 @@
 					</p:column>
 					<p:column headerText="Settings">
 						<div class="user-table-content">
+                        
 							<!-- Edit button -->
 							<p:commandButton id="edit" icon="ui-icon-pencil">
 								<f:param name="id" value="#{user.id}" />
 							</p:commandButton>
+                            
 							<!-- Status button -->
 							<p:commandButton id="status" icon="ui-icon-power"
 								actionListener="#{usersView.changeUserStatus(user)}"
-								update=":form:user-table" process="@all">
+								update="form:user-table" process="@all">
 							</p:commandButton>
+                            
 							<!-- Reset password button -->
 							<p:commandButton id="resetPassword" icon="ui-icon-refresh"
 								actionListener="#{usersView.resetUserPassword(user)}"
-								update="form" >
+								update="form:user-table" >
 							</p:commandButton>
+                            
 							<!-- Delete button -->
 							<p:commandButton id="delete" icon="ui-icon-trash"
 								actionListener="#{usersView.deleteUser(user)}" update="form">
@@ -52,6 +56,7 @@
 								</p:confirm>
 							</p:commandButton>
 						</div>
+                        
 						<!-- Tooltips -->
 						<p:tooltip id="toolTipEdit" for="edit"
 							value="Edit #{user.username}'s datas" position="top" />
@@ -67,7 +72,7 @@
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
 					header="Delete this user?">
 					<p:commandButton value="Yes" type="button"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update="form:user-table"/>
 					<p:commandButton value="No" type="button"
 						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
 				</p:confirmDialog>
