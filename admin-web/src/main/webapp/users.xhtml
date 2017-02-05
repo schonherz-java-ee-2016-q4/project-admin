@@ -9,7 +9,7 @@
 	<ui:define name="customBody">
 		<h:form class="ui-g" id="form">
 			<div class="ui-g-9 ui-md-9 ui-lg-9">
-				<p:dataTable var="user" value="#{usersView.users}" id="user-table">
+				<p:dataTable var="user" value="#{usersView.users}" id="user-table" sortBy="${user.username}">
 					<p:column headerText="Username">
 						<div class="user-table-content">
 							<p:commandLink value="#{user.username}"
