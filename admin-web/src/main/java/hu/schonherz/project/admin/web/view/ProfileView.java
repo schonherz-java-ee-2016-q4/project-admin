@@ -12,6 +12,7 @@ import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataE
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.encrypter.Encrypter;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
+import java.util.ResourceBundle;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,23 +23,22 @@ import lombok.extern.slf4j.Slf4j;
 public class ProfileView {
 
     // Short messages
-    private static final String SUCCESS = "Success";
-    private static final String FAILURE = "Failure";
+    private static final String SUCCESS = "success_short";
+    private static final String FAILURE = "error_failure_short";
     // Detailed messages
-    private static final String SUCCESSFUL_CHANGING = "Your changes were successfully saved";
-    private static final String DUPLICATION_EMAIL = "Invalid email data, because it's already in use!";
-    private static final String INVALID_PASSWORD = "Invalid password";
+    private static final String SUCCESSFUL_CHANGING = "success_profile_changes";
+    private static final String DUPLICATION_EMAIL = "error_duplication_email";
+    private static final String INVALID_PASSWORD = "error_invalid_password";
     // Ids of message components
     private static final String BASE_COMP_ID = "profileForm:";
-    private static final String EMAIL_COMP_ID = BASE_COMP_ID + "email";
     private static final String PASSWORD_COMP_ID = BASE_COMP_ID + "currentPassword";
-    private static final String NEWPASSWORD_COMP_ID = BASE_COMP_ID + "newPassword";
     private static final String GLOBAL_COMP_ID = "profileForm";
 
     // Wired to the profile xhtml
     private ProfileForm profileForm;
     // Data of the currently edited user
     private UserVo currentUserVo;
+    private ResourceBundle localMessages;
 
     @EJB
     private UserServiceRemote userServiceRemote;
@@ -47,15 +47,24 @@ public class ProfileView {
     public void init() {
         currentUserVo = userServiceRemote.findAll().get(0);
         profileForm = new ProfileForm(currentUserVo);
+        try {
+            localMessages = ResourceBundle.getBundle("i18n.localization");
+        } catch (Exception e) {
+            String message = "Could not create resource bundle for localization messages!";
+            log.error(message, e);
+            throw new IllegalStateException(message, e);
+        }
     }
 
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
         // Password should match the one read from the database
         if (!Encrypter.match(currentUserVo.getPassword(), profileForm.getPassword())) {
-            context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, INVALID_PASSWORD));
+            context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    localMessages.getString(FAILURE), localMessages.getString(INVALID_PASSWORD)));
             return;
         }
+
         try {
             // Get user vo and set new password if given
             UserVo userVo = profileForm.getUserVo();
@@ -69,11 +78,15 @@ public class ProfileView {
             currentUserVo = userVo;
 
             // Notify user about success and log it
-            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO, SUCCESS, SUCCESSFUL_CHANGING));
+            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    localMessages.getString(SUCCESS), localMessages.getString(SUCCESSFUL_CHANGING)));
+
             log.info("User '{}' successfully changed his/her profile.", userVo.getUsername());
         } catch (InvalidUserDataException iude) {
             // Notify user about duplication and log it with details
-            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR, FAILURE, DUPLICATION_EMAIL));
+            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    localMessages.getString(FAILURE), localMessages.getString(DUPLICATION_EMAIL)));
+
             log.warn("Unsuccessful changing attempt with data:{}{} ", System.getProperty("line.separator"), profileForm);
             log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
         }
