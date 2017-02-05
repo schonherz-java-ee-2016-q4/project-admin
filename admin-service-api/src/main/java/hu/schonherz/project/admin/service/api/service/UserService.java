@@ -9,4 +9,5 @@ public interface UserService {
     List<UserVo> findAll();
     void delete(Long id);
     void changeStatus(Long id);
+    void resetPassword(Long id);
 }

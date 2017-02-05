@@ -11,10 +11,12 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import hu.schonherz.project.admin.data.entity.UserEntity;
 import hu.schonherz.project.admin.data.repository.UserRepository;
@@ -29,6 +31,7 @@ import hu.schonherz.project.admin.service.mapper.user.UserVoMapper;
 public class UserServiceBean implements UserServiceLocal {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceBean.class);
+    private static final BCryptPasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
     @Autowired
     private UserRepository userRepository;
@@ -67,6 +70,17 @@ public class UserServiceBean implements UserServiceLocal {
     public void changeStatus(Long id) {
         UserEntity userEntity = userRepository.findOne(id);
         userEntity.setActive(!(userEntity.isActive()));
+    }
+
+    @Override
+    public void resetPassword(Long id) {
+        final int passwordLength = 8;
+        UserEntity userEntity = userRepository.findOne(id);
+        String generatedPassword = RandomStringUtils.randomAlphanumeric(passwordLength);
+        String hashedPassword = ENCODER.encode(generatedPassword);
+        LOG.info("The generated password is: {}", generatedPassword);
+        LOG.info("The hashed password is: {}", hashedPassword);
+        userEntity.setPassword(hashedPassword);
     }
 
 }
