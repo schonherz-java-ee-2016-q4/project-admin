@@ -36,6 +36,7 @@ public class ProfileView {
 
     // Wired to the profile xhtml
     private ProfileForm profileForm;
+    private boolean disableNewPassword;
     // Data of the currently edited user
     private UserVo currentUserVo;
     private ResourceBundle localMessages;
@@ -47,6 +48,7 @@ public class ProfileView {
     public void init() {
         currentUserVo = userServiceRemote.findAll().get(0);
         profileForm = new ProfileForm(currentUserVo);
+        disableNewPassword=true;
         try {
             localMessages = ResourceBundle.getBundle("i18n.localization");
         } catch (Exception e) {
@@ -55,7 +57,15 @@ public class ProfileView {
             throw new IllegalStateException(message, e);
         }
     }
-
+    public void toggleChangePassword() {
+        disableNewPassword=!disableNewPassword;
+    }
+    public String changeLabel() {
+        if (disableNewPassword) {
+            return "Yes";
+        }
+        return "No";
+    }
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
         // Password should match the one read from the database
@@ -70,7 +80,7 @@ public class ProfileView {
             UserVo userVo = profileForm.getUserVo();
             userVo.setPassword(currentUserVo.getPassword());
             String newPassword = profileForm.getNewPassword();
-            if (newPassword != null && !newPassword.isEmpty()) {
+            if (!disableNewPassword) {
                 userVo.setPassword(Encrypter.encrypt(newPassword));
             }
 
