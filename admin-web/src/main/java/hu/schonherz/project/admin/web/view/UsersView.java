@@ -8,19 +8,16 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import lombok.Data;
+import lombok.NonNull;
 
 @ManagedBean(name = "usersView")
 @ViewScoped
 @Data
 public class UsersView {
 
-    private static BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
     private List<UserVo> users;
 
     @EJB
@@ -45,20 +42,19 @@ public class UsersView {
         }
     }
 
-    public void deleteUser(UserVo userVo) {
+    public void deleteUser(@NonNull final UserVo userVo) {
         userServiceRemote.delete(userVo.getId());
+        init();
     }
 
-    public void changeUserStatus(UserVo userVo) {
+    public void changeUserStatus(@NonNull final UserVo userVo) {
         userServiceRemote.changeStatus(userVo.getId());
         init();
     }
 
-    public void resetUserPassword(UserVo userVo) {
-        String generatedPassword = RandomStringUtils.randomAlphanumeric(8);
-        encoder.encode(generatedPassword);
-        //Need implementation
+    public void resetUserPassword(@NonNull final UserVo userVo) {
+        userServiceRemote.resetPassword(userVo.getId());
+        init();
     }
-
 
 }

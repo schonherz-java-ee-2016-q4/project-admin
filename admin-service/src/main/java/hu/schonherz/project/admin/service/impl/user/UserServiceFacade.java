@@ -53,4 +53,10 @@ public class UserServiceFacade implements UserServiceRemote {
         realService.changeStatus(id);
     }
 
+    @Override
+    public void resetPassword(Long id) {
+        realService.resetPassword(id);
+        
+    }
+
 }
