@@ -9,40 +9,49 @@
 	<ui:define name="customBody">
 		<h:form class="ui-g" id="form">
 			<div class="ui-g-9 ui-md-9 ui-lg-9">
-				<p:dataTable var="user" value="#{usersView.users}">
+				<p:dataTable var="user" value="#{usersView.users}" id="user-table">
 					<p:column headerText="Username">
-						<p:commandLink value="#{user.username}"
-							action="#{messageboardBean.showThread()}">
-							<f:param name="id" value="#{user.id}" />
-						</p:commandLink>
+						<div class="user-table-content">
+							<p:commandLink value="#{user.username}"
+								action="#{messageboardBean.showThread()}">
+								<f:param name="id" value="#{user.id}" />
+							</p:commandLink>
+						</div>
 					</p:column>
-					<p:column headerText="Email">
-						<h:outputText value="#{user.email}" />
+					<p:column headerText="Email" priority="3">
+						<div class="user-table-content">
+							<h:outputText value="#{user.email}" />
+						</div>
 					</p:column>
-					<p:column headerText="Status">
-						<h:outputText value="#{user.active ? 'Active' : 'Inactive'}" />
+					<p:column headerText="Status" priority="2">
+						<div
+							class="user-table-content #{user.active ? 'active-status' : 'inactive-status'}">
+							<h:outputText value="#{user.active ? 'Active' : 'Inactive'}" />
+						</div>
 					</p:column>
 					<p:column headerText="Settings">
-						<!-- Edit button -->
-						<p:commandButton id="edit" icon="ui-icon-pencil">
-							<f:param name="id" value="#{user.id}" />
-						</p:commandButton>
-						<!-- Status button -->
-						<p:commandButton id="status" icon="ui-icon-power"
-							actionListener="#{usersView.changeUserStatus(user)}"
-							update="form">
-						</p:commandButton>
-						<!-- Reset password button -->
-						<p:commandButton id="resetPassword" icon="ui-icon-refresh"
-							actionListener="#{usersView.resetUserPassword(user)}"
-							update="form">
-						</p:commandButton>
-						<!-- Delete button -->
-						<p:commandButton id="delete" icon="ui-icon-trash"
-							actionListener="#{usersView.deleteUser(user)}" update="form">
-							<p:confirm message="Are you sure?">
-							</p:confirm>
-						</p:commandButton>
+						<div class="user-table-content">
+							<!-- Edit button -->
+							<p:commandButton id="edit" icon="ui-icon-pencil">
+								<f:param name="id" value="#{user.id}" />
+							</p:commandButton>
+							<!-- Status button -->
+							<p:commandButton id="status" icon="ui-icon-power"
+								actionListener="#{usersView.changeUserStatus(user)}"
+								update=":form:user-table" process="@all">
+							</p:commandButton>
+							<!-- Reset password button -->
+							<p:commandButton id="resetPassword" icon="ui-icon-refresh"
+								actionListener="#{usersView.resetUserPassword(user)}"
+								update="form" >
+							</p:commandButton>
+							<!-- Delete button -->
+							<p:commandButton id="delete" icon="ui-icon-trash"
+								actionListener="#{usersView.deleteUser(user)}" update="form">
+								<p:confirm message="Are you sure?">
+								</p:confirm>
+							</p:commandButton>
+						</div>
 						<!-- Tooltips -->
 						<p:tooltip id="toolTipEdit" for="edit"
 							value="Edit #{user.username}'s datas" position="top" />
@@ -56,7 +65,7 @@
 					</p:column>
 				</p:dataTable>
 				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
-					header="Delete #{user.username}?">
+					header="Delete this user?">
 					<p:commandButton value="Yes" type="button"
 						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
 					<p:commandButton value="No" type="button"
