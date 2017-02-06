@@ -1,82 +1,96 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
-	template="/resources/templates/masterLayout.xhtml">
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="/resources/templates/masterLayout.xhtml">
 
-	<ui:define name="customTitle">Users page</ui:define>
-	<ui:define name="customBody">
-		<h:form class="ui-g" id="form">
-			<div class="ui-g-9 ui-md-9 ui-lg-9">
-				<p:dataTable var="user" value="#{usersView.users}" id="user-table" sortBy="${user.username}">
-					<p:column headerText="Username">
-						<div class="user-table-content">
-							<p:commandLink value="#{user.username}"
-								action="#{messageboardBean.showThread()}">
-								<f:param name="id" value="#{user.id}" />
-							</p:commandLink>
-						</div>
-					</p:column>
-					<p:column headerText="Email" priority="3">
-						<div class="user-table-content">
-							<h:outputText value="#{user.email}" />
-						</div>
-					</p:column>
-					<p:column headerText="Status" priority="2">
-						<div
-							class="user-table-content #{user.active ? 'active-status' : 'inactive-status'}">
-							<h:outputText value="#{user.active ? 'Active' : 'Inactive'}" />
-						</div>
-					</p:column>
-					<p:column headerText="Settings">
-						<div class="user-table-content">
-                        
-							<!-- Edit button -->
-							<p:commandButton id="edit" icon="ui-icon-pencil">
-								<f:param name="id" value="#{user.id}" />
-							</p:commandButton>
-                            
-							<!-- Status button -->
-							<p:commandButton id="status" icon="ui-icon-power"
-								actionListener="#{usersView.changeUserStatus(user)}"
-								update="user-table" process="@all">
-							</p:commandButton>
-                            
-							<!-- Reset password button -->
-							<p:commandButton id="resetPassword" icon="ui-icon-refresh"
-								actionListener="#{usersView.resetUserPassword(user)}"
-								update="user-table" >
-							</p:commandButton>
-                            
-							<!-- Delete button -->
-							<p:commandButton id="delete" icon="ui-icon-trash"
-								actionListener="#{usersView.deleteUser(user)}" update="user-table" process="@all">
-								<p:confirm message="Are you sure?">
-								</p:confirm>
-							</p:commandButton>
-						</div>
-                        
-						<!-- Tooltips -->
-						<p:tooltip id="toolTipEdit" for="edit"
-							value="Edit #{user.username}'s datas" position="top" />
-						<p:tooltip id="toolTipStatus" for="status"
-							value="#{user.active ? 'Deactivate' : 'Activate'} #{user.username}"
-							position="top" />
-						<p:tooltip id="toolTipResetPassword" for="resetPassword"
-							value="Reset #{user.username}'s password" position="top" />
-						<p:tooltip id="toolTipDelete" for="delete"
-							value="Delete #{user.username}" position="top" />
-					</p:column>
-				</p:dataTable>
-				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
-					header="Delete this user?">
-					<p:commandButton value="Yes" type="button"
-						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-					<p:commandButton value="No" type="button"
-						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-				</p:confirmDialog>
-			</div>
-		</h:form>
-	</ui:define>
+    <ui:define name="customTitle">Users page</ui:define>
+    <ui:define name="customBody">
+        <h:form class="ui-g" id="form">
+            <p:growl id="growl" showDetail="true" />
+            <div class="ui-g-9 ui-md-9 ui-lg-9">
+                <p:dataTable var="user" value="#{usersView.users}"
+                    id="user-table" sortBy="${user.username}">
+                    <p:column headerText="Username">
+                        <div class="user-table-content">
+                            <p:commandLink value="#{user.username}"
+                                action="#{messageboardBean.showThread()}">
+                                <f:param name="id" value="#{user.id}" />
+                            </p:commandLink>
+                        </div>
+                    </p:column>
+                    <p:column headerText="Email" priority="3">
+                        <div class="user-table-content">
+                            <h:outputText value="#{user.email}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="Status" priority="2">
+                        <div
+                            class="user-table-content #{user.active ? 'active-status' : 'inactive-status'}">
+                            <h:outputText
+                                value="#{user.active ? 'Active' : 'Inactive'}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="Settings">
+                        <div class="user-table-content">
+
+                            <!-- Edit button -->
+                            <p:commandButton id="edit"
+                                icon="ui-icon-pencil">
+                                <f:param name="id" value="#{user.id}" />
+                            </p:commandButton>
+
+                            <!-- Status button -->
+                            <p:commandButton id="status"
+                                icon="ui-icon-power"
+                                actionListener="#{usersView.changeUserStatus(user)}"
+                                update="user-table form:growl" process="@all">
+                            </p:commandButton>
+
+                            <!-- Reset password button -->
+                            <p:commandButton id="resetPassword"
+                                icon="ui-icon-refresh"
+                                actionListener="#{usersView.resetUserPassword(user)}"
+                                update="user-table">
+                            </p:commandButton>
+
+                            <!-- Delete button -->
+                            <p:commandButton id="delete"
+                                icon="ui-icon-trash"
+                                actionListener="#{usersView.deleteUser(user)}"
+                                update="user-table" process="@all">
+                                <p:confirm message="Are you sure?">
+                                </p:confirm>
+                            </p:commandButton>
+                        </div>
+
+                        <!-- Tooltips -->
+                        <p:tooltip id="toolTipEdit" for="edit"
+                            value="Edit #{user.username}'s datas"
+                            position="top" />
+                        <p:tooltip id="toolTipStatus" for="status"
+                            value="#{user.active ? 'Deactivate' : 'Activate'} #{user.username}"
+                            position="top" />
+                        <p:tooltip id="toolTipResetPassword"
+                            for="resetPassword"
+                            value="Reset #{user.username}'s password"
+                            position="top" />
+                        <p:tooltip id="toolTipDelete" for="delete"
+                            value="Delete #{user.username}"
+                            position="top" />
+                    </p:column>
+                </p:dataTable>
+                <p:confirmDialog global="true" showEffect="fade"
+                    hideEffect="fade" header="Delete this user?">
+                    <p:commandButton value="Yes" type="button"
+                        styleClass="ui-confirmdialog-yes"
+                        icon="ui-icon-check" />
+                    <p:commandButton value="No" type="button"
+                        styleClass="ui-confirmdialog-no"
+                        icon="ui-icon-close" />
+                </p:confirmDialog>
+            </div>
+        </h:form>
+    </ui:define>
 </ui:composition>

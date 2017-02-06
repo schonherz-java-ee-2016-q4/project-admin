@@ -1,5 +1,7 @@
 package hu.schonherz.project.admin.web.view;
 
+import java.util.ResourceBundle;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -7,12 +9,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
-import hu.schonherz.project.admin.web.encrypter.Encrypter;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
-import java.util.ResourceBundle;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
