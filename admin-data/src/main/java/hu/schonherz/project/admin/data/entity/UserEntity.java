@@ -35,7 +35,7 @@ public class UserEntity extends BaseEntity implements Serializable {
     @Setter
     private boolean active;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "VARCHAR(15) DEFAULT 'AGENT'")
     @Getter
     @Setter
     private String userRole;

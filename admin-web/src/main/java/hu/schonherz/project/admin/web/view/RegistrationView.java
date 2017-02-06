@@ -12,6 +12,7 @@ import javax.faces.context.FacesContext;
 import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.InvalidUserDataException;
+import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.RegistrationForm;
 import lombok.Data;
@@ -55,8 +56,10 @@ public class RegistrationView {
         FacesContext context = FacesContext.getCurrentInstance();
 
         try {
-            // Try to save user data
             UserVo userVo = form.getUserVo();
+            setDefaultValues(userVo);
+
+            // Try to save user data
             userVo.setPassword(Encrypter.encrypt(form.getUserVo().getPassword()));
             userServiceRemote.registrationUser(userVo);
 
@@ -73,6 +76,11 @@ public class RegistrationView {
             log.warn("Unsuccessful registration attempt with data:{}{} ", System.getProperty("line.separator"), form);
             log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
         }
+    }
+
+    private void setDefaultValues(UserVo vo) {
+        vo.setActive(true);
+        vo.setUserRole(UserRole.AGENT);
     }
 
 }

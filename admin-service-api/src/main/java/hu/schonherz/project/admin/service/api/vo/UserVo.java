@@ -4,22 +4,16 @@ import java.io.Serializable;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
+@NoArgsConstructor
 public class UserVo extends BaseVo implements Serializable {
 
     private static final long serialVersionUID = 4339751308790693753L;
-
-    public UserVo() {
-        active = true;
-        userRole = UserRole.AGENT;
-        email = null;
-        username = null;
-        password = null;
-    }
 
     @Getter
     @Setter
