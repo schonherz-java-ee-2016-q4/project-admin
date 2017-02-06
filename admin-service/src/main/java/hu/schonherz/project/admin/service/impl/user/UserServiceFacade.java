@@ -44,17 +44,17 @@ public class UserServiceFacade implements UserServiceRemote {
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(final Long id) {
         realService.delete(id);
     }
 
     @Override
-    public void changeStatus(Long id) {
+    public void changeStatus(final Long id) {
         realService.changeStatus(id);
     }
 
     @Override
-    public void resetPassword(Long id) {
+    public void resetPassword(final Long id) {
         realService.resetPassword(id);
         
     }
