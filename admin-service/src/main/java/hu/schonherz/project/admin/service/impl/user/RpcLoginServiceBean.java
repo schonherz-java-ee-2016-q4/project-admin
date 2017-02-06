@@ -8,20 +8,16 @@ import hu.schonherz.project.admin.service.api.vo.UserVo;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.jws.WebMethod;
-import javax.jws.WebService;
 import lombok.NonNull;
 
 @Stateless(mappedName = "RpcLoginService")
 @Remote(RpcLoginServiceRemote.class)
-@WebService(serviceName = "RpcLogin")
 public class RpcLoginServiceBean implements RpcLoginServiceRemote {
 
     @EJB
     private UserServiceLocal userService;
 
     @Override
-    @WebMethod(operationName = "login")
     public UserVo rpcLogin(@NonNull String username, @NonNull String plainTextPassword) throws FailedRpcLoginAttemptException {
         if (username.isEmpty() || plainTextPassword.isEmpty()) {
             throw new IllegalArgumentException("Username and password must not be empty string!");
