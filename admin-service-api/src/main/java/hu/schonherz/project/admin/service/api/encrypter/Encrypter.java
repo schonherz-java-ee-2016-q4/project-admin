@@ -1,4 +1,4 @@
-package hu.schonherz.project.admin.web.encrypter;
+package hu.schonherz.project.admin.service.api.encrypter;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
