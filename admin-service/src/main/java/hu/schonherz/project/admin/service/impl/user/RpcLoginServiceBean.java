@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.service.impl.user;
 
+import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
 import hu.schonherz.project.admin.service.api.rpc.RpcLoginServiceRemote;
 import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
@@ -19,13 +20,24 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
 
     @Override
     @WebMethod(operationName = "login")
-    public String rpcLogin(String username, String password) {
+    public String rpcLogin(String username, String plainTextPassword) {
         UserVo user = userService.findByUsername(username);
         if (user == null) {
             throw new IllegalArgumentException("The user " + username + " does not exist!");
         }
 
-        return null;
+        String encryptedGivenPassword = Encrypter.encrypt(plainTextPassword);
+        String encryptedUserPassword = user.getPassword();
+
+        if (!Encrypter.match(encryptedUserPassword, encryptedGivenPassword)) {
+            throw new IllegalArgumentException("Invalid password!");
+        }
+
+        if (!user.isActive()) {
+            throw new IllegalArgumentException("User " + username + " is inactive!");
+        }
+
+        return user.getUserRole();
     }
 
 }
