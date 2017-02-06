@@ -59,4 +59,9 @@ public class UserServiceFacade implements UserServiceRemote {
         
     }
 
+    @Override
+    public UserVo findById(Long id) {
+        return realService.findById(id);
+    }
+
 }

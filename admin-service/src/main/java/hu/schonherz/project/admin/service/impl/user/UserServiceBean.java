@@ -84,4 +84,9 @@ public class UserServiceBean implements UserServiceLocal {
         MailSender.sendFromGmail(userEntity.getEmail(), generatedPassword);
     }
 
+    @Override
+    public UserVo findById(Long id) {
+        return UserVoMapper.toVo(userRepository.findOne(id));
+    }
+
 }
