@@ -48,20 +48,20 @@ public class UsersView {
         userServiceRemote.delete(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Done!",  "The user is deleted."));
+        context.addMessage(null, new FacesMessage("Done!", "The user is deleted."));
     }
 
     public void changeUserStatus(@NonNull final UserVo userVo) {
         userServiceRemote.changeStatus(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Done!",  "The user status is updated!"));
+        context.addMessage(null, new FacesMessage("Done!", "The user status is updated!"));
     }
 
     public void resetUserPassword(@NonNull final UserVo userVo) {
         userServiceRemote.resetPassword(userVo.getId());
         init();
-        FacesContext context = FacesContext.getCurrentInstance();
+//        FacesContext context = FacesContext.getCurrentInstance();
     }
 
 }

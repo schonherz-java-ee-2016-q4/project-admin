@@ -13,7 +13,7 @@ import javax.jws.WebService;
 import lombok.NonNull;
 
 @Stateless(mappedName = "RpcLoginService")
-@Remote(UserServiceLocal.class)
+@Remote(RpcLoginServiceRemote.class)
 @WebService(serviceName = "RpcLogin")
 public class RpcLoginServiceBean implements RpcLoginServiceRemote {
 
