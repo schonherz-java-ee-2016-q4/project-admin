@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.service.api.vo;
 
+import hu.schonherz.project.admin.service.api.service.UserService;
 import java.io.Serializable;
 
 import lombok.EqualsAndHashCode;
@@ -10,10 +11,17 @@ import lombok.ToString;
 
 @EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
-@NoArgsConstructor
 public class UserVo extends BaseVo implements Serializable {
 
     private static final long serialVersionUID = 4339751308790693753L;
+
+    public UserVo() {
+        active = true;
+        userRole = UserService.ROLE_AGENT;
+        email = null;
+        username = null;
+        password = null;
+    }
 
     @Getter
     @Setter
@@ -27,4 +35,8 @@ public class UserVo extends BaseVo implements Serializable {
     @Getter
     @Setter
     private boolean active;
+    @Getter
+    @Setter
+    private String userRole;
+
 }
