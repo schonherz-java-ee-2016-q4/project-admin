@@ -1,4 +1,4 @@
-package hu.schonherz.project.admin.service.api.service.exception;
+package hu.schonherz.project.admin.service.api.service;
 
 public class InvalidUserDataException extends Exception {
 

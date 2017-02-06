@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
-import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
+import hu.schonherz.project.admin.service.api.service.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 
 @Stateless(mappedName = "UserServiceFacade")

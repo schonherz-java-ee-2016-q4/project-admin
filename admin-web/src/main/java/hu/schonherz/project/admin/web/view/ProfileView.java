@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
-import hu.schonherz.project.admin.service.api.service.exception.InvalidUserDataException;
+import hu.schonherz.project.admin.service.api.service.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
 import lombok.Data;
