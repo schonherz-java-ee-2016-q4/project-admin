@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
@@ -45,16 +47,21 @@ public class UsersView {
     public void deleteUser(@NonNull final UserVo userVo) {
         userServiceRemote.delete(userVo.getId());
         init();
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Done!",  "The user is deleted."));
     }
 
     public void changeUserStatus(@NonNull final UserVo userVo) {
         userServiceRemote.changeStatus(userVo.getId());
         init();
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Done!",  "The user status is updated!"));
     }
 
     public void resetUserPassword(@NonNull final UserVo userVo) {
         userServiceRemote.resetPassword(userVo.getId());
         init();
+        FacesContext context = FacesContext.getCurrentInstance();
     }
 
 }
