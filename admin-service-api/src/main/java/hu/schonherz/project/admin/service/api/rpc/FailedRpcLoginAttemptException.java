@@ -1,12 +1,14 @@
 package hu.schonherz.project.admin.service.api.rpc;
 
+import lombok.NonNull;
+
 public class FailedRpcLoginAttemptException extends Exception {
 
-    public FailedRpcLoginAttemptException(String message) {
+    public FailedRpcLoginAttemptException(@NonNull final String message) {
         super(message);
     }
 
-    public FailedRpcLoginAttemptException(String message, Throwable cause) {
+    public FailedRpcLoginAttemptException(@NonNull final String message, @NonNull final Throwable cause) {
         super(message, cause);
     }
 

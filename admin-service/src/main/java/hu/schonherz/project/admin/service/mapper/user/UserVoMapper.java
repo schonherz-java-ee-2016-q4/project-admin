@@ -9,12 +9,20 @@ import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 
 import hu.schonherz.project.admin.data.entity.UserEntity;
+import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import java.util.Arrays;
 import lombok.NonNull;
 
 public final class UserVoMapper {
 
-    static Mapper mapper = new DozerBeanMapper();
+    static Mapper mapper;
+
+    static {
+        DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
+        dozerBeanMapper.setCustomConverters(Arrays.asList(new UserRoleConverter(String.class, UserRole.class)));
+        mapper = dozerBeanMapper;
+    }
 
     private UserVoMapper() {
     }

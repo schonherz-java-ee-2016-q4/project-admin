@@ -22,7 +22,7 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
 
     @Override
     @WebMethod(operationName = "login")
-    public String rpcLogin(@NonNull String username, @NonNull String plainTextPassword) throws FailedRpcLoginAttemptException {
+    public UserVo rpcLogin(@NonNull String username, @NonNull String plainTextPassword) throws FailedRpcLoginAttemptException {
         if (username.isEmpty() || plainTextPassword.isEmpty()) {
             throw new IllegalArgumentException("Username and password must not be empty string!");
         }
@@ -43,7 +43,7 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
             throw new FailedRpcLoginAttemptException("User " + username + " is inactive!");
         }
 
-        return user.getUserRole();
+        return user;
     }
 
 }

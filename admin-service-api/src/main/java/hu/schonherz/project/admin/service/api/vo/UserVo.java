@@ -1,11 +1,9 @@
 package hu.schonherz.project.admin.service.api.vo;
 
-import hu.schonherz.project.admin.service.api.service.UserService;
 import java.io.Serializable;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,7 +15,7 @@ public class UserVo extends BaseVo implements Serializable {
 
     public UserVo() {
         active = true;
-        userRole = UserService.ROLE_AGENT;
+        userRole = UserRole.AGENT;
         email = null;
         username = null;
         password = null;
@@ -37,6 +35,6 @@ public class UserVo extends BaseVo implements Serializable {
     private boolean active;
     @Getter
     @Setter
-    private String userRole;
+    private UserRole userRole;
 
 }
