@@ -47,7 +47,9 @@ public class ProfileView {
 
     @PostConstruct
     public void init() {
-        currentUserVo = userServiceRemote.findAll().get(0);
+        Long userId = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
+        log.info("UserId value: {}", userId);
+        currentUserVo = userServiceRemote.findById(userId);
         profileForm = new ProfileForm(currentUserVo);
         disableNewPassword=true;
         try {
