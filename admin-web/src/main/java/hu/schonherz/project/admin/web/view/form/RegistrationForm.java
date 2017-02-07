@@ -1,14 +1,16 @@
 package hu.schonherz.project.admin.web.view.form;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class RegistrationForm extends UserForm {
 
-    @Getter
-    @Setter
     private String confirmPassword;
 
 }

@@ -14,7 +14,7 @@ import hu.schonherz.project.admin.service.api.vo.UserVo;
 import java.util.Arrays;
 import lombok.NonNull;
 
-public final class UserVoMapper {
+public final class UserEntityVoMapper {
 
     private static final Mapper MAPPER;
 
@@ -24,7 +24,7 @@ public final class UserVoMapper {
         MAPPER = dozerBeanMapper;
     }
 
-    private UserVoMapper() {
+    private UserEntityVoMapper() {
     }
 
     public static UserVo toVo(@NonNull final UserEntity userEntity) {
