@@ -78,7 +78,7 @@ public class RegistrationView {
         }
     }
 
-    private void setDefaultValues(UserVo vo) {
+    private void setDefaultValues(final UserVo vo) {
         vo.setActive(true);
         vo.setUserRole(UserRole.AGENT);
     }

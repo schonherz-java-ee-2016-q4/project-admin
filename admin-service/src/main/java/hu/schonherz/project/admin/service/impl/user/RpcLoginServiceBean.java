@@ -18,7 +18,7 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
     private UserServiceLocal userService;
 
     @Override
-    public UserVo rpcLogin(@NonNull String username, @NonNull String plainTextPassword) throws FailedRpcLoginAttemptException {
+    public UserVo rpcLogin(@NonNull final String username, @NonNull final String plainTextPassword) throws FailedRpcLoginAttemptException {
         if (username.isEmpty() || plainTextPassword.isEmpty()) {
             throw new IllegalArgumentException("Username and password must not be empty string!");
         }

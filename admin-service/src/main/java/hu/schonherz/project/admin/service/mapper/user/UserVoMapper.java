@@ -16,26 +16,26 @@ import lombok.NonNull;
 
 public final class UserVoMapper {
 
-    static Mapper mapper;
+    private static final Mapper MAPPER;
 
     static {
         DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
         dozerBeanMapper.setCustomConverters(Arrays.asList(new UserRoleConverter(String.class, UserRole.class)));
-        mapper = dozerBeanMapper;
+        MAPPER = dozerBeanMapper;
     }
 
     private UserVoMapper() {
     }
 
-    public static UserVo toVo(@NonNull UserEntity userEntity) {
-        return mapper.map(userEntity, UserVo.class);
+    public static UserVo toVo(@NonNull final UserEntity userEntity) {
+        return MAPPER.map(userEntity, UserVo.class);
     }
 
-    public static UserEntity toEntity(@NonNull UserVo userVo) {
-        return mapper.map(userVo, UserEntity.class);
+    public static UserEntity toEntity(@NonNull final UserVo userVo) {
+        return MAPPER.map(userVo, UserEntity.class);
     }
 
-    public static List<UserVo> toVo(@NonNull Collection<UserEntity> entities) {
+    public static List<UserVo> toVo(@NonNull final Collection<UserEntity> entities) {
         if (entities.isEmpty()) {
             return new ArrayList<>();
         }
@@ -45,7 +45,7 @@ public final class UserVoMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<UserEntity> toEntity(@NonNull Collection<UserVo> vos) {
+    public static List<UserEntity> toEntity(@NonNull final Collection<UserVo> vos) {
         if (vos.isEmpty()) {
             return new ArrayList<>();
         }

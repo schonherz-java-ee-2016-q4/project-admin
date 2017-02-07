@@ -13,9 +13,12 @@ import javax.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class MailSender {
+public final class MailSender {
 
     private static Properties properties;
+
+    private MailSender() {
+    }
 
     private static void setGmailProperties() {
         properties = new Properties();

@@ -14,10 +14,7 @@
                     id="user-table" sortBy="${user.username}">
                     <p:column headerText="Username">
                         <div class="user-table-content">
-                            <p:commandLink value="#{user.username}"
-                                action="#{messageboardBean.showThread()}">
-                                <f:param name="id" value="#{user.id}" />
-                            </p:commandLink>
+                            <h:outputText value="#{user.username}" />
                         </div>
                     </p:column>
                     <p:column headerText="Email" priority="3">
@@ -36,30 +33,33 @@
                         <div class="user-table-content">
 
                             <!-- Edit button -->
-                            <p:commandButton id="edit"
-                                icon="ui-icon-pencil">
-                                <f:param name="id" value="#{user.id}" />
-                            </p:commandButton>
+                            <p:button id="edit" icon="ui-icon-pencil"
+                                outcome="profile">
+                                <f:param name="id"
+                                    value="#{user.id}" />
+                            </p:button>
 
                             <!-- Status button -->
                             <p:commandButton id="status"
                                 icon="ui-icon-power"
                                 actionListener="#{usersView.changeUserStatus(user)}"
-                                update="user-table form:growl" process="@all">
+                                update="user-table form:growl"
+                                process="@all">
                             </p:commandButton>
 
                             <!-- Reset password button -->
                             <p:commandButton id="resetPassword"
                                 icon="ui-icon-refresh"
                                 actionListener="#{usersView.resetUserPassword(user)}"
-                                update="user-table">
+                                update="user-table form:growl">
                             </p:commandButton>
 
                             <!-- Delete button -->
                             <p:commandButton id="delete"
                                 icon="ui-icon-trash"
                                 actionListener="#{usersView.deleteUser(user)}"
-                                update="user-table" process="@all">
+                                update="user-table form:growl"
+                                process="@all">
                                 <p:confirm message="Are you sure?">
                                 </p:confirm>
                             </p:commandButton>

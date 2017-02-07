@@ -37,31 +37,36 @@ public class UsersView {
         }
     }
 
-    /* This method is here only to convince the pmd that the 'users' list should be a field not a local variable. */
-    public void temp() {
-        if (users == null) {
-            users = new ArrayList<>();
-        }
-    }
-
+    /*
+     * This method is here only to convince the pmd that the 'users' list should
+     * be a field not a local variable.
+     */
+//    public void temp() {
+//        if (users == null) {
+//            users = new ArrayList<>();
+//        }
+//    }
     public void deleteUser(@NonNull final UserVo userVo) {
         userServiceRemote.delete(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Done!", "The user is deleted."));
+        context.addMessage(null, new FacesMessage("Done!", userVo.getUsername() + " is deleted."));
     }
 
     public void changeUserStatus(@NonNull final UserVo userVo) {
         userServiceRemote.changeStatus(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Done!", "The user status is updated!"));
+        context.addMessage(null, new FacesMessage("Done!",
+                userVo.getUsername() + " is " + (!userVo.isActive() ? "active" : "inactive") + " now"));
     }
 
     public void resetUserPassword(@NonNull final UserVo userVo) {
         userServiceRemote.resetPassword(userVo.getId());
         init();
-//        FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null,
+                new FacesMessage("Done!", "Password is default now. Email was sent to " + userVo.getUsername()));
     }
 
 }

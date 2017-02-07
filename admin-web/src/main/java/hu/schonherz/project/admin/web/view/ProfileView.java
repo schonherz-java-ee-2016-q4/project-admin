@@ -31,8 +31,7 @@ public class ProfileView {
     private static final String DUPLICATION_EMAIL = "error_duplication_email";
     private static final String INVALID_PASSWORD = "error_invalid_password";
     // Ids of message components
-    private static final String BASE_COMP_ID = "profileForm:";
-    private static final String PASSWORD_COMP_ID = BASE_COMP_ID + "currentPassword";
+    private static final String PASSWORD_COMP_ID = "profileForm:currentPassword";
     private static final String GLOBAL_COMP_ID = "profileForm";
 
     // Wired to the profile xhtml
@@ -47,9 +46,11 @@ public class ProfileView {
 
     @PostConstruct
     public void init() {
-        currentUserVo = userServiceRemote.findAll().get(0);
+        Long userId = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
+        log.info("UserId value: {}", userId);
+        currentUserVo = userServiceRemote.findById(userId);
         profileForm = new ProfileForm(currentUserVo);
-        disableNewPassword=true;
+        disableNewPassword = true;
         try {
             localMessages = ResourceBundle.getBundle("i18n.localization");
         } catch (Exception e) {
