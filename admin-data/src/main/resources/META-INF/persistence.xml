@@ -6,8 +6,9 @@
     <persistence-unit name="hu.schonherz.project.admin.data.jpa" transaction-type="JTA">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <jta-data-source>java:jboss/datasources/Admin</jta-data-source>
-        <class>hu.schonherz.project.admin.data.entity.TestEntity</class>
-        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <class>hu.schonherz.project.admin.data.entity.BaseEntity</class>
+        <class>hu.schonherz.project.admin.data.entity.UserEntity</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <properties>
             <property name="hibernate.show_sql" value="true" />

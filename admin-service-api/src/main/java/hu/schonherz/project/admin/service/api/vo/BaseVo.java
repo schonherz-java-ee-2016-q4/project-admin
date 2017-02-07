@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class TestBaseVo implements Serializable {
+public class BaseVo implements Serializable {
 
     private static final long serialVersionUID = -3097333328363375029L;
 

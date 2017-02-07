@@ -11,14 +11,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @MappedSuperclass
-public class BaseEntity implements Serializable{
+public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @Getter @Setter private Long id;
-    
-    
-    
+    @Getter
+    @Setter
+    private Long id;
+
 }

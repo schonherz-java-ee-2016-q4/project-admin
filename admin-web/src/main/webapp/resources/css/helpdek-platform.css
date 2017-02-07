@@ -1,0 +1,152 @@
+footer {
+    padding-top: 10px;
+    border-top: solid #263238;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    text-align: center;
+    margin: 30px;
+}
+
+.footer-image {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.schonherz-logo {
+    align-self: center;
+}
+
+.row {
+    padding: 0;
+    margin: 0;
+    background-color: #263238;
+    border-radius: 0 0 10px 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.navbar-button {
+    font-family: sans-serif;
+    font-size: 18px;
+    background-color: #ffffff;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    cursor: pointer;
+    margin: 10px;;
+}
+
+.navbar-button > a {
+    text-decoration: none;
+    color: #263238;
+    margin: 10px 20px;
+}
+
+.brand-picture {
+    align-self: center;
+}
+
+.menu-item-row {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: auto;
+    padding-right: 10px;
+}
+
+.navbar-button:hover {
+    background-color: #00BCD4;
+}
+
+.smallnav {
+    display: block;
+    padding: 10px;
+    color: #ffffff;
+}
+
+.menu {
+    cursor: pointer;
+}
+
+.largenav {
+    font-size: 24px;
+    font-family: sans-serif;
+    color: #ffffff;
+}
+
+@media screen and (min-width: 992px) {
+    .navbar-button {
+        display: inline-block;
+    }
+
+    .largenav {
+        display: block;
+    }
+
+    .smallnav {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .sidenav a {
+        font-size: 18px;
+    }
+
+    .largenav {
+        display: none;
+    }
+
+    .menu-item-row {
+        display: none;
+    }
+
+    .navbar-button {
+        display: none;
+    }
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    box-shadow: 0 4px 8px -3px #555454;
+    padding-top: 0px;
+}
+
+.sidenav > a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    color: #fff;
+}
+
+.sidenav-heading {
+    background-color: #263238;
+    padding-top: 10px;
+    font-size: 36px;
+    color: #fff;
+}
+
+.ui-g {
+    display: flex;
+    justify-content: center;
+}
