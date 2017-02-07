@@ -23,7 +23,7 @@ import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
 import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mail.MailSender;
-import hu.schonherz.project.admin.service.mapper.user.UserVoMapper;
+import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
 
 @Stateless(mappedName = "UserService")
 @Local(UserServiceLocal.class)
@@ -39,16 +39,16 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     public UserVo findByUsername(final String username) {
         UserEntity user = userRepository.findByUsername(username);
-        return UserVoMapper.toVo(user);
+        return UserEntityVoMapper.toVo(user);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public UserVo registrationUser(final UserVo userVo) {
         try {
-            UserEntity user = UserVoMapper.toEntity(userVo);
+            UserEntity user = UserEntityVoMapper.toEntity(userVo);
             user = userRepository.save(user);
-            return UserVoMapper.toVo(user);
+            return UserEntityVoMapper.toVo(user);
         } catch (Throwable t) {
             LOG.error("----- The exception was caught in the service layer! -----");
             return null;
@@ -58,7 +58,7 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     public List<UserVo> findAll() {
         List<UserEntity> allEntities = userRepository.findAll();
-        return allEntities.stream().map(entity -> UserVoMapper.toVo(entity)).collect(Collectors.toList());
+        return allEntities.stream().map(entity -> UserEntityVoMapper.toVo(entity)).collect(Collectors.toList());
     }
 
     @Override
@@ -86,7 +86,7 @@ public class UserServiceBean implements UserServiceLocal {
 
     @Override
     public UserVo findById(final Long id) {
-        return UserVoMapper.toVo(userRepository.findOne(id));
+        return UserEntityVoMapper.toVo(userRepository.findOne(id));
     }
 
 }
