@@ -4,7 +4,9 @@ import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
 import hu.schonherz.project.admin.service.api.rpc.FailedRpcLoginAttemptException;
 import hu.schonherz.project.admin.service.api.rpc.RpcLoginServiceRemote;
 import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
+import hu.schonherz.project.admin.service.api.vo.UserData;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.service.mapper.user.UserDataVoMapper;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -18,7 +20,7 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
     private UserServiceLocal userService;
 
     @Override
-    public UserVo rpcLogin(@NonNull final String username, @NonNull final String plainTextPassword) throws FailedRpcLoginAttemptException {
+    public UserData rpcLogin(@NonNull final String username, @NonNull final String plainTextPassword) throws FailedRpcLoginAttemptException {
         if (username.isEmpty() || plainTextPassword.isEmpty()) {
             throw new IllegalArgumentException("Username and password must not be empty string!");
         }
@@ -39,7 +41,7 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
             throw new FailedRpcLoginAttemptException("User " + username + " is inactive!");
         }
 
-        return user;
+        return UserDataVoMapper.toData(user);
     }
 
 }
