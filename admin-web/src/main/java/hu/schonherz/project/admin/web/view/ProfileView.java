@@ -78,8 +78,6 @@ public class ProfileView {
                 userVo.setPassword(Encrypter.encrypt(newPassword));
             }
 
-            log.warn("userVo to save: " + userVo.toString());
-
             userServiceRemote.registrationUser(userVo);
             currentUserVo = userVo;
 
