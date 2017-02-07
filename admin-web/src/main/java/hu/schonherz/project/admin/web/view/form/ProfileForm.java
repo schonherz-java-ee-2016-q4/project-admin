@@ -3,6 +3,7 @@ package hu.schonherz.project.admin.web.view.form;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -18,10 +19,11 @@ public class ProfileForm extends UserForm {
     @Setter
     private String confirmNewPassword;
 
-    public ProfileForm(final UserVo userVo) {
+    public ProfileForm(@NonNull final UserVo userVo) {
         setId(userVo.getId());
         setEmail(userVo.getEmail());
         setUsername(userVo.getUsername());
+        setUserRole(userVo.getUserRole());
     }
 
 }

@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.web.view.form;
 
+import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ public class UserForm {
     private String email;
     private String username;
     private String password;
+    private UserRole userRole;
 
     public UserVo getUserVo() {
         UserVo vo = new UserVo();
@@ -21,6 +23,7 @@ public class UserForm {
         vo.setEmail(email);
         vo.setUsername(username);
         vo.setPassword(password);
+        vo.setUserRole(userRole);
 
         return vo;
     }

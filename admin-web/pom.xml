@@ -12,9 +12,22 @@
     <packaging>war</packaging>
     <properties>
         <dir.codequality>${project.parent.basedir}/code-quality/</dir.codequality>
+        <templates.version>97ebafeee7e398c8b65ffa74774b071cc8c5e1c8</templates.version>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <dependency>
+            <groupId>com.github.schonherz-java-ee-2016-q4</groupId>
+            <artifactId>project</artifactId>
+            <version>${templates.version}</version>
+        </dependency>
         <!-- Logging dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>

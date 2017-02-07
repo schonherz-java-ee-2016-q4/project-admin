@@ -72,11 +72,13 @@ public class ProfileView {
         try {
             // Get user vo and set new password if given
             UserVo userVo = profileForm.getUserVo();
-            userVo.setPassword(currentUserVo.getPassword());
+//            userVo.setPassword(currentUserVo.getPassword());
             String newPassword = profileForm.getNewPassword();
             if (!disableNewPassword) {
                 userVo.setPassword(Encrypter.encrypt(newPassword));
             }
+
+            log.warn("userVo to save: " + userVo.toString());
 
             userServiceRemote.registrationUser(userVo);
             currentUserVo = userVo;
