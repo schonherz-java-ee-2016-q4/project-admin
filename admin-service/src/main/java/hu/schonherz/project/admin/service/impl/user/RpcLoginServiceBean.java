@@ -28,17 +28,11 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
         }
 
         UserVo user = userService.findByUsername(username);
-        log.warn("---------------------------- user: " + user);
         if (user == null) {
             throw new FailedRpcLoginAttemptException("The user " + username + " does not exist!");
         }
 
-        String encryptedGivenPassword = Encrypter.encrypt(plainTextPassword);
-        String encryptedUserPassword = user.getPassword();
-        log.warn("------------- encryptedGivenPassword: " + encryptedGivenPassword);
-        log.warn("------------- encryptedUserPassword: " + encryptedUserPassword);
-
-        if (!Encrypter.match(encryptedUserPassword, encryptedGivenPassword)) {
+        if (!Encrypter.match(user.getPassword(), plainTextPassword)) {
             throw new FailedRpcLoginAttemptException("Invalid password!");
         }
 
@@ -46,6 +40,7 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
             throw new FailedRpcLoginAttemptException("User " + username + " is inactive!");
         }
 
+        log.info("Succesful remote login for user: {}", username);
         return UserDataVoMapper.toData(user);
     }
 
