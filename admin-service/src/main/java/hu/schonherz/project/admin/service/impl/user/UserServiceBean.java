@@ -39,25 +39,32 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     public UserVo findByUsername(final String username) {
         UserEntity user = userRepository.findByUsername(username);
+        if (user == null) {
+            return null;
+        }
+
         return UserEntityVoMapper.toVo(user);
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public UserVo registrationUser(final UserVo userVo) {
-        try {
-            UserEntity user = UserEntityVoMapper.toEntity(userVo);
-            user = userRepository.save(user);
-            return UserEntityVoMapper.toVo(user);
-        } catch (Throwable t) {
-            LOG.error("----- The exception was caught in the service layer! -----");
+        UserEntity user = UserEntityVoMapper.toEntity(userVo);
+        user = userRepository.save(user);
+        if (user == null) {
             return null;
         }
+
+        return UserEntityVoMapper.toVo(user);
     }
 
     @Override
     public List<UserVo> findAll() {
         List<UserEntity> allEntities = userRepository.findAll();
+        if (allEntities == null) {
+            return null;
+        }
+
         return allEntities.stream().map(entity -> UserEntityVoMapper.toVo(entity)).collect(Collectors.toList());
     }
 
@@ -69,13 +76,19 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     public void changeStatus(final Long id) {
         UserEntity userEntity = userRepository.findOne(id);
-        userEntity.setActive(!(userEntity.isActive()));
+        if (userEntity != null) {
+            userEntity.setActive(!(userEntity.isActive()));
+        }
     }
 
     @Override
     public void resetPassword(final Long id) {
         final int passwordLength = 8;
         UserEntity userEntity = userRepository.findOne(id);
+        if (userEntity == null) {
+            return;
+        }
+
         String generatedPassword = RandomStringUtils.randomAlphanumeric(passwordLength);
         String hashedPassword = Encrypter.encrypt(generatedPassword);
         LOG.info("The generated password is: {}", generatedPassword);
@@ -86,7 +99,12 @@ public class UserServiceBean implements UserServiceLocal {
 
     @Override
     public UserVo findById(final Long id) {
-        return UserEntityVoMapper.toVo(userRepository.findOne(id));
+        UserEntity userEntity = userRepository.findOne(id);
+        if (userEntity == null) {
+            return null;
+        }
+
+        return UserEntityVoMapper.toVo(userEntity);
     }
 
 }

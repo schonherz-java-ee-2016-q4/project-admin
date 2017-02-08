@@ -11,9 +11,11 @@ import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 @Stateless(mappedName = "RpcLoginService")
 @Remote(RpcLoginServiceRemote.class)
+@Slf4j
 public class RpcLoginServiceBean implements RpcLoginServiceRemote {
 
     @EJB
@@ -26,12 +28,15 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
         }
 
         UserVo user = userService.findByUsername(username);
+        log.warn("---------------------------- user: " + user);
         if (user == null) {
             throw new FailedRpcLoginAttemptException("The user " + username + " does not exist!");
         }
 
         String encryptedGivenPassword = Encrypter.encrypt(plainTextPassword);
         String encryptedUserPassword = user.getPassword();
+        log.warn("------------- encryptedGivenPassword: " + encryptedGivenPassword);
+        log.warn("------------- encryptedUserPassword: " + encryptedUserPassword);
 
         if (!Encrypter.match(encryptedUserPassword, encryptedGivenPassword)) {
             throw new FailedRpcLoginAttemptException("Invalid password!");
