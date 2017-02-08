@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html lang="#{LocaleManager.language}"
+      xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
-
-<f:view>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+<f:view locale="#{localeManager.locale}">
 
     <h:head>
 
@@ -45,7 +47,13 @@
                     <div class="navbar-button"><ui:insert name="customLink3"></ui:insert></div>
                     <div class="navbar-button"><ui:insert name="customLink4"></ui:insert></div>
                     <div class="navbar-button"><ui:insert name="customLink5"></ui:insert></div>
-                    <div class="navbar-button"><ui:insert name="customLink6"></ui:insert></div>
+                    <div class="navbar-button"><h:form>
+                                                <h:selectOneMenu id="lang-menu" value="#{localeManager.language}" onchange="submit()">
+                                                    <f:selectItem itemLabel="English" itemValue="en"/>
+                                                    <f:selectItem itemLabel="Hungarian" itemValue="hu"/>
+                                                    </h:selectOneMenu>
+                                               </h:form>
+                                               </div>
                 </div>
             </div>
         </div>
