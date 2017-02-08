@@ -12,24 +12,24 @@
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <p:dataTable var="user" value="#{usersView.users}"
                              id="user-table" sortBy="${user.username}">
-                    <p:column headerText="Username">
+                    <p:column headerText="#{msg.field_username}">
                         <div class="user-table-content">
                             <h:outputText value="#{user.username}" />
                         </div>
                     </p:column>
-                    <p:column headerText="Email" priority="3">
+                    <p:column headerText="#{msg.field_email}" priority="3">
                         <div class="user-table-content">
                             <h:outputText value="#{user.email}" />
                         </div>
                     </p:column>
-                    <p:column headerText="Status" priority="2">
+                    <p:column headerText="#{msg.field_status}" priority="2">
                         <div
                             class="user-table-content #{user.active ? 'active-status' : 'inactive-status'}">
                             <h:outputText
                                 value="#{user.active ? 'Active' : 'Inactive'}" />
                         </div>
                     </p:column>
-                    <p:column headerText="Settings">
+                    <p:column headerText="#{msg.field_settings}">
                         <div class="user-table-content">
 
                             <!-- Edit button -->
@@ -60,33 +60,33 @@
                                              actionListener="#{usersView.deleteUser(user)}"
                                              update="user-table form:growl"
                                              process="@all">
-                                <p:confirm message="Are you sure?">
+                                <p:confirm message="#{msg.dialog_confirmdelete}">
                                 </p:confirm>
                             </p:commandButton>
                         </div>
 
                         <!-- Tooltips -->
                         <p:tooltip id="toolTipEdit" for="edit"
-                                   value="Edit #{user.username}'s datas"
+                                   value="#{msg.tooltip_edit} #{user.username} #{msg.tooltip_edit_data}"
                                    position="top" />
                         <p:tooltip id="toolTipStatus" for="status"
                                    value="#{user.active ? 'Deactivate' : 'Activate'} #{user.username}"
                                    position="top" />
                         <p:tooltip id="toolTipResetPassword"
                                    for="resetPassword"
-                                   value="Reset #{user.username}'s password"
+                                   value="#{msg.tooltip_reset} #{user.username} #{msg.tooltip_reset_password}"
                                    position="top" />
                         <p:tooltip id="toolTipDelete" for="delete"
-                                   value="Delete #{user.username}"
+                                   value="#{msg.tooltip_delete} #{user.username}"
                                    position="top" />
                     </p:column>
                 </p:dataTable>
                 <p:confirmDialog global="true" showEffect="fade"
-                                 hideEffect="fade" header="Delete this user?">
-                    <p:commandButton value="Yes" type="button"
+                                 hideEffect="fade" header="#{msg.dialog_userdelete}">
+                    <p:commandButton value="#{msg.label_yes}" type="button"
                                      styleClass="ui-confirmdialog-yes"
                                      icon="ui-icon-check" />
-                    <p:commandButton value="No" type="button"
+                    <p:commandButton value="#{msg.label_no}" type="button"
                                      styleClass="ui-confirmdialog-no"
                                      icon="ui-icon-close" />
                 </p:confirmDialog>

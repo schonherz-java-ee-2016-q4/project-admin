@@ -8,6 +8,7 @@ public enum UserRole {
         if (role == null || role.isEmpty()) {
             throw new IllegalArgumentException("role string must not be null or empty!");
         }
+
         switch (role.trim().toUpperCase()) {
             case "ADMIN":
                 return ADMIN;
