@@ -19,8 +19,8 @@
                                 <p:outputLabel value="#{msg.field_email}:" for="email" />
                                 <p:inputText id="email" value="#{registrationView.form.email}"
                                              placeholder="example@example.com" type="email" required="true"
-                                             validatorMessage="#{msg.error_invalid_email}"
-                                             >
+                                             requiredMessage="#{msg.error_empty_field}"
+                                             validatorMessage="#{msg.error_invalid_email}">
                                     <f:validateRegex
                                         pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                                 </p:inputText>

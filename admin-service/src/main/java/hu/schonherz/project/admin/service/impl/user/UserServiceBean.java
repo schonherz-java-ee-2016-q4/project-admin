@@ -85,17 +85,15 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     public void resetPassword(final Long id) {
         final int passwordLength = 8;
-        UserEntity userEntity;
-        if ((userEntity = findOne(id)) == null) {
-            return;
+        UserEntity userEntity = findOne(id);
+        if (userEntity != null) {
+            String generatedPassword = RandomStringUtils.randomAlphanumeric(passwordLength);
+            String hashedPassword = Encrypter.encrypt(generatedPassword);
+            log.info("The generated password is: {}", generatedPassword);
+            log.info("The hashed password is: {}", hashedPassword);
+            userEntity.setPassword(hashedPassword);
+            MailSender.sendFromGmail(userEntity.getEmail(), generatedPassword);
         }
-
-        String generatedPassword = RandomStringUtils.randomAlphanumeric(passwordLength);
-        String hashedPassword = Encrypter.encrypt(generatedPassword);
-        log.info("The generated password is: {}", generatedPassword);
-        log.info("The hashed password is: {}", hashedPassword);
-        userEntity.setPassword(hashedPassword);
-        MailSender.sendFromGmail(userEntity.getEmail(), generatedPassword);
     }
 
     @Override
@@ -105,7 +103,7 @@ public class UserServiceBean implements UserServiceLocal {
         return UserEntityVoMapper.toVo(userEntity);
     }
 
-    private UserEntity findOne(Long id) {
+    private UserEntity findOne(final Long id) {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity == null) {
             log.warn("User with id " + id + DOES_NOT_EXIST);
