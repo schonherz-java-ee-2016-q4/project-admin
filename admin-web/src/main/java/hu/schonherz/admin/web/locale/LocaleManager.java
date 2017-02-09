@@ -33,10 +33,5 @@ public class LocaleManager {
         locale = new Locale(language);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
-    
-    public void changeLanguage(String language) {
-        log.warn("_______________________________language: {}", language);
-        locale = new Locale(language);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
-    }
+
 }
