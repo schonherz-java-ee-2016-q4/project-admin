@@ -46,16 +46,10 @@
                         <div class="navbar-button"><ui:insert name="customLink2"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink3"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink4"></ui:insert></div>
-                        <div class="navbar-button">
-                            <p:commandButton action="#{localeManager.setLanguage('en')}" value="Change" update="@all"/>
-                        </div>
-                        <div class="navbar-button"><h:form>
-                                <h:selectOneMenu id="lang-menu" value="#{localeManager.language}" onchange="submit()">
-                                    <f:selectItem itemLabel="English" itemValue="en"/>
-                                    <f:selectItem itemLabel="Hungarian" itemValue="hu"/>
-                                </h:selectOneMenu>
-                            </h:form>
-                        </div>
+                        <div class="navbar-button"><ui:insert name="customLink5"></ui:insert></div>
+                        <div class="navbar-button"><ui:insert name="customLink6"></ui:insert></div>
+                        <div><h:form><p:commandButton action="#{localeManager.setLanguage('en')}" value="" styleClass="locale-en" update="@all"/></h:form></div>
+                        <div><h:form><p:commandButton action="#{localeManager.setLanguage('hu')}" value="" styleClass="locale-hu" update="@all"/></h:form></div>
                     </div>
                 </div>
             </div>
