@@ -7,6 +7,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ManagedBean
 @SessionScoped
 public class LocaleManager {
@@ -30,5 +33,10 @@ public class LocaleManager {
         locale = new Locale(language);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
-
+    
+    public void changeLanguage(String language) {
+        log.warn("_______________________________language: {}", language);
+        locale = new Locale(language);
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
+    }
 }
