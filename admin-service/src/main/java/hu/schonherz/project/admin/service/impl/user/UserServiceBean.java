@@ -12,8 +12,6 @@ import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
@@ -24,14 +22,16 @@ import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mail.MailSender;
 import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
+import lombok.extern.slf4j.Slf4j;
 
 @Stateless(mappedName = "UserService")
 @Local(UserServiceLocal.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
 @TransactionManagement(TransactionManagementType.CONTAINER)
+@Slf4j
 public class UserServiceBean implements UserServiceLocal {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserServiceBean.class);
+    private static final String DOES_NOT_EXIST = " does not exist!";
 
     @Autowired
     private UserRepository userRepository;
@@ -40,6 +40,7 @@ public class UserServiceBean implements UserServiceLocal {
     public UserVo findByUsername(final String username) {
         UserEntity user = userRepository.findByUsername(username);
         if (user == null) {
+            log.warn("User with username " + username + DOES_NOT_EXIST);
             return null;
         }
 
@@ -52,6 +53,7 @@ public class UserServiceBean implements UserServiceLocal {
         UserEntity user = UserEntityVoMapper.toEntity(userVo);
         user = userRepository.save(user);
         if (user == null) {
+            log.warn("Failed to persist user " + userVo.getUsername());
             return null;
         }
 
@@ -61,15 +63,12 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     public List<UserVo> findAll() {
         List<UserEntity> allEntities = userRepository.findAll();
-        if (allEntities == null) {
-            return null;
-        }
-
         return allEntities.stream().map(entity -> UserEntityVoMapper.toVo(entity)).collect(Collectors.toList());
     }
 
     @Override
     public void delete(final Long id) {
+        log.warn("User with id " + id + DOES_NOT_EXIST);
         userRepository.delete(id);
     }
 
@@ -78,33 +77,41 @@ public class UserServiceBean implements UserServiceLocal {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity != null) {
             userEntity.setActive(!(userEntity.isActive()));
+        } else {
+            log.warn("User with id " + id + DOES_NOT_EXIST);
         }
     }
 
     @Override
     public void resetPassword(final Long id) {
         final int passwordLength = 8;
-        UserEntity userEntity = userRepository.findOne(id);
-        if (userEntity == null) {
+        UserEntity userEntity;
+        if ((userEntity = findOne(id)) == null) {
             return;
         }
 
         String generatedPassword = RandomStringUtils.randomAlphanumeric(passwordLength);
         String hashedPassword = Encrypter.encrypt(generatedPassword);
-        LOG.info("The generated password is: {}", generatedPassword);
-        LOG.info("The hashed password is: {}", hashedPassword);
+        log.info("The generated password is: {}", generatedPassword);
+        log.info("The hashed password is: {}", hashedPassword);
         userEntity.setPassword(hashedPassword);
         MailSender.sendFromGmail(userEntity.getEmail(), generatedPassword);
     }
 
     @Override
     public UserVo findById(final Long id) {
-        UserEntity userEntity = userRepository.findOne(id);
-        if (userEntity == null) {
-            return null;
-        }
+        UserEntity userEntity = findOne(id);
 
         return UserEntityVoMapper.toVo(userEntity);
+    }
+
+    private UserEntity findOne(Long id) {
+        UserEntity userEntity = userRepository.findOne(id);
+        if (userEntity == null) {
+            log.warn("User with id " + id + DOES_NOT_EXIST);
+        }
+
+        return userEntity;
     }
 
 }
