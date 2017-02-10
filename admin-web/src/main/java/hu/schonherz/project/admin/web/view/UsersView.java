@@ -28,7 +28,6 @@ public class UsersView {
     private static final String ACTIVATE_SUCCESS = "growl_activate_success";
     private static final String INACTIVATE_SUCCESS = "growl_inactivate_success";
     private static final String RESET_PASSWORD_SUCCESS = "growl_reset_password_success";
-    private static final String SPACE = " ";
     private List<UserVo> users;
     private ResourceBundle localMessages;
 
@@ -68,7 +67,7 @@ public class UsersView {
         init();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
-                localMessages.getString(DELETE_SUCCESS) + SPACE + userVo.getUsername()));
+                localMessages.getString(DELETE_SUCCESS) + userVo.getUsername()));
     }
 
     public void changeUserStatus(@NonNull final UserVo userVo) {
@@ -78,7 +77,7 @@ public class UsersView {
         context.addMessage(null,
                 new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
                         (userVo.isActive() ? localMessages.getString(INACTIVATE_SUCCESS)
-                                : localMessages.getString(ACTIVATE_SUCCESS)) + SPACE + userVo.getUsername()));
+                                : localMessages.getString(ACTIVATE_SUCCESS)) + userVo.getUsername()));
     }
 
     public void resetUserPassword(@NonNull final UserVo userVo) {
@@ -86,7 +85,7 @@ public class UsersView {
         init();
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
-                localMessages.getString(RESET_PASSWORD_SUCCESS) + SPACE + userVo.getUsername()));
+                localMessages.getString(RESET_PASSWORD_SUCCESS) + userVo.getUsername()));
     }
 
 }
