@@ -12,7 +12,6 @@ import hu.schonherz.project.admin.data.entity.UserEntity;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import java.util.Arrays;
-import lombok.NonNull;
 
 public final class UserEntityVoMapper {
 
@@ -27,15 +26,27 @@ public final class UserEntityVoMapper {
     private UserEntityVoMapper() {
     }
 
-    public static UserVo toVo(@NonNull final UserEntity userEntity) {
+    public static UserVo toVo(final UserEntity userEntity) {
+        if (userEntity == null) {
+            return null;
+        }
+
         return MAPPER.map(userEntity, UserVo.class);
     }
 
-    public static UserEntity toEntity(@NonNull final UserVo userVo) {
+    public static UserEntity toEntity(final UserVo userVo) {
+        if (userVo == null) {
+            return null;
+        }
+
         return MAPPER.map(userVo, UserEntity.class);
     }
 
-    public static List<UserVo> toVo(@NonNull final Collection<UserEntity> entities) {
+    public static List<UserVo> toVo(final Collection<UserEntity> entities) {
+        if (entities == null) {
+            return null;
+        }
+
         if (entities.isEmpty()) {
             return new ArrayList<>();
         }
@@ -45,7 +56,11 @@ public final class UserEntityVoMapper {
                 .collect(Collectors.toList());
     }
 
-    public static List<UserEntity> toEntity(@NonNull final Collection<UserVo> vos) {
+    public static List<UserEntity> toEntity(final Collection<UserVo> vos) {
+        if (vos == null) {
+            return null;
+        }
+
         if (vos.isEmpty()) {
             return new ArrayList<>();
         }

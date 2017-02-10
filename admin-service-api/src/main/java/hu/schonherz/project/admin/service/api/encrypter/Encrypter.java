@@ -6,7 +6,7 @@ import lombok.NonNull;
 
 public final class Encrypter {
 
-    private static BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private static final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
     private Encrypter() {
     }
@@ -15,7 +15,7 @@ public final class Encrypter {
         return bCryptPasswordEncoder.encode(password);
     }
 
-    public static boolean match(@NonNull final String currentPass, final String password) {
-        return bCryptPasswordEncoder.matches(password, currentPass);
+    public static boolean match(@NonNull final String currentEncryptedPass, final String plainTextPass) {
+        return bCryptPasswordEncoder.matches(plainTextPass, currentEncryptedPass);
     }
 }

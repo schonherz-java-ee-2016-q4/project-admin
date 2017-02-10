@@ -14,3 +14,19 @@
 .inactive-status {
 	color: #e57373;
 }
+
+.locale-en {
+	margin: 10; 
+	background-image: url("#{resource['img/flag-en.png']}");
+    height: 19px;
+    width: 28px;
+    border-top-left-radius: 6px;
+}
+
+.locale-hu {
+	margin: 0; 
+    background-image: url("#{resource['img/flag-hu.png']}");
+    height: 19px;
+    width: 28px;
+    border-bottom-right-radius: 6px;
+}

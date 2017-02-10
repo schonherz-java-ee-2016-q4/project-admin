@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.NonNull;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 
@@ -21,25 +20,41 @@ public final class UserDataVoMapper {
     private UserDataVoMapper() {
     }
 
-    public static UserVo toVo(@NonNull final UserData userEntity) {
-        return MAPPER.map(userEntity, UserVo.class);
+    public static UserVo toVo(final UserData userData) {
+        if (userData == null) {
+            return null;
+        }
+
+        return MAPPER.map(userData, UserVo.class);
     }
 
-    public static UserData toData(@NonNull final UserVo userVo) {
+    public static UserData toData(final UserVo userVo) {
+        if (userVo == null) {
+            return null;
+        }
+
         return MAPPER.map(userVo, UserData.class);
     }
 
-    public static List<UserVo> toVo(@NonNull final Collection<UserData> entities) {
-        if (entities.isEmpty()) {
+    public static List<UserVo> toVo(final Collection<UserData> datas) {
+        if (datas == null) {
+            return null;
+        }
+
+        if (datas.isEmpty()) {
             return new ArrayList<>();
         }
 
-        return entities.stream()
+        return datas.stream()
                 .map(entity -> toVo(entity))
                 .collect(Collectors.toList());
     }
 
-    public static List<UserData> toData(@NonNull final Collection<UserVo> vos) {
+    public static List<UserData> toData(final Collection<UserVo> vos) {
+        if (vos == null) {
+            return null;
+        }
+
         if (vos.isEmpty()) {
             return new ArrayList<>();
         }
