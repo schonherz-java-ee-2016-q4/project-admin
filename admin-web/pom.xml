@@ -126,11 +126,6 @@
             <artifactId>commons-validator</artifactId>
             <type>jar</type>
         </dependency>
-        <!-- Without this the javax.beans.ObservableValue cannot be userd -->
-        <dependency>
-            <groupId>net.java.openjfx.backport</groupId>
-            <artifactId>openjfx-78-backport</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -142,10 +137,6 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
