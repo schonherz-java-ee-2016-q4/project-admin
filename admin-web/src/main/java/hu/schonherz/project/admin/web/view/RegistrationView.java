@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
+import hu.schonherz.admin.web.locale.LocaleManagement;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,9 @@ import hu.schonherz.project.admin.service.api.service.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.RegistrationForm;
+import java.util.Locale;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,13 +47,13 @@ public class RegistrationView {
     @PostConstruct
     public void init() {
         form = new RegistrationForm();
-        try {
-            localMessages = ResourceBundle.getBundle("i18n.localization");
-        } catch (Exception e) {
-            String message = "Could not create resource bundle for localization messages!";
-            log.error(message, e);
-            throw new IllegalStateException(message, e);
-        }
+        refreshLocaleMessages(Locale.getDefault());
+
+        ChangeListener<Locale> listener = (ObservableValue<? extends Locale> ov, Locale oldLocale, Locale newLocale) -> {
+            refreshLocaleMessages(newLocale);
+        };
+
+        LocaleManagement.addListener(listener);
     }
 
     public void registration() {
@@ -81,6 +85,17 @@ public class RegistrationView {
     private void setDefaultValues(final UserVo vo) {
         vo.setActive(true);
         vo.setUserRole(UserRole.AGENT);
+    }
+
+    public void refreshLocaleMessages(Locale newLocale) {
+        try {
+            localMessages = ResourceBundle.getBundle("i18n.localization", newLocale);
+        } catch (Exception e) {
+            String message = "Could not create resource bundle for localization messages!";
+            log.error(message, e);
+            throw new IllegalStateException(message, e);
+        }
+
     }
 
 }

@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @ManagedBean
 @SessionScoped
-public class LocaleManager {
+public class LocaleManagerBean {
 
     private Locale locale;
 
@@ -31,6 +31,7 @@ public class LocaleManager {
 
     public void setLanguage(String language) {
         locale = new Locale(language);
+        LocaleManagement.setLanguage(language);
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
 
