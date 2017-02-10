@@ -14,6 +14,7 @@ public final class LocalizationManagement {
 
     private static final ObjectProperty<Locale> LOCALE_PROPERTY;
     private static final ObjectProperty<ResourceBundle> MESSAGE_PROPERTY;
+    private static final String PROPERTIES_FILE_NAME = "l10n.localization";
 
     static {
         LOCALE_PROPERTY = new SimpleObjectProperty<>();
@@ -54,7 +55,7 @@ public final class LocalizationManagement {
 
     private static void refreshLocaleMessages(final Locale newLocale) {
         try {
-            ResourceBundle localMessages = ResourceBundle.getBundle("l10n.localization", newLocale);
+            ResourceBundle localMessages = ResourceBundle.getBundle(PROPERTIES_FILE_NAME, newLocale);
             MESSAGE_PROPERTY.set(localMessages);
         } catch (Exception e) {
             String message = "Could not create resource bundle for localization messages!";
