@@ -54,7 +54,7 @@ public final class LocalizationManagement {
 
     private static void refreshLocaleMessages(final Locale newLocale) {
         try {
-            ResourceBundle localMessages = ResourceBundle.getBundle("i18n.localization", newLocale);
+            ResourceBundle localMessages = ResourceBundle.getBundle("l10n.localization", newLocale);
             MESSAGE_PROPERTY.set(localMessages);
         } catch (Exception e) {
             String message = "Could not create resource bundle for localization messages!";

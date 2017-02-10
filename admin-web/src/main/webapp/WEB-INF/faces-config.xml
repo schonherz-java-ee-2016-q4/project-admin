@@ -11,11 +11,11 @@
             <supported-locale>hu</supported-locale>
         </locale-config>
         <resource-bundle>
-            <base-name>i18n.localization</base-name>
+            <base-name>l10n.localization</base-name>
             <var>msg</var>
         </resource-bundle>
         <message-bundle>
-            i18n.messages
+            l10n.messages
         </message-bundle>
     </application>
 </faces-config>
