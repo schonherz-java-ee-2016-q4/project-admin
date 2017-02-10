@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
+import hu.schonherz.admin.web.locale.LocalizationManagement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,6 +14,7 @@ import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import javafx.beans.property.ObjectProperty;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +32,8 @@ public class UsersView {
     private static final String RESET_PASSWORD_SUCCESS = "growl_reset_password_success";
     private static final String SPACE = " ";
     private List<UserVo> users;
-    private ResourceBundle localMessages;
+
+    private ObjectProperty<ResourceBundle> messageProperty;
 
     @EJB
     private UserServiceRemote userServiceRemote;
@@ -39,13 +42,7 @@ public class UsersView {
     public void init() {
         initializeList();
         users = userServiceRemote.findAll();
-        try {
-            localMessages = ResourceBundle.getBundle("i18n.localization");
-        } catch (Exception e) {
-            String message = "Could not create resource bundle for localization messages!";
-            log.error(message, e);
-            throw new IllegalStateException(message, e);
-        }
+        messageProperty = LocalizationManagement.getMessageProperty();
     }
 
     private void initializeList() {
@@ -58,6 +55,7 @@ public class UsersView {
         userServiceRemote.delete(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle localMessages = messageProperty.get();
         context.addMessage(null, new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
                 localMessages.getString(DELETE_SUCCESS) + SPACE + userVo.getUsername()));
     }
@@ -66,6 +64,7 @@ public class UsersView {
         userServiceRemote.changeStatus(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle localMessages = messageProperty.get();
         context.addMessage(null,
                 new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
                         (userVo.isActive() ? localMessages.getString(INACTIVATE_SUCCESS)
@@ -76,6 +75,7 @@ public class UsersView {
         userServiceRemote.resetPassword(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle localMessages = messageProperty.get();
         context.addMessage(null, new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
                 localMessages.getString(RESET_PASSWORD_SUCCESS) + SPACE + userVo.getUsername()));
     }
