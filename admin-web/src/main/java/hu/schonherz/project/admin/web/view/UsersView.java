@@ -37,15 +37,6 @@ public class UsersView {
         }
     }
 
-    /*
-     * This method is here only to convince the pmd that the 'users' list should
-     * be a field not a local variable.
-     */
-//    public void temp() {
-//        if (users == null) {
-//            users = new ArrayList<>();
-//        }
-//    }
     public void deleteUser(@NonNull final UserVo userVo) {
         userServiceRemote.delete(userVo.getId());
         init();
