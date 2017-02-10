@@ -1,6 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
-import hu.schonherz.admin.web.locale.LocalizationManagement;
+import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -14,7 +14,7 @@ import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
-import javafx.beans.property.ObjectProperty;
+import javax.faces.bean.ManagedProperty;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,8 @@ public class UsersView {
     private static final String SPACE = " ";
     private List<UserVo> users;
 
-    private ObjectProperty<ResourceBundle> messageProperty;
+    @ManagedProperty(value = "#{localeManagerBean}")
+    private LocaleManagerBean localeManagerBean;
 
     @EJB
     private UserServiceRemote userServiceRemote;
@@ -42,7 +43,6 @@ public class UsersView {
     public void init() {
         initializeList();
         users = userServiceRemote.findAll();
-        messageProperty = LocalizationManagement.getMessageProperty();
     }
 
     private void initializeList() {
@@ -55,7 +55,7 @@ public class UsersView {
         userServiceRemote.delete(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle localMessages = messageProperty.get();
+        ResourceBundle localMessages = localeManagerBean.getLocaleMessages();
         context.addMessage(null, new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
                 localMessages.getString(DELETE_SUCCESS) + SPACE + userVo.getUsername()));
     }
@@ -64,7 +64,7 @@ public class UsersView {
         userServiceRemote.changeStatus(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle localMessages = messageProperty.get();
+        ResourceBundle localMessages = localeManagerBean.getLocaleMessages();
         context.addMessage(null,
                 new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
                         (userVo.isActive() ? localMessages.getString(INACTIVATE_SUCCESS)
@@ -75,7 +75,7 @@ public class UsersView {
         userServiceRemote.resetPassword(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle localMessages = messageProperty.get();
+        ResourceBundle localMessages = localeManagerBean.getLocaleMessages();
         context.addMessage(null, new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
                 localMessages.getString(RESET_PASSWORD_SUCCESS) + SPACE + userVo.getUsername()));
     }

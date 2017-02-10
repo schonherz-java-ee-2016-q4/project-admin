@@ -1,6 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
-import hu.schonherz.admin.web.locale.LocalizationManagement;
+import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
@@ -15,7 +15,7 @@ import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
-import javafx.beans.property.ObjectProperty;
+import javax.faces.bean.ManagedProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,7 +42,8 @@ public class ProfileView {
     // Data of the currently edited user
     private UserVo currentUserVo;
 
-    private ObjectProperty<ResourceBundle> messageProperty;
+    @ManagedProperty(value = "#{localeManagerBean}")
+    private LocaleManagerBean localeManagerBean;
 
     @EJB
     private UserServiceRemote userServiceRemote;
@@ -54,12 +55,11 @@ public class ProfileView {
         currentUserVo = userServiceRemote.findById(userId);
         profileForm = new ProfileForm(currentUserVo);
         disableNewPassword = true;
-        messageProperty = LocalizationManagement.getMessageProperty();
     }
 
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle localMessages = messageProperty.get();
+        ResourceBundle localMessages = localeManagerBean.getLocaleMessages();
         // Password should match the one read from the database
         if (!Encrypter.match(currentUserVo.getPassword(), profileForm.getPassword())) {
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
