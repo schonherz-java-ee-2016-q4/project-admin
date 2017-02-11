@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
+import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +15,7 @@ import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
+import javax.faces.bean.ManagedProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,7 +41,9 @@ public class ProfileView {
     private boolean disableNewPassword;
     // Data of the currently edited user
     private UserVo currentUserVo;
-    private ResourceBundle localMessages;
+
+    @ManagedProperty(value = "#{localeManagerBean}")
+    private LocaleManagerBean localeManagerBean;
 
     @EJB
     private UserServiceRemote userServiceRemote;
@@ -51,17 +55,11 @@ public class ProfileView {
         currentUserVo = userServiceRemote.findById(userId);
         profileForm = new ProfileForm(currentUserVo);
         disableNewPassword = true;
-        try {
-            localMessages = ResourceBundle.getBundle("i18n.localization");
-        } catch (Exception e) {
-            String message = "Could not create resource bundle for localization messages!";
-            log.error(message, e);
-            throw new IllegalStateException(message, e);
-        }
     }
 
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
+        ResourceBundle localMessages = localeManagerBean.getLocaleMessages();
         // Password should match the one read from the database
         if (!Encrypter.match(currentUserVo.getPassword(), profileForm.getPassword())) {
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,

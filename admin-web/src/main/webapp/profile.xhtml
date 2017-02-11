@@ -41,7 +41,7 @@
                                                value="#{msg.field_password_current}" />
                                 <p:password id="currentPassword"
                                             value="#{profileView.profileForm.password}"
-                                            required="true" />
+                                            required="true" requiredMessage="#{msg.error_empty_field}" />
                                 <p:message for="currentPassword" />
                             </p:panelGrid>
                             <p:panelGrid columns="3"
@@ -71,6 +71,7 @@
                                             value="#{profileView.profileForm.newPassword}"
                                             match="newPasswordConfirm"
                                             required="true"
+                                            requiredMessage="#{msg.error_empty_field}"
                                             disabled="#{profileView.disableNewPassword}">
                                     <f:validateLength minimum="6"
                                                       maximum="15" />

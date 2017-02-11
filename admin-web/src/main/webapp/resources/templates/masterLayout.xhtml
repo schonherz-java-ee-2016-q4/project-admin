@@ -8,7 +8,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
 
-    <f:view locale="#{localeManager.locale}">
+    <f:view>
 
         <h:head>
 
@@ -48,8 +48,8 @@
                         <div class="navbar-button"><ui:insert name="customLink4"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink5"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink6"></ui:insert></div>
-                        <div><h:form><p:commandButton action="#{localeManager.setLanguage('en')}" value="" styleClass="locale-en" update="@all"/></h:form></div>
-                        <div><h:form><p:commandButton action="#{localeManager.setLanguage('hu')}" value="" styleClass="locale-hu" update="@all"/></h:form></div>
+                        <div><h:form><p:commandButton action="#{localeManagerBean.setLanguage('en')}" value="" styleClass="locale-en" update="@all"/></h:form></div>
+                        <div><h:form><p:commandButton action="#{localeManagerBean.setLanguage('hu')}" value="" styleClass="locale-hu" update="@all"/></h:form></div>
                     </div>
                 </div>
             </div>
