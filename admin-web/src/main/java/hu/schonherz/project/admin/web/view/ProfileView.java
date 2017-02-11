@@ -71,6 +71,7 @@ public class ProfileView {
             // Get user vo and set new password if given
             UserVo userVo = profileForm.getUserVo();
             userVo.setPassword(currentUserVo.getPassword());
+            userVo.setActive(currentUserVo.isActive());
             String newPassword = profileForm.getNewPassword();
             if (!disableNewPassword) {
                 userVo.setPassword(Encrypter.encrypt(newPassword));
