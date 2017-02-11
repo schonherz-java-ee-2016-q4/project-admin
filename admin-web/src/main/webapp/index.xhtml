@@ -1,80 +1,15 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/resources/templates/masterLayout.xhtml">
-
-    <ui:define name="customTitle">Index page</ui:define>
-    <ui:define name="customBody">
-        <div class="ui-g">
-            <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <h:form id="registrationForm">
-                    <p:panel header="#{msg.form_registration}" id="registrationPanel">
-                        <div class="ui-fluid">
-                            <p:panelGrid columns="3"
-                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
-                                         layout="grid" styleClass="ui-panelgrid-blank">
-                                <!-- Email -->
-                                <p:outputLabel value="#{msg.field_email}:" for="email" />
-                                <p:inputText id="email" value="#{registrationView.form.email}"
-                                             placeholder="example@example.com" type="email" required="true"
-                                             requiredMessage="#{msg.error_empty_field}"
-                                             validatorMessage="#{msg.error_invalid_email}">
-                                    <f:validateRegex
-                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-                                </p:inputText>
-                                <p:message class="user-notification" for="email" />
-                                <!-- Username -->
-                                <p:outputLabel value="#{msg.field_username}:" for="username" />
-                                <p:inputText id="username"
-                                             value="#{registrationView.form.username}"
-                                             placeholder="#{msg.field_username}" required="true"
-                                             requiredMessage="#{msg.error_empty_field}">
-                                    <f:validateLength minimum="2" maximum="15" />
-                                </p:inputText>
-                                <p:message class="user-notification" for="username" />
-                                <!-- Password -->
-                                <p:outputLabel value="#{msg.field_password}:" for="password" />
-                                <p:password id="password"
-                                            value="#{registrationView.form.password}"
-                                            placeholder="#{msg.field_password}" required="true"
-                                            requiredMessage="#{msg.error_empty_field}"
-                                            match="confirmPassword">
-                                    <f:validateLength minimum="6" maximum="15" />
-                                </p:password>
-                                <p:message class="user-notification" for="password" />
-                                <!-- Confirm Password -->
-                                <p:outputLabel value="#{msg.field_password_confirm}:"
-                                               for="confirmPassword" />
-                                <p:password id="confirmPassword"
-                                            value="#{registrationView.form.confirmPassword}"
-                                            placeholder="#{msg.field_password_confirm}" required="true"
-                                            requiredMessage="#{msg.error_empty_field}">
-                                </p:password>
-                                <p:message class="user-notification" for="registrationForm"
-                                           id="registrationNotification" />
-                            </p:panelGrid>
-                            <p:panelGrid columns="3"
-                                         columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
-                                         layout="grid" styleClass="ui-panelgrid-blank">
-                                <!-- Clear Fields Button -->
-                                <p:commandButton value="#{msg.label_clear_fields}"
-                                                 update="registrationPanel" process="@this">
-                                    <p:resetInput target="registrationPanel" />
-                                </p:commandButton>
-                                <div></div>
-                                <!-- Register button -->
-                                <p:commandButton value="#{msg.label_register}"
-                                                 icon="ui-icon-plusthick"
-                                                 actionListener="#{registrationView.registration()}"
-                                                 update="registrationForm">
-                                </p:commandButton>
-                            </p:panelGrid>
-                        </div>
-                    </p:panel>
-                </h:form>
-            </div>
-        </div>
-    </ui:define>
-</ui:composition>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>It won't appear anyway</title>
+    </head>
+    <body>
+        #{facesContext.externalContext.response.sendRedirect('pages/public/registration.xhtml')}
+    </body>
+</html>

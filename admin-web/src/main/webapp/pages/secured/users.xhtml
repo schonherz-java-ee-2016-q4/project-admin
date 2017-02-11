@@ -3,9 +3,9 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/resources/templates/masterLayout.xhtml">
+                template="/pages/templates/masterLayout.xhtml">
 
-    <ui:define name="customTitle">Users page</ui:define>
+    <ui:define name="customTitle">#{msg.title_users_page}</ui:define>
     <ui:define name="customBody">
         <h:form class="ui-g" id="form">
             <p:growl id="growl" showDetail="true" />
