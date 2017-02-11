@@ -1,8 +1,10 @@
 package hu.schonherz.project.admin.web.view;
 
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +16,9 @@ import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+
 import javax.faces.bean.ManagedProperty;
+
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -55,9 +59,8 @@ public class UsersView {
         userServiceRemote.delete(userVo.getId());
         init();
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle localMessages = localeManagerBean.getLocaleMessages();
-        context.addMessage(null, new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
-                localMessages.getString(DELETE_SUCCESS) + SPACE + userVo.getUsername()));
+        context.addMessage(null, new FacesMessage(localeManagerBean.localize(CHANGING_SUCCESS),
+                localeManagerBean.localize(DELETE_SUCCESS, userVo.getUsername())));
     }
 
     public void changeUserStatus(@NonNull final UserVo userVo) {
@@ -68,7 +71,7 @@ public class UsersView {
         context.addMessage(null,
                 new FacesMessage(localMessages.getString(CHANGING_SUCCESS),
                         (userVo.isActive() ? localMessages.getString(INACTIVATE_SUCCESS)
-                        : localMessages.getString(ACTIVATE_SUCCESS)) + SPACE + userVo.getUsername()));
+                                : localMessages.getString(ACTIVATE_SUCCESS)) + SPACE + userVo.getUsername()));
     }
 
     public void resetUserPassword(@NonNull final UserVo userVo) {

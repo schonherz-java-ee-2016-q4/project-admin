@@ -1,7 +1,9 @@
 package hu.schonherz.admin.web.locale;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 
 import javax.faces.bean.ManagedBean;
@@ -46,4 +48,17 @@ public class LocaleManagerBean {
         return localeMessages;
     }
 
+    public String localize(String key, String... params) {
+        String pattern = getLocalizedPattern(key);
+        return format(pattern, params);
+    }
+
+    private String getLocalizedPattern(String key) {
+        return getLocaleMessages().getString(key);
+    }
+
+    private String format(String pattern, String... params) {
+        MessageFormat formatter = new MessageFormat(pattern, getLocale());
+        return formatter.format(params);
+    }
 }

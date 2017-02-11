@@ -39,12 +39,7 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     public UserVo findByUsername(final String username) {
         UserEntity user = userRepository.findByUsername(username);
-        if (user == null) {
-            log.warn("User with username " + username + DOES_NOT_EXIST);
-            return null;
-        }
-
-        return UserEntityVoMapper.toVo(user);
+               return UserEntityVoMapper.toVo(user);
     }
 
     @Override
@@ -54,7 +49,6 @@ public class UserServiceBean implements UserServiceLocal {
         user = userRepository.save(user);
         if (user == null) {
             log.warn("Failed to persist user " + userVo.getUsername());
-            return null;
         }
 
         return UserEntityVoMapper.toVo(user);
