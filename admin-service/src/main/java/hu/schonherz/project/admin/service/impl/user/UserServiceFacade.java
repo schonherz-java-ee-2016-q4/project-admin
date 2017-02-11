@@ -29,7 +29,7 @@ public class UserServiceFacade implements UserServiceRemote {
         try {
             return realService.registrationUser(userVo);
         } catch (EJBTransactionRolledbackException rolledBackException) {
-            throw new InvalidUserDataException("Could not save user!", rolledBackException);
+            throw new InvalidUserDataException("Could not save user: " + userVo.getUsername(), rolledBackException);
         }
     }
 
