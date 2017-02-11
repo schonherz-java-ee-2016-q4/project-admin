@@ -3,12 +3,7 @@ package hu.schonherz.project.admin.service.impl.user;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
+import javax.ejb.*;
 import javax.interceptor.Interceptors;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -32,6 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 public class UserServiceBean implements UserServiceLocal {
 
     private static final String DOES_NOT_EXIST = " does not exist!";
+
+    @EJB
+    private MailSender mailSender;
 
     @Autowired
     private UserRepository userRepository;
@@ -83,10 +81,8 @@ public class UserServiceBean implements UserServiceLocal {
         if (userEntity != null) {
             String generatedPassword = RandomStringUtils.randomAlphanumeric(passwordLength);
             String hashedPassword = Encrypter.encrypt(generatedPassword);
-            log.info("The generated password is: {}", generatedPassword);
-            log.info("The hashed password is: {}", hashedPassword);
             userEntity.setPassword(hashedPassword);
-            MailSender.sendFromGmail(userEntity.getEmail(), generatedPassword);
+            mailSender.sendFromGmail(userEntity.getEmail(), generatedPassword);
         }
     }
 

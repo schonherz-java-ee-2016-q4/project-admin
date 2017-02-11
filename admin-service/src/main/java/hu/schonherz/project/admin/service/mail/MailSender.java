@@ -2,6 +2,8 @@ package hu.schonherz.project.admin.service.mail;
 
 import java.util.Properties;
 
+import javax.annotation.Resource;
+import javax.ejb.Stateless;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -13,40 +15,22 @@ import javax.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public final class MailSender {
+@Stateless
+public class MailSender {
 
-    private static Properties properties;
+    @Resource(name = "java:/mail/admin")
+    private  Session session;
 
-    private MailSender() {
-    }
-
-    private static void setGmailProperties() {
-        properties = new Properties();
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.socketFactory.port", "465");
-        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-        properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.port", "465");
-    }
-
-    public static void sendFromGmail(final String to, final String password) {
-        setGmailProperties();
-        Session session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("schonherz.helpdesk@gmail.com", "redsnake327");
-            }
-        });
-        // compose message
+    public  void sendFromGmail(final String to, final String password) {
         try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("schonherz.helpdesk@gmail.com"));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            Message message = new MimeMessage(session);
+            message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject("Schonherz Helpdesk - Profile Changed");
             message.setText("Your new password is: \"" + password + "\" " + "You have to change it when you login to the site!");
-            // send message
             Transport.send(message);
             log.info("Message sent successfully!");
         } catch (MessagingException e) {
+            log.warn("Message was not send!");
             throw new RuntimeException(e);
         }
 
