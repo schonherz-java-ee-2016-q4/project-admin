@@ -3,7 +3,13 @@ package hu.schonherz.project.admin.service.impl.user;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.ejb.*;
+import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 
 import org.apache.commons.lang3.RandomStringUtils;
