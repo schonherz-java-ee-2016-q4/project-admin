@@ -1,7 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
-import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -59,11 +58,10 @@ public class ProfileView {
 
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle localMessages = localeManagerBean.getLocaleMessages();
         // Password should match the one read from the database
         if (!Encrypter.match(currentUserVo.getPassword(), profileForm.getPassword())) {
             context.addMessage(PASSWORD_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    localMessages.getString(FAILURE), localMessages.getString(INVALID_PASSWORD)));
+                    localeManagerBean.localize(FAILURE), localeManagerBean.localize(INVALID_PASSWORD)));
             return;
         }
 
@@ -82,13 +80,13 @@ public class ProfileView {
 
             // Notify user about success and log it
             context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    localMessages.getString(SUCCESS), localMessages.getString(SUCCESSFUL_CHANGING)));
+                    localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_CHANGING)));
 
             log.info("User '{}' successfully changed his/her profile.", userVo.getUsername());
         } catch (InvalidUserDataException iude) {
             // Notify user about duplication and log it with details
             context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    localMessages.getString(FAILURE), localMessages.getString(DUPLICATION_EMAIL)));
+                    localeManagerBean.localize(FAILURE), localeManagerBean.localize(DUPLICATION_EMAIL)));
 
             log.warn("Unsuccessful changing attempt with data:{}{} ", System.getProperty("line.separator"), profileForm);
             log.warn("Causing exception:" + System.getProperty("line.separator"), iude);

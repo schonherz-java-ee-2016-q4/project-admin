@@ -1,7 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
-import java.util.ResourceBundle;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -51,7 +50,6 @@ public class RegistrationView {
 
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
-        ResourceBundle localMessages = localeManagerBean.getLocaleMessages();
 
         try {
             UserVo userVo = form.getUserVo();
@@ -63,13 +61,13 @@ public class RegistrationView {
 
             // Notify user about success and log it
             context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    localMessages.getString(SUCCESS), localMessages.getString(SUCCESSFUL_REGISTRATION)));
+                    localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
 
             log.info("User '{}' successfully registered.", userVo.getUsername());
         } catch (InvalidUserDataException iude) {
             // Notify user about duplication and log it with details
             context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    localMessages.getString(FAILURE), localMessages.getString(DUPLICATION)));
+                    localeManagerBean.localize(FAILURE), localeManagerBean.localize(DUPLICATION)));
 
             log.warn("Unsuccessful registration attempt with data:{}{} ", System.getProperty("line.separator"), form);
             log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
