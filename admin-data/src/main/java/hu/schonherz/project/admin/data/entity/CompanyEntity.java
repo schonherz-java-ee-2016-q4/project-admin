@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import hu.schonherz.project.admin.data.quota.Quotas;
 import lombok.Getter;
 import lombok.Setter;
 
