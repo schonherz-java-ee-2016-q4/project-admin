@@ -44,7 +44,7 @@ public class CompanyServiceFacade implements CompanyServiceRemote {
         CompanyVo companyVo = realService.findById(id);
         if (companyVo != null) {
             companyVo.setActive(!companyVo.isActive());
-            log.info("Company " + companyVo.getName() + " is now " + (companyVo.isActive() ? "active" : "inactive"));
+            log.info("Company " + companyVo.getCompanyName() + " is now " + (companyVo.isActive() ? "active" : "inactive"));
         } else {
             log.warn("The company with id " + id + " does not exist. Cannot change status.");
         }
