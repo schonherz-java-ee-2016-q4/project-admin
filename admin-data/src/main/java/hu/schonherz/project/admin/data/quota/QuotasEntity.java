@@ -24,7 +24,7 @@ public class QuotasEntity implements Serializable {
     @Column(nullable = false)
     private int maxDayTickets;
     @Column(nullable = false)
-    private int maxWeekTicktes;
+    private int maxWeekTickets;
     @Column(nullable = false)
     private int maxMonthTickets;
 
