@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 
-public class CompanyEntityVoMapper {
+public final class CompanyEntityVoMapper {
 
     private static final Mapper MAPPER;
 

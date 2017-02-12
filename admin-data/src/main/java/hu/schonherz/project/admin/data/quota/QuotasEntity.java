@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class QuotasEntity implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     @Column(nullable = false)
     private int maxUsers;
     @Column(nullable = false)
