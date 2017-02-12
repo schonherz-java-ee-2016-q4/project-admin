@@ -17,7 +17,7 @@ public class QuotasVo implements Serializable {
     private int maxUsers;
     private int maxLoggedIn;
     private int maxDayTickets;
-    private int maxWeekTicktes;
+    private int maxWeekTickets;
     private int maxMonthTickets;
 
 }
