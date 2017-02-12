@@ -12,7 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 
 import javax.faces.bean.ManagedProperty;

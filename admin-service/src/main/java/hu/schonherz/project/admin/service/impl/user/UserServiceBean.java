@@ -19,7 +19,7 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import hu.schonherz.project.admin.data.entity.UserEntity;
 import hu.schonherz.project.admin.data.repository.UserRepository;
 import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
-import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mail.MailSender;
 import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;

@@ -2,7 +2,7 @@ package hu.schonherz.project.admin.service.impl.user;
 
 import hu.schonherz.project.admin.service.api.rpc.FailedRpcLoginAttemptException;
 import hu.schonherz.project.admin.service.api.rpc.RpcLoginServiceRemote;
-import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.UserData;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mapper.user.UserDataVoMapper;

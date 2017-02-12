@@ -6,16 +6,16 @@ import lombok.NonNull;
 
 public final class Encrypter {
 
-    private static final BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    private static final BCryptPasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
     private Encrypter() {
     }
 
     public static String encrypt(@NonNull final String password) {
-        return bCryptPasswordEncoder.encode(password);
+        return ENCODER.encode(password);
     }
 
     public static boolean match(@NonNull final String currentEncryptedPass, final String plainTextPass) {
-        return bCryptPasswordEncoder.matches(plainTextPass, currentEncryptedPass);
+        return ENCODER.matches(plainTextPass, currentEncryptedPass);
     }
 }
