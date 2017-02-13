@@ -30,7 +30,8 @@
         <dependency>
             <groupId>hu.schonherz.java.training.project</groupId>
             <artifactId>admin-service-api</artifactId>
-            <version>${project.version}</version>
+            <version>0.0.1-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -69,6 +70,8 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
+            <version>6.0</version>
+            <type>jar</type>
         </dependency>
         <!-- Spring webflow -->
         <dependency>

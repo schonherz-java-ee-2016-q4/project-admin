@@ -9,7 +9,8 @@
     <ui:define name="customBody">
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <h:form id="registrationForm">
+                <h:form id="loginForm">
+                    <p:growl id="growl" showDetail="true" />
                     <p:panel header="#{msg.form_login}" id="loginPanel">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"
@@ -31,7 +32,7 @@
                                             requiredMessage="#{msg.error_empty_field}">
                                 </p:password>
                                 <p:message class="user-notification" for="password" />
-                                <p:message for="loginForm" />
+                                <!--<p:message styleClass="float-right" for="loginForm" />-->
                             </p:panelGrid>
                             <p:panelGrid columns="3"
                                          columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
@@ -39,14 +40,14 @@
                                 <!-- Clear Fields Button -->
                                 <p:commandButton value="#{msg.label_clear_fields}"
                                                  update="username password" process="@this">
-                                    <p:resetInput target="registrationPanel" />
+                                    <p:resetInput target="loginPanel" />
                                 </p:commandButton>
                                 <div></div>
                                 <!-- Login button -->
                                 <p:commandButton value="#{msg.title_login_page}"
                                                  icon="ui-icon-plusthick"
                                                  actionListener="#{loginView.login()}"
-                                                 update="registrationForm">
+                                                 update="loginForm loginForm:growl">
                                 </p:commandButton>
                             </p:panelGrid>
                         </div>
