@@ -5,6 +5,7 @@ import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.LoginForm;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import javax.ejb.EJB;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -22,10 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginView {
 
-    private static final String SUCCESS = "success_short";
     private static final String FAILURE = "error_failure_short";
-    private static final String SUCCESSFUL_LOGIN = "success_login";
-    private static final String FAILED_LOGIN = "error_invalid_username_or_password";
+    private static final String FAILED_LOGIN = "growl_invalid_username_or_password";
 
     private LoginForm loginForm;
 
@@ -34,6 +33,8 @@ public class LoginView {
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManager;
+    @ManagedProperty(value = "#{navigatorBean}")
+    private NavigatorBean navigator;
 
     @PostConstruct
     public void init() {
@@ -59,22 +60,12 @@ public class LoginView {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("user", user);
 
-        sendSuccessMessage(context);
-    }
-
-    private void sendSuccessMessage(final FacesContext context) {
-        sendMessage(context, FacesMessage.SEVERITY_INFO, SUCCESS, SUCCESSFUL_LOGIN);
+        navigator.redirectTo(context, NavigatorBean.Pages.USER_LIST);
     }
 
     private void sendErrorMessage(final FacesContext context) {
-        sendMessage(context, FacesMessage.SEVERITY_ERROR, FAILURE, FAILED_LOGIN);
-    }
-
-    private void sendMessage(final FacesContext context, final FacesMessage.Severity severity, final String summaryKey, final String detailedKey) {
-//        String messageCompId = "loginForm";
-        context.addMessage(null, new FacesMessage(severity,
-                localeManager.localize(summaryKey), localeManager.localize(detailedKey)));
-
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                localeManager.localize(FAILURE), localeManager.localize(FAILED_LOGIN)));
     }
 
 }
