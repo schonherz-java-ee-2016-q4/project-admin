@@ -4,9 +4,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @ManagedBean(name = "navigatorBean")
 @ApplicationScoped
 public class NavigatorBean {
@@ -22,7 +20,8 @@ public class NavigatorBean {
         USER_LIST(SECURED_USER + "users.xhtml"),
         COMPANY_REGISTRATION(SECURED_COMPANY + "registration.xhtml"),
         COMPANY_PROFILE(SECURED_COMPANY + "profile.xhtml"),
-        COMPANY_LIST(SECURED_COMPANY + "companies.xhtml");
+        COMPANY_LIST(SECURED_COMPANY + "companies.xhtml"),
+        ERROR_PAGE("/dummyErrorPage.xhtml");
 
         private final String url;
 

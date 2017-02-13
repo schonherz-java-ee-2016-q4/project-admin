@@ -14,6 +14,8 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
+import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 import javax.faces.bean.ManagedProperty;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -44,11 +46,18 @@ public class ProfileView {
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
 
+    @ManagedProperty(value = "#{securityManagerBean}")
+    private SecurityManagerBean securityManagerBean;
+
     @EJB
     private UserServiceRemote userServiceRemote;
 
     @PostConstruct
     public void init() {
+        if (!securityManagerBean.isPagePermitted(NavigatorBean.Pages.USER_PROFILE)) {
+            return;
+        }
+
         Long userId = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
         log.info("UserId value: {}", userId);
         currentUserVo = userServiceRemote.findById(userId);
