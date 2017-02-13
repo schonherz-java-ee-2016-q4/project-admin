@@ -17,6 +17,7 @@ import hu.schonherz.project.admin.web.view.form.ProfileForm;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 import javax.faces.bean.ManagedProperty;
+import javax.servlet.http.HttpSession;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,9 +59,20 @@ public class ProfileView {
             return;
         }
 
-        Long userId = Long.valueOf(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id"));
-        log.info("UserId value: {}", userId);
-        currentUserVo = userServiceRemote.findById(userId);
+        // Get user whose profile we display
+        FacesContext context = FacesContext.getCurrentInstance();
+        String userIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
+        if (userIdParameter == null) {
+            // If there is no id parameter, than the logged in user's profile it is
+            HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            currentUserVo = (UserVo) session.getAttribute("user");
+            log.info("User " + currentUserVo.getUsername() + " is visiting his own profile.");
+        } else {
+            // If there is an id parameter, get that user from the database
+            currentUserVo = userServiceRemote.findById(Long.valueOf(userIdParameter));
+            log.info("Somebody with high role is visiting profile of user " + currentUserVo.getUsername() + ".");
+        }
+
         profileForm = new ProfileForm(currentUserVo);
         disableNewPassword = true;
     }
