@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Stateless(mappedName = "CompanyServiceFacade")
-@Remote(CompanyServiceFacade.class)
+@Remote(CompanyServiceRemote.class)
 public class CompanyServiceFacade implements CompanyServiceRemote {
 
     @EJB
