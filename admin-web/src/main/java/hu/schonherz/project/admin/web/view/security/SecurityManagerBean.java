@@ -46,15 +46,15 @@ public class SecurityManagerBean {
         UserVo user = getLoggedInUser(context);
         // Check if there is a logged in user
         if (user == null) {
-            navigator.redirectTo(context, Pages.LOGIN);
             log.warn("User tried to reach " + page.name() + " page without logging in.");
+            navigator.redirectTo(context, Pages.LOGIN);
             return false;
         }
 
         // Check if the user's permission is strong enough for the page
         if (user.getUserRole().getStrength() < permissionMap.get(page).getStrength()) {
-            navigator.redirectTo(context, Pages.ERROR_PAGE);
             log.warn("User " + user.getUsername() + " tried to reach " + page.name() + " without permission.");
+            navigator.redirectTo(context, Pages.ERROR_PAGE);
             return false;
         }
 
