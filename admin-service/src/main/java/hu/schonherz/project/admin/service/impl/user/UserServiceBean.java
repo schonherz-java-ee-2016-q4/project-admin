@@ -46,6 +46,11 @@ public class UserServiceBean implements UserServiceLocal {
     }
 
     @Override
+    public UserVo findByEmail(String email) {
+        return UserEntityVoMapper.toVo(userRepository.findByEmail(email));
+    }
+
+    @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public UserVo registrationUser(final UserVo userVo) {
         UserEntity user = UserEntityVoMapper.toEntity(userVo);
