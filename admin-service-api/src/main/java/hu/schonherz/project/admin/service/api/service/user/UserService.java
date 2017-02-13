@@ -10,6 +10,8 @@ public interface UserService {
 
     UserVo findByUsername(String username);
 
+    UserVo findByEmail(String email);
+
     List<UserVo> findAll();
 
     void delete(Long id);
