@@ -35,9 +35,14 @@ public class NavigatorBean {
 
     }
 
-    public void redirectTo(@NonNull final FacesContext context, @NonNull final Pages toPage, final String... params) {
+    public void redirectTo(@NonNull final Pages toPage, final String... params) {
         String fullUrl = createFullUrl(toPage.getUrl(), params);
+        FacesContext context = FacesContext.getCurrentInstance();
         context.getApplication().getNavigationHandler().handleNavigation(context, null, fullUrl);
+    }
+
+    public String buildProperty(@NonNull final String key, @NonNull final Object value) {
+        return key + '=' + value.toString();
     }
 
     private String createFullUrl(final String url, final String... params) {

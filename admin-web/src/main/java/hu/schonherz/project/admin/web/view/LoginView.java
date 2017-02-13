@@ -60,7 +60,7 @@ public class LoginView {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         session.setAttribute("user", user);
 
-        navigator.redirectTo(context, NavigatorBean.Pages.USER_PROFILE);
+        navigator.redirectTo(NavigatorBean.Pages.USER_PROFILE);
     }
 
     private void sendErrorMessage(final FacesContext context) {
