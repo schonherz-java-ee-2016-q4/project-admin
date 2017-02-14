@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.web.view.navigation;
 
+import java.util.Map;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -9,10 +10,14 @@ import lombok.NonNull;
 @ApplicationScoped
 public class NavigatorBean {
 
+    // Every parameter that we put in the request have this prefix, so we can separate our own parameters from the others.
+    public static final String PARAM_PREFIX = "adminParam:";
+
     private static final String PUBLIC = "/pages/public/";
     private static final String SECURED_USER = "/pages/secured/";
     private static final String SECURED_COMPANY = "/pages/secured/company/";
 
+    @ManagedBean(name = "Pages")
     public enum Pages {
         LOGIN(PUBLIC + "login.xhtml"),
         USER_REGISTRATION(PUBLIC + "registration.xhtml"),
@@ -35,22 +40,22 @@ public class NavigatorBean {
 
     }
 
-    public void redirectTo(@NonNull final Pages toPage, final String... params) {
+    public void redirectTo(@NonNull final Pages toPage, final Map<String, String> params) {
         String fullUrl = createFullUrl(toPage.getUrl(), params);
         FacesContext context = FacesContext.getCurrentInstance();
         context.getApplication().getNavigationHandler().handleNavigation(context, null, fullUrl);
     }
 
-    public String buildProperty(@NonNull final String key, @NonNull final Object value) {
-        return key + '=' + value.toString();
+    public void redirectTo(@NonNull final Pages toPage) {
+        redirectTo(toPage, null);
     }
 
-    private String createFullUrl(final String url, final String... params) {
+    private String createFullUrl(final String url, final Map<String, String> params) {
         String fullUrl = url;
 
         if (params != null) {
-            for (String param : params) {
-                fullUrl = addParameter(fullUrl, param);
+            for (Map.Entry<String, String> paramEntry : params.entrySet()) {
+                fullUrl = addParameter(fullUrl, paramEntry.getKey(), paramEntry.getValue());
             }
         }
 
@@ -58,12 +63,12 @@ public class NavigatorBean {
     }
 
     private String enableRedirect(final String url) {
-        return addParameter(url, "faces-redirect=true");
+        return addParameter(url, "faces-redirect", "true");
     }
 
-    private String addParameter(final String url, final String parameter) {
+    private String addParameter(final String url, final String paramKey, final String paramValue) {
         char separator = url.contains("?") ? '&' : '?';
-        return url + separator + parameter;
+        return url + separator + paramKey + '=' + paramValue;
     }
 
 }

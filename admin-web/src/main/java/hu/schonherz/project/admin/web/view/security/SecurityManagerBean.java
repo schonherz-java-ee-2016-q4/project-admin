@@ -52,7 +52,8 @@ public class SecurityManagerBean {
         }
 
         // Check if the user's permission is strong enough for the page
-        if (user.getUserRole().getStrength() < permissionMap.get(page).getStrength()) {
+        UserRole minimumRole = permissionMap.get(page);
+        if (minimumRole != null && user.getUserRole().getStrength() < minimumRole.getStrength()) {
             log.warn("User " + user.getUsername() + " tried to reach " + page.name() + " without permission.");
             navigator.redirectTo(Pages.ERROR_PAGE);
             return false;

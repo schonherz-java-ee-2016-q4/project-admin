@@ -15,7 +15,9 @@ import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataExcept
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.RegistrationForm;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import javax.faces.bean.ManagedProperty;
+import javax.servlet.http.HttpSession;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,6 +42,9 @@ public class RegistrationView {
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
 
+    @ManagedProperty(value = "#{navigatorBean}")
+    private NavigatorBean navigator;
+
     @EJB
     private UserServiceRemote userServiceRemote;
 
@@ -57,13 +62,19 @@ public class RegistrationView {
 
             // Try to save user data
             userVo.setPassword(Encrypter.encrypt(form.getUserVo().getPassword()));
-            userServiceRemote.registrationUser(userVo);
+            // This vo has ID
+            userVo = userServiceRemote.registrationUser(userVo);
 
             // Notify user about success and log it
             context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
 
             log.info("User '{}' successfully registered.", userVo.getUsername());
+
+            // Automatically login user and redirect to profile page
+            HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+            session.setAttribute("user", userVo);
+            navigator.redirectTo(NavigatorBean.Pages.USER_PROFILE);
         } catch (InvalidUserDataException iude) {
             // Notify user about duplication and log it with details
             context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
