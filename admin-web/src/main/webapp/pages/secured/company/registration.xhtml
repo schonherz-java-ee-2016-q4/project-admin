@@ -26,14 +26,21 @@
                                 <p:message class="user-notification" for="companyName"/>
                                 <!-- Company Administrator Email -->
                                 <p:outputLabel value="#{msg.field_admin_email}:" for="email"/>
+                                <!--<p:autoComplete id="email"-->
+                                <!--placeholder="example@example.com"-->
+                                <!--value="#{companyRegistrationView.companyRegistrationForm.adminEmail}"-->
+                                <!--completeMethod="#{companyRegistrationView.completeEmail}"-->
+                                <!--required="true" requiredMessage="#{msg.error_empty_field}"-->
+                                <!--validatorMessage="#{msg.error_invalid_email}">-->
+                                <!--<f:validateRegex-->
+                                <!--pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>-->
+                                <!--</p:autoComplete>-->
                                 <p:autoComplete id="email"
                                                 placeholder="example@example.com"
                                                 value="#{companyRegistrationView.companyRegistrationForm.adminEmail}"
                                                 completeMethod="#{companyRegistrationView.completeEmail}"
-                                                required="true" requiredMessage="#{msg.error_empty_field}"
-                                                validatorMessage="#{msg.error_invalid_email}">
-                                    <f:validateRegex
-                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
+                                                required="true" requiredMessage="#{msg.error_empty_field}">
+                                    <f:validator validatorId="adminEmailValidator"/>
                                 </p:autoComplete>
                                 <p:message class="user-notification" for="email"/>
                             </p:panelGrid>
