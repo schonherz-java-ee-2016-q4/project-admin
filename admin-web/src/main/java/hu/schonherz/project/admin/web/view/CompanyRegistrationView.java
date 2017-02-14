@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.web.view;
 
+import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
@@ -12,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.util.ArrayList;
@@ -25,11 +28,17 @@ import java.util.List;
 @Slf4j
 public class CompanyRegistrationView {
 
+    private static final String SUCCESS = "success_short";
+    private static final String SUCCESSFUL_REGISTRATION = "success_registration";
+    private static final String GLOBAL_COMP_ID = "registrationForm";
+
     private CompanyRegistrationForm companyRegistrationForm;
+
+    @ManagedProperty(value = "#{localeManagerBean}")
+    private LocaleManagerBean localeManagerBean;
 
     @EJB
     private UserServiceRemote userServiceRemote;
-
     @EJB
     private CompanyServiceRemote companyServiceRemote;
 
@@ -38,7 +47,7 @@ public class CompanyRegistrationView {
         companyRegistrationForm = new CompanyRegistrationForm();
     }
 
-    public List<String> listEmails(String query) {
+    public List<String> completeEmail(String query) {
         List<String> emails = new ArrayList<>();
         for (UserVo userVo : userServiceRemote.findAll()) {
             if (userVo.getEmail().contains(query)) {
@@ -50,13 +59,16 @@ public class CompanyRegistrationView {
 
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
-        CompanyVo companyVo = companyRegistrationForm.getCompanyVo();
-        setDefaultValues(companyVo);
         try {
+            CompanyVo companyVo = companyRegistrationForm.getCompanyVo();
+            companyVo.setAdminUser(getAdminUserByEmail());
+            setDefaultValues(companyVo);
             companyServiceRemote.save(companyVo);
             log.info("Company '{}' successfully registered.", companyVo.getCompanyName());
+            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                    localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
         } catch (InvalidCompanyDataException e) {
-            log.warn("Unsuccessful registration attempt with data:{}{} ", System.getProperty("line.separator"), companyRegistrationForm);
+            log.warn("Unsuccessful company registration attempt with data:{}{} ", System.getProperty("line.separator"), companyRegistrationForm);
             log.warn("Causing exception:" + System.getProperty("line.separator"), e);
         }
     }
@@ -65,6 +77,10 @@ public class CompanyRegistrationView {
         companyVo.setAgents(new HashSet<>());
         companyVo.setQuotes(new QuotasVo());
         companyVo.setActive(true);
+    }
+
+    private UserVo getAdminUserByEmail() {
+        return userServiceRemote.findByEmail(companyRegistrationForm.getAdminEmail());
     }
 
 }
