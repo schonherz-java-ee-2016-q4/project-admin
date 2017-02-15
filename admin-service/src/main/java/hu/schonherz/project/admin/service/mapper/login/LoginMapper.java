@@ -2,6 +2,7 @@ package hu.schonherz.project.admin.service.mapper.login;
 
 import hu.schonherz.project.admin.data.entity.LoginEntity;
 import hu.schonherz.project.admin.service.api.vo.LoginVo;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +11,16 @@ import org.dozer.Mapper;
 
 public final class LoginMapper {
 
-    private static final Mapper MAPPER = new DozerBeanMapper();
+    private static final Mapper MAPPER;
+
+    static {
+        DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
+        List<String> mappingFiles = new ArrayList<>();
+        mappingFiles.add("dozerJdk8Converters.xml");
+
+        dozerBeanMapper.setMappingFiles(mappingFiles);
+        MAPPER = dozerBeanMapper;
+    }
 
     private LoginMapper() {
     }
