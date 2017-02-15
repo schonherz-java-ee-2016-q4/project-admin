@@ -25,6 +25,11 @@ public class UserServiceFacade implements UserServiceRemote {
     }
 
     @Override
+    public UserVo findByEmail(final String email) {
+        return realService.findByEmail(email);
+    }
+
+    @Override
     public UserVo registrationUser(final UserVo userVo) throws InvalidUserDataException {
         try {
             return realService.registrationUser(userVo);
