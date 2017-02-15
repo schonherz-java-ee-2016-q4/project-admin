@@ -57,15 +57,26 @@ public class LoginView {
             return;
         }
 
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        HttpSession session = getSession();
         session.setAttribute("user", user);
 
         navigator.redirectTo(NavigatorBean.Pages.USER_PROFILE);
     }
 
+    public void logout() {
+        HttpSession session = getSession();
+        session.removeAttribute("user");
+        navigator.redirectTo(NavigatorBean.Pages.LOGIN);
+    }
+
     private void sendErrorMessage(final FacesContext context) {
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                 localeManager.localize(FAILURE), localeManager.localize(FAILED_LOGIN)));
+    }
+
+    private HttpSession getSession() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        return (HttpSession) context.getExternalContext().getSession(true);
     }
 
 }

@@ -1,6 +1,7 @@
 package hu.schonherz.project.admin.service.impl.user;
 
 import hu.schonherz.project.admin.service.api.rpc.FailedRpcLoginAttemptException;
+import hu.schonherz.project.admin.service.api.rpc.FailedRpcLogoutException;
 import hu.schonherz.project.admin.service.api.rpc.RpcLoginServiceRemote;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.UserData;
@@ -35,8 +36,33 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
             throw new FailedRpcLoginAttemptException("User " + username + " is inactive!");
         }
 
-        log.info("Succesful remote login for user: {}", username);
+        user.setLoggedIn(true);
+        user.setAvailable(true);
+        userService.registrationUser(user);
+        log.info("Succesful remote login. User: {} is available now", username);
+
         return UserDataVoMapper.toData(user);
+    }
+
+    @Override
+    public void rpcLogout(@NonNull final String username) throws FailedRpcLogoutException {
+        if (username.isEmpty()) {
+            throw new IllegalArgumentException("Username must not be empty string!");
+        }
+
+        UserVo user = userService.findByUsername(username);
+        if (user == null) {
+            throw new FailedRpcLogoutException("The user " + username + " does not exist!");
+        }
+
+        if (!user.isLoggedIn()) {
+            throw new FailedRpcLogoutException("User " + username + " is not logged in!");
+        }
+
+        user.setAvailable(false);
+        user.setLoggedIn(false);
+        userService.registrationUser(user);
+        log.info("Successful remote logout for user {}", username);
     }
 
 }

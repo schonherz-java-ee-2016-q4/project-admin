@@ -6,4 +6,6 @@ public interface RpcLoginServiceRemote {
 
     UserData rpcLogin(String username) throws FailedRpcLoginAttemptException;
 
+    void rpcLogout(String username) throws FailedRpcLogoutException;
+
 }
