@@ -1,11 +1,9 @@
 package hu.schonherz.project.admin.service.mapper.company;
 
 import hu.schonherz.project.admin.data.entity.CompanyEntity;
-import hu.schonherz.project.admin.data.entity.UserEntity;
 import hu.schonherz.project.admin.data.quota.QuotasEntity;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.QuotasVo;
-import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
 
 import java.util.List;
@@ -41,7 +39,7 @@ public final class CompanyEntityVoMapper {
         companyVo.setId(entity.getId());
         companyVo.setCompanyName(entity.getCompanyName());
         companyVo.setAdminUser(UserEntityVoMapper.toVo(entity.getAdminUser()));
-        companyVo.setAgents((Set<UserVo>) UserEntityVoMapper.toVo(entity.getAgents()));
+        companyVo.setAgents(UserEntityVoMapper.toVo(entity.getAgents()));
         companyVo.setActive(entity.isActive());
         companyVo.setQuotes(quotasVo);
         
@@ -64,31 +62,31 @@ public final class CompanyEntityVoMapper {
         companyEntity.setId(vo.getId());
         companyEntity.setCompanyName(vo.getCompanyName());
         companyEntity.setAdminUser(UserEntityVoMapper.toEntity(vo.getAdminUser()));
-        companyEntity.setAgents((Set<UserEntity>) UserEntityVoMapper.toEntity(vo.getAgents()));
+        companyEntity.setAgents(UserEntityVoMapper.toEntity(vo.getAgents()));
         companyEntity.setActive(vo.isActive());
         companyEntity.setQuotas(quotasEntity);
         
         return companyEntity;
     }
 
-    public static List<CompanyVo> toVo(final List<CompanyEntity> entities) {
+    public static Set<CompanyVo> toVo(final List<CompanyEntity> entities) {
         if (entities == null) {
             return null;
         }
 
         return entities.stream()
                 .map(entity -> toVo(entity))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
-    public static List<CompanyEntity> toEntity(final List<CompanyVo> vos) {
+    public static Set<CompanyEntity> toEntity(final List<CompanyVo> vos) {
         if (vos == null) {
             return null;
         }
 
         return vos.stream()
                 .map(vo -> toEntity(vo))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
 }
