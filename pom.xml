@@ -290,6 +290,7 @@
                     <linkXRef>false</linkXRef>
                     <consoleOutput>false</consoleOutput>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <verbose>true</verbose>
                 </configuration>
                 <executions>
                     <execution>

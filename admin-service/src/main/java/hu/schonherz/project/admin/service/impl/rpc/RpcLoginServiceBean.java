@@ -1,4 +1,4 @@
-package hu.schonherz.project.admin.service.impl.user;
+package hu.schonherz.project.admin.service.impl.rpc;
 
 import hu.schonherz.project.admin.service.api.login.LoginService;
 import hu.schonherz.project.admin.service.api.rpc.FailedRpcLoginAttemptException;

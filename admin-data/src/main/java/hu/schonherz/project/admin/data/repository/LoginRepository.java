@@ -10,6 +10,8 @@ public interface LoginRepository extends JpaRepository<LoginEntity, Long> {
 
     LoginEntity findById(Long id);
 
+    List<LoginEntity> findByUserIdOrderByLoginDateDesc(Long userId);
+
     List<LoginEntity> findByUserId(Long userId);
 
     List<LoginEntity> findByLoginDate(LocalDateTime loginDate);
