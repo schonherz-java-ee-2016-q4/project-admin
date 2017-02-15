@@ -33,8 +33,8 @@ public class LoginBean implements LoginService {
     }
 
     @Override
-    public Collection<LoginVo> findByUserId(final Long agentId) {
-        return LoginMapper.toVo(loginRepository.findByAgentId(agentId));
+    public Collection<LoginVo> findByUserId(final Long userId) {
+        return LoginMapper.toVo(loginRepository.findByUserId(userId));
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface LoginService {
 
     LoginVo findById(Long id);
 
-    Collection<LoginVo> findByUserId(Long agentId);
+    Collection<LoginVo> findByUserId(Long userId);
 
     Collection<LoginVo> findByDate(LocalDateTime loginDate);
 

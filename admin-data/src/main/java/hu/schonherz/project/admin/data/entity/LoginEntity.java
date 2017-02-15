@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.data.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @Table(name = "login", schema = "public")
-public class LoginEntity extends BaseEntity {
+public class LoginEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -6201828861327999500L;
     private Long userId;

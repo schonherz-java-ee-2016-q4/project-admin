@@ -59,11 +59,14 @@ public class RegistrationView {
         try {
             UserVo userVo = form.getUserVo();
             setDefaultValues(userVo);
+            log.warn("--------- userVo: " + userVo.toString());
 
             // Try to save user data
             userVo.setPassword(Encrypter.encrypt(form.getUserVo().getPassword()));
+            log.warn("--------- userVo: " + userVo.toString());
             // This vo has ID
             userVo = userServiceRemote.registrationUser(userVo);
+            log.warn("--------- userVo: " + userVo.toString());
 
             // Notify user about success and log it
             context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
