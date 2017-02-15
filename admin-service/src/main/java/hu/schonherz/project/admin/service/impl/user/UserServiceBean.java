@@ -44,9 +44,9 @@ public class UserServiceBean implements UserServiceLocal {
     public UserVo findByUsername(final String username) {
         return UserEntityVoMapper.toVo(userRepository.findByUsername(username));
     }
-
+    
     @Override
-    public UserVo findByEmail(String email) {
+    public UserVo findByEmail(final String email) {
         return UserEntityVoMapper.toVo(userRepository.findByEmail(email));
     }
 

@@ -6,7 +6,6 @@ import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLoca
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.mapper.company.CompanyEntityVoMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -61,11 +60,11 @@ public class CompanyServiceBean implements CompanyServiceLocal {
 
     @Override
     public List<CompanyVo> findAll() {
-        return CompanyEntityVoMapper.toVo(companyRepository.findAll()); 
+        return CompanyEntityVoMapper.toVo(companyRepository.findAll());
     }
 
     @Override
-    public void changeStatus(Long id) {
+    public void changeStatus(final Long id) {
         CompanyEntity entity = companyRepository.findOne(id);
         if (entity == null) {
             log.warn("Company with id " + id + " does not exist. Cannot change status");

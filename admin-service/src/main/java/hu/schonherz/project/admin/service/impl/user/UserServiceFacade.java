@@ -25,7 +25,7 @@ public class UserServiceFacade implements UserServiceRemote {
     }
 
     @Override
-    public UserVo findByEmail(String email) {
+    public UserVo findByEmail(final String email) {
         return realService.findByEmail(email);
     }
 

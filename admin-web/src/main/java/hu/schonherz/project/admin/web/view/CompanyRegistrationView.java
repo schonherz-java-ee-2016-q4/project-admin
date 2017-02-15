@@ -46,11 +46,11 @@ public class CompanyRegistrationView {
     private CompanyServiceRemote companyServiceRemote;
 
     @PostConstruct
-    public void init() {
+    public final void init() {
         companyRegistrationForm = new CompanyRegistrationForm();
     }
 
-    public List<String> completeEmail(String query) {
+    public List<String> completeEmail(final String query) {
         List<String> emails = new ArrayList<>();
         for (UserVo userVo : userServiceRemote.findAll()) {
             if (userVo.getEmail().contains(query)) {

@@ -20,7 +20,7 @@ public class CompanyServiceFacade implements CompanyServiceRemote {
     private CompanyServiceLocal realService;
 
     @Override
-    public CompanyVo save(CompanyVo companyVo) throws InvalidCompanyDataException {
+    public CompanyVo save(final CompanyVo companyVo) throws InvalidCompanyDataException {
         try {
             return realService.save(companyVo);
         } catch (EJBTransactionRolledbackException rolledBackException) {
@@ -29,12 +29,12 @@ public class CompanyServiceFacade implements CompanyServiceRemote {
     }
 
     @Override
-    public CompanyVo findById(Long id) {
+    public CompanyVo findById(final Long id) {
         return realService.findById(id);
     }
 
     @Override
-    public CompanyVo findByName(String companyName) {
+    public CompanyVo findByName(final String companyName) {
         return realService.findByName(companyName);
     }
 
@@ -44,7 +44,7 @@ public class CompanyServiceFacade implements CompanyServiceRemote {
     }
 
     @Override
-    public void changeStatus(Long id) {
+    public void changeStatus(final Long id) {
         realService.changeStatus(id);
     }
 
