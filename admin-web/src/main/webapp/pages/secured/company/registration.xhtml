@@ -3,6 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 template="/pages/templates/masterLayout.xhtml">
 
     <ui:define name="customTitle">#{msg.title_company_registration_page}</ui:define>
@@ -10,51 +12,54 @@
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <h:form id="companyRegistrationForm">
-                    <p:panel header="#{msg.form_company}" id="companyRegistrationPanel">
-                        <div class="ui-fluid">
-                            <p:panelGrid columns="3"
-                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
-                                         layout="grid" styleClass="ui-panelgrid-blank">
-                                <!-- Company name -->
-                                <p:outputLabel value="#{msg.field_company_name}:" for="companyName"/>
-                                <p:inputText id="companyName"
-                                             value="#{companyRegistrationView.companyRegistrationForm.companyName}"
-                                             placeholder="#{msg.field_company_name}" required="true"
-                                             requiredMessage="#{msg.error_empty_field}">
-                                    <f:validateLength minimum="2" maximum="50"/>
-                                </p:inputText>
-                                <p:message class="user-notification" for="companyName"/>
-                                <!-- Company Administrator Email -->
-                                <p:outputLabel value="#{msg.field_admin_email}:" for="email"/>
-                                <p:autoComplete id="email"
-                                                placeholder="example@example.com"
-                                                value="#{companyRegistrationView.companyRegistrationForm.adminEmail}"
-                                                completeMethod="#{companyRegistrationView.completeEmail}"
-                                                required="true" requiredMessage="#{msg.error_empty_field}"
-                                                validatorMessage="#{msg.error_invalid_email}">
-                                    <f:validateRegex
+                    <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
+                    <c:if test="#{securityManagerBean.isPagePermitted(Pages.COMPANY_REGISTRATION)}">
+                        <p:panel header="#{msg.form_company}" id="companyRegistrationPanel">
+                            <div class="ui-fluid">
+                                <p:panelGrid columns="3"
+                                             columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                             layout="grid" styleClass="ui-panelgrid-blank">
+                                    <!-- Company name -->
+                                    <p:outputLabel value="#{msg.field_company_name}:" for="companyName"/>
+                                    <p:inputText id="companyName"
+                                                 value="#{companyRegistrationView.companyRegistrationForm.companyName}"
+                                                 placeholder="#{msg.field_company_name}" required="true"
+                                                 requiredMessage="#{msg.error_empty_field}">
+                                        <f:validateLength minimum="2" maximum="50"/>
+                                    </p:inputText>
+                                    <p:message class="user-notification" for="companyName"/>
+                                    <!-- Company Administrator Email -->
+                                    <p:outputLabel value="#{msg.field_admin_email}:" for="email"/>
+                                    <p:autoComplete id="email"
+                                                    placeholder="example@example.com"
+                                                    value="#{companyRegistrationView.companyRegistrationForm.adminEmail}"
+                                                    completeMethod="#{companyRegistrationView.completeEmail}"
+                                                    required="true" requiredMessage="#{msg.error_empty_field}"
+                                                    validatorMessage="#{msg.error_invalid_email}">
+                                        <f:validateRegex
                                             pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
-                                </p:autoComplete>
-                                <p:message class="user-notification" for="email"/>
-                            </p:panelGrid>
-                            <p:panelGrid columns="3"
-                                         columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
-                                         layout="grid" styleClass="ui-panelgrid-blank">
-                                <!-- Clear Fields Button -->
-                                <p:commandButton value="#{msg.label_clear_fields}"
-                                                 update="companyRegistrationPanel" process="@this">
-                                    <p:resetInput target="companyRegistrationPanel"/>
-                                </p:commandButton>
-                                <div></div>
-                                <!-- Register button -->
-                                <p:commandButton value="#{msg.label_register}"
-                                                 icon="ui-icon-plusthick"
-                                                 actionListener="#{companyRegistrationView.registration}"
-                                                 update="companyRegistrationForm">
-                                </p:commandButton>
-                            </p:panelGrid>
-                        </div>
-                    </p:panel>
+                                    </p:autoComplete>
+                                    <p:message class="user-notification" for="email"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="3"
+                                             columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
+                                             layout="grid" styleClass="ui-panelgrid-blank">
+                                    <!-- Clear Fields Button -->
+                                    <p:commandButton value="#{msg.label_clear_fields}"
+                                                     update="companyRegistrationPanel" process="@this">
+                                        <p:resetInput target="companyRegistrationPanel"/>
+                                    </p:commandButton>
+                                    <div></div>
+                                    <!-- Register button -->
+                                    <p:commandButton value="#{msg.label_register}"
+                                                     icon="ui-icon-plusthick"
+                                                     actionListener="#{companyRegistrationView.registration}"
+                                                     update="companyRegistrationForm">
+                                    </p:commandButton>
+                                </p:panelGrid>
+                            </div>
+                        </p:panel>
+                    </c:if>
                 </h:form>
             </div>
         </div>
