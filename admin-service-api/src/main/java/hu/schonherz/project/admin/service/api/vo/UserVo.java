@@ -23,6 +23,8 @@ public class UserVo extends BaseVo implements Serializable {
 
     private boolean active;
 
+    private boolean available;
+
     private UserRole userRole;
 
 }
