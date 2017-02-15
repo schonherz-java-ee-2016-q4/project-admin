@@ -5,6 +5,8 @@ import hu.schonherz.project.admin.data.repository.CompanyRepository;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.mapper.company.CompanyEntityVoMapper;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
@@ -59,7 +61,7 @@ public class CompanyServiceBean implements CompanyServiceLocal {
 
     @Override
     public List<CompanyVo> findAll() {
-        return CompanyEntityVoMapper.toVo(companyRepository.findAll());
+        return CompanyEntityVoMapper.toVo(companyRepository.findAll()); 
     }
 
     @Override

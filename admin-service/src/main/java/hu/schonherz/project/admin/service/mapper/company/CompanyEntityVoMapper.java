@@ -69,24 +69,24 @@ public final class CompanyEntityVoMapper {
         return companyEntity;
     }
 
-    public static Set<CompanyVo> toVo(final List<CompanyEntity> entities) {
+    public static List<CompanyVo> toVo(final List<CompanyEntity> entities) {
         if (entities == null) {
             return null;
         }
 
         return entities.stream()
                 .map(entity -> toVo(entity))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
-    public static Set<CompanyEntity> toEntity(final List<CompanyVo> vos) {
+    public static List<CompanyEntity> toEntity(final List<CompanyVo> vos) {
         if (vos == null) {
             return null;
         }
 
         return vos.stream()
                 .map(vo -> toEntity(vo))
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
 }
