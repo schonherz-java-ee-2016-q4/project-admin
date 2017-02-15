@@ -73,7 +73,7 @@ public class CompanyRegistrationView {
             setDefaultValues(companyVo);
             companyServiceRemote.save(companyVo);
             log.info("Company '{}' successfully registered.", companyVo.getCompanyName());
-            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
+            context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
         } catch (InvalidCompanyDataException e) {
             log.warn("Unsuccessful company registration attempt with data:{}{} ", System.getProperty("line.separator"), companyRegistrationForm);
