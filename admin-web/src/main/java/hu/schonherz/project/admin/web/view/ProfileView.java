@@ -14,7 +14,6 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
-import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 import javax.faces.bean.ManagedProperty;
 import javax.servlet.http.HttpSession;
@@ -55,10 +54,6 @@ public class ProfileView {
 
     @PostConstruct
     public void init() {
-        if (!securityManagerBean.isPagePermitted(NavigatorBean.Pages.USER_PROFILE)) {
-            return;
-        }
-
         // Get user whose profile we display
         FacesContext context = FacesContext.getCurrentInstance();
         String userIdParameter = context.getExternalContext().getRequestParameterMap().get("id");

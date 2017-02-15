@@ -14,7 +14,6 @@ import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
-import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 
 import javax.faces.bean.ManagedProperty;
@@ -48,10 +47,6 @@ public class UsersView {
 
     @PostConstruct
     public void init() {
-        if (!securityManagerBean.isPagePermitted(NavigatorBean.Pages.USER_LIST)) {
-            return;
-        }
-
         initializeList();
         users = userServiceRemote.findAll();
     }

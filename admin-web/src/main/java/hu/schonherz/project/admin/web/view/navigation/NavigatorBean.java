@@ -1,5 +1,6 @@
 package hu.schonherz.project.admin.web.view.navigation;
 
+import java.util.HashMap;
 import java.util.Map;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -17,7 +18,6 @@ public class NavigatorBean {
     private static final String SECURED_USER = "/pages/secured/";
     private static final String SECURED_COMPANY = "/pages/secured/company/";
 
-    @ManagedBean(name = "Pages")
     public enum Pages {
         LOGIN(PUBLIC + "login.xhtml"),
         USER_REGISTRATION(PUBLIC + "registration.xhtml"),
@@ -38,6 +38,12 @@ public class NavigatorBean {
             return url;
         }
 
+    }
+
+    public void redirectTo(@NonNull final Pages toPage, final String paramKey, final Object paramValue) {
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put(paramKey, paramValue.toString());
+        redirectTo(toPage, paramMap);
     }
 
     public void redirectTo(@NonNull final Pages toPage, final Map<String, String> params) {
