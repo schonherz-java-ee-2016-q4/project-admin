@@ -1,69 +1,113 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/pages/templates/masterLayout.xhtml">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/pages/templates/masterLayout.xhtml">
 
-    <ui:define name="customTitle">#{msg.title_company_registration_page}</ui:define>
-    <ui:define name="customBody">
-        <div class="ui-g">
-            <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <h:form id="registrationForm">
-                    <p:panel header="#{msg.form_company}" id="registrationPanel">
-                        <div class="ui-fluid">
-                            <p:panelGrid columns="3"
-                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
-                                         layout="grid" styleClass="ui-panelgrid-blank">
-                                <!-- Company name -->
-                                <p:outputLabel value="#{msg.field_company_name}:" for="companyName"/>
-                                <p:inputText id="companyName"
-                                             value="#{companyRegistrationView.companyRegistrationForm.companyName}"
-                                             placeholder="#{msg.field_company_name}" required="true"
-                                             requiredMessage="#{msg.error_empty_field}">
-                                    <f:validateLength minimum="2" maximum="50"/>
-                                </p:inputText>
-                                <p:message class="user-notification" for="companyName"/>
-                                <!-- Company Administrator Email -->
-                                <p:outputLabel value="#{msg.field_admin_email}:" for="email"/>
-                                <!--<p:autoComplete id="email"-->
-                                <!--placeholder="example@example.com"-->
-                                <!--value="#{companyRegistrationView.companyRegistrationForm.adminEmail}"-->
-                                <!--completeMethod="#{companyRegistrationView.completeEmail}"-->
-                                <!--required="true" requiredMessage="#{msg.error_empty_field}"-->
-                                <!--validatorMessage="#{msg.error_invalid_email}">-->
-                                <!--<f:validateRegex-->
-                                <!--pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>-->
-                                <!--</p:autoComplete>-->
-                                <p:autoComplete id="email"
-                                                placeholder="example@example.com"
-                                                value="#{companyRegistrationView.companyRegistrationForm.adminEmail}"
-                                                completeMethod="#{companyRegistrationView.completeEmail}"
-                                                required="true" requiredMessage="#{msg.error_empty_field}">
-                                    <f:validator validatorId="adminEmailValidator"/>
-                                </p:autoComplete>
-                                <p:message class="user-notification" for="email"/>
-                            </p:panelGrid>
-                            <p:panelGrid columns="3"
-                                         columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
-                                         layout="grid" styleClass="ui-panelgrid-blank">
-                                <!-- Clear Fields Button -->
-                                <p:commandButton value="#{msg.label_clear_fields}"
-                                                 update="registrationPanel" process="@this">
-                                    <p:resetInput target="registrationPanel"/>
-                                </p:commandButton>
-                                <div></div>
-                                <!-- Register button -->
-                                <p:commandButton value="#{msg.label_register}"
-                                                 icon="ui-icon-plusthick"
-                                                 actionListener="#{companyRegistrationView.registration}"
-                                                 update="registrationForm">
-                                </p:commandButton>
-                            </p:panelGrid>
-                        </div>
-                    </p:panel>
-                </h:form>
-            </div>
-        </div>
-    </ui:define>
+	<ui:define name="customTitle">#{msg.title_company_registration_page}</ui:define>
+	<ui:define name="customBody">
+		<div class="ui-g">
+			<div class="ui-g-9 ui-md-9 ui-lg-9">
+				<h:form id="profileForm">
+					<p:panel header="#{msg.form_company}" id="profilePanel">
+						<div class="ui-fluid">
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<!-- Company name -->
+								<p:outputLabel value="#{msg.field_company_name}:"
+									for="companyName" />
+								<p:inputText id="companyName"
+									value="#{companyProfileView.companyProfileForm.companyName}"
+									placeholder="#{msg.field_company_name}" required="true"
+									requiredMessage="#{msg.error_empty_field}">
+									<f:validateLength minimum="2" maximum="50" />
+								</p:inputText>
+								<p:message class="user-notification" for="companyName" />
+								<!-- Company Administrator Email -->
+								<p:outputLabel value="#{msg.field_admin_email}:" for="email" />
+								<!--<p:autoComplete id="email"-->
+								<!--placeholder="example@example.com"-->
+								<!--value="#{companyRegistrationView.companyRegistrationForm.adminEmail}"-->
+								<!--completeMethod="#{companyRegistrationView.completeEmail}"-->
+								<!--required="true" requiredMessage="#{msg.error_empty_field}"-->
+								<!--validatorMessage="#{msg.error_invalid_email}">-->
+								<!--<f:validateRegex-->
+								<!--pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>-->
+								<!--</p:autoComplete>-->
+								<p:autoComplete id="email" placeholder="example@example.com"
+									value="#{companyProfileView.companyProfileForm.adminEmail}"
+									completeMethod="#{companyProfileView.completeEmail}"
+									required="true" requiredMessage="#{msg.error_empty_field}">
+									<!-- 									<f:validator validatorId="adminEmailValidator" /> -->
+								</p:autoComplete>
+								<p:message class="user-notification" for="email" />
+							</p:panelGrid>
+							<p:separator />
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="Maximum usernumber:" for="maxUser" />
+								<p:spinner id="maxUser"
+									value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" />
+								<p:message class="user-notification" for="maxUser" />
+							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="Maximum simultaneous login:"
+									for="maxLoggedIn" />
+								<p:spinner id="maxLoggedIn"
+									value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" />
+								<p:message class="user-notification" for="maxLoggedIn" />
+							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="Maximum Issuetickets per Day:"
+									for="maxDayTickets" />
+								<p:spinner id="maxDayTickets"
+									value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" />
+								<p:message class="user-notification" for="maxDayTickets" />
+							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="Maximum Issuetickets per Week:"
+									for="maxWeekTickets" />
+								<p:spinner id="maxWeekTickets"
+									value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" />
+								<p:message class="user-notification" for="maxWeekTickets" />
+							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="Maximum Issuetickets per Month:"
+									for="maxMonthTickets" />
+								<p:spinner id="maxMonthTickets"
+									value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" />
+								<p:message class="user-notification" for="maxMonthTickets" />
+							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<!-- Clear Fields Button -->
+								<p:commandButton value="#{msg.label_clear_fields}"
+									update="profilePanel" process="@this">
+									<p:resetInput target="profilePanel" />
+								</p:commandButton>
+								<div></div>
+								<!-- Save button -->
+								<p:commandButton value="#{msg.label_save}" icon="ui-icon-pencil"
+									actionListener="#{companyProfileView.save()}"
+									update="profileForm" ajax="false" validateClient="true">
+								</p:commandButton>
+							</p:panelGrid>
+						</div>
+					</p:panel>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
 </ui:composition>
