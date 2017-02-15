@@ -30,7 +30,10 @@ public class CompanyRegistrationView {
 
     private static final String SUCCESS = "success_short";
     private static final String SUCCESSFUL_REGISTRATION = "success_registration";
-    private static final String GLOBAL_COMP_ID = "registrationForm";
+    private static final String GLOBAL_COMP_ID = "companyRegistrationForm";
+    private static final String EMAIL_COMP_ID = "companyRegistrationForm:email";
+    private static final String FAILURE = "error_failure_short";
+    private static final String ERROR_ADMIN_EMAIL = "error_admin_email";
 
     private CompanyRegistrationForm companyRegistrationForm;
 
@@ -59,6 +62,11 @@ public class CompanyRegistrationView {
 
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
+        if (getAdminUserByEmail() == null) {
+            context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    localeManagerBean.localize(FAILURE), localeManagerBean.localize(ERROR_ADMIN_EMAIL)));
+            return;
+        }
         try {
             CompanyVo companyVo = companyRegistrationForm.getCompanyVo();
             companyVo.setAdminUser(getAdminUserByEmail());
