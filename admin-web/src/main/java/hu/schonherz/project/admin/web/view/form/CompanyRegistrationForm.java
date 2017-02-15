@@ -20,16 +20,17 @@ public class CompanyRegistrationForm {
     //    Vo fields
     private Long id;
     private String companyName;
+    private String domainAddress;
     private UserVo adminUser;
     private QuotasVo quotes;
     private Set<UserVo> agents;
     private boolean active;
 
-
     public CompanyVo getCompanyVo() {
         CompanyVo companyVo = new CompanyVo();
         companyVo.setId(id);
         companyVo.setCompanyName(companyName);
+        companyVo.setDomainAddress(domainAddress);
         companyVo.setAdminUser(adminUser);
         companyVo.setQuotes(quotes);
         companyVo.setAgents(agents);

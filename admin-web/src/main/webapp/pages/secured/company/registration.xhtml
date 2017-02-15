@@ -28,6 +28,7 @@
                                         <f:validateLength minimum="2" maximum="50"/>
                                     </p:inputText>
                                     <p:message class="user-notification" for="companyName"/>
+
                                     <!-- Company Administrator Email -->
                                     <p:outputLabel value="#{msg.field_admin_email}:" for="email"/>
                                     <p:autoComplete id="email"
@@ -40,6 +41,17 @@
                                             pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
                                     </p:autoComplete>
                                     <p:message class="user-notification" for="email"/>
+
+                                    <!-- Domain -->
+                                    <p:outputLabel value="#{msg.label_domain}:" for="companyName"/>
+                                    <p:inputText id="domain"
+                                                 value="#{companyRegistrationView.companyRegistrationForm.domainAddress}"
+                                                 placeholder="www.company.com" required="true"
+                                                 requiredMessage="#{msg.error_empty_field}">
+                                        <f:validateLength minimum="6"/>
+                                    </p:inputText>
+                                    <p:message class="user-notification" for="domain"/>
+
                                 </p:panelGrid>
                                 <p:panelGrid columns="3"
                                              columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"

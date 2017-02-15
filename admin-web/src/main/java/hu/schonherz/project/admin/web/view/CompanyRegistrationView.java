@@ -30,8 +30,8 @@ public class CompanyRegistrationView {
 
     private static final String SUCCESS = "success_short";
     private static final String SUCCESSFUL_REGISTRATION = "success_registration";
-    private static final String GLOBAL_COMP_ID = "companyRegistrationForm";
     private static final String EMAIL_COMP_ID = "companyRegistrationForm:email";
+    private static final String DOMAIN_COMP_ID = "companyRegistrationForm:domain";
     private static final String FAILURE = "error_failure_short";
     private static final String ERROR_ADMIN_EMAIL = "error_admin_email";
 
@@ -74,7 +74,7 @@ public class CompanyRegistrationView {
             setDefaultValues(companyVo);
             companyServiceRemote.save(companyVo);
             log.info("Company '{}' successfully registered.", companyVo.getCompanyName());
-            context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
+            context.addMessage(DOMAIN_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
         } catch (InvalidCompanyDataException e) {
             log.warn("Unsuccessful company registration attempt with data:{}{} ", System.getProperty("line.separator"), companyRegistrationForm);

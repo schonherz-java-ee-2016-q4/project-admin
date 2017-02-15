@@ -8,16 +8,8 @@ import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import org.dozer.DozerBeanMapper;
-import org.dozer.Mapper;
 
 public final class CompanyEntityVoMapper {
-
-    private static final Mapper MAPPER;
-
-    static {
-        MAPPER = new DozerBeanMapper();
-    }
 
     private CompanyEntityVoMapper() {
     }
@@ -35,6 +27,7 @@ public final class CompanyEntityVoMapper {
         quotasVo.setMaxMonthTickets(entity.getQuotas().getMaxMonthTickets());
         companyVo.setId(entity.getId());
         companyVo.setCompanyName(entity.getCompanyName());
+        companyVo.setDomainAddress(entity.getDomainAddress());
         companyVo.setAdminUser(UserEntityVoMapper.toVo(entity.getAdminUser()));
         companyVo.setAgents(UserEntityVoMapper.toVo(entity.getAgents()));
         companyVo.setActive(entity.isActive());
@@ -55,6 +48,7 @@ public final class CompanyEntityVoMapper {
         quotasEntity.setMaxMonthTickets(vo.getQuotes().getMaxMonthTickets());
         companyEntity.setId(vo.getId());
         companyEntity.setCompanyName(vo.getCompanyName());
+        companyEntity.setDomainAddress(vo.getDomainAddress());
         companyEntity.setAdminUser(UserEntityVoMapper.toEntity(vo.getAdminUser()));
         companyEntity.setAgents(UserEntityVoMapper.toEntity(vo.getAgents()));
         companyEntity.setActive(vo.isActive());
