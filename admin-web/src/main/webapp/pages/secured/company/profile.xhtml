@@ -5,7 +5,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/pages/templates/masterLayout.xhtml">
 
-	<ui:define name="customTitle">#{msg.title_company_registration_page}</ui:define>
+	<ui:define name="customTitle">#{msg.title_company_profile_page}</ui:define>
 	<ui:define name="customBody">
 		<div class="ui-g">
 			<div class="ui-g-9 ui-md-9 ui-lg-9">
@@ -41,7 +41,7 @@
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="Maximum usernumber:" for="maxUser" />
+								<p:outputLabel value="#{msg.field_maximum_usernumber}:" for="maxUser" />
 								<p:spinner id="maxUser"
 									value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" />
 								<p:message class="user-notification" for="maxUser" />
@@ -49,7 +49,7 @@
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="Maximum simultaneous login:"
+								<p:outputLabel value="#{msg.field_maximum_simultaneous_login}:"
 									for="maxLoggedIn" />
 								<p:spinner id="maxLoggedIn"
 									value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" />
@@ -58,7 +58,7 @@
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="Maximum Issuetickets per Day:"
+								<p:outputLabel value="#{msg.field_maximum_issuetickets_day}:"
 									for="maxDayTickets" />
 								<p:spinner id="maxDayTickets"
 									value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" />
@@ -67,7 +67,7 @@
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="Maximum Issuetickets per Week:"
+								<p:outputLabel value="#{msg.field_maximum_issuetickets_week}:"
 									for="maxWeekTickets" />
 								<p:spinner id="maxWeekTickets"
 									value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" />
@@ -76,21 +76,29 @@
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="Maximum Issuetickets per Month:"
+								<p:outputLabel value="#{msg.field_maximum_issuetickets_month}:"
 									for="maxMonthTickets" />
 								<p:spinner id="maxMonthTickets"
 									value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" />
 								<p:message class="user-notification" for="maxMonthTickets" />
 							</p:panelGrid>
 							<p:separator />
+							<p:outputLabel value="#{msg.label_select_agents}:"/>
 							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2"
+								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="Select agents for this company:"
-									for="agentsPicklist" />
-								<p:pickList id="agentsPicklist" value="#{companyProfileView.agents}"
-									var="agents" itemLabel="#{agents}" itemValue="#{agents}" />
+								<p:outputLabel value="#{msg.label_available_agents}" for="agentsPicklist"/>
+								<p:outputLabel value="#{msg.label_current_agents}" for="agentsPicklist"/>
+								<div></div>
+							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:pickList id="agentsPicklist"
+									value="#{companyProfileView.agents}" var="agents"
+									itemLabel="#{agents}" itemValue="#{agents}" />
 								<p:message class="user-notification" for="agentsPicklist" />
+								<div></div>
 							</p:panelGrid>
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
