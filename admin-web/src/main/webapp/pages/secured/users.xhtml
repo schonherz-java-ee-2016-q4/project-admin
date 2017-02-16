@@ -11,95 +11,93 @@
 
     <ui:define name="customTitle">#{msg.title_users_page}</ui:define>
     <ui:define name="customBody">
-        <h:form class="ui-g" id="form">
-            <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
-            <c:if test="#{securityManagerBean.isPagePermitted(Pages.USER_LIST)}">
-                <p:growl id="growl" showDetail="true" />
-                <div class="ui-g-9 ui-md-9 ui-lg-9">
-                    <p:dataTable var="user" value="#{usersView.users}"
-                                 id="user-table" sortBy="${user.username}"
-                                 emptyMessage="#{msg.label_no_records}">
-                        <p:column headerText="#{msg.field_username}">
-                            <div class="user-table-content">
-                                <h:outputText value="#{user.username}" />
-                            </div>
-                        </p:column>
-                        <p:column headerText="#{msg.field_email}"
-                                  priority="3">
-                            <div class="user-table-content">
-                                <h:outputText value="#{user.email}" />
-                            </div>
-                        </p:column>
-                        <p:column headerText="#{msg.field_status}"
-                                  priority="2">
-                            <div
-                                class="user-table-content #{user.active ? 'active-status' : 'inactive-status'}">
-                                <h:outputText
-                                    value="#{user.active ? 'Active' : 'Inactive'}" />
-                            </div>
-                        </p:column>
-                        <p:column headerText="#{msg.field_settings}">
-                            <div class="user-table-content">
+        <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
+        <h:form class="ui-g" id="form" rendered="#{securityManagerBean.isPagePermitted(Pages.USER_LIST)}">
+            <p:growl id="growl" showDetail="true" />
+            <div class="ui-g-9 ui-md-9 ui-lg-9">
+                <p:dataTable var="user" value="#{usersView.users}"
+                             id="user-table" sortBy="${user.username}"
+                             emptyMessage="#{msg.label_no_records}">
+                    <p:column headerText="#{msg.field_username}">
+                        <div class="user-table-content">
+                            <h:outputText value="#{user.username}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="#{msg.field_email}"
+                              priority="3">
+                        <div class="user-table-content">
+                            <h:outputText value="#{user.email}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="#{msg.field_status}"
+                              priority="2">
+                        <div
+                            class="user-table-content #{user.active ? 'active-status' : 'inactive-status'}">
+                            <h:outputText
+                                value="#{user.active ? 'Active' : 'Inactive'}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="#{msg.field_settings}">
+                        <div class="user-table-content">
 
-                                <!-- Edit button -->
-                                <p:commandButton id="edit" icon="ui-icon-pencil"
-                                                 actionListener="#{navigatorBean.redirectTo(Pages.USER_PROFILE, 'id', user.id)}">
+                            <!-- Edit button -->
+                            <p:commandButton id="edit" icon="ui-icon-pencil"
+                                             actionListener="#{navigatorBean.redirectTo(Pages.USER_PROFILE, 'id', user.id)}">
 
-                                </p:commandButton>
+                            </p:commandButton>
 
-                                <!-- Status button -->
-                                <p:commandButton id="status"
-                                                 icon="ui-icon-power"
-                                                 actionListener="#{usersView.changeUserStatus(user)}"
-                                                 update="user-table form:growl"
-                                                 process="@all">
-                                </p:commandButton>
+                            <!-- Status button -->
+                            <p:commandButton id="status"
+                                             icon="ui-icon-power"
+                                             actionListener="#{usersView.changeUserStatus(user)}"
+                                             update="user-table form:growl"
+                                             process="@all">
+                            </p:commandButton>
 
-                                <!-- Reset password button -->
-                                <p:commandButton id="resetPassword"
-                                                 icon="ui-icon-refresh"
-                                                 actionListener="#{usersView.resetUserPassword(user)}"
-                                                 update="user-table form:growl">
-                                </p:commandButton>
+                            <!-- Reset password button -->
+                            <p:commandButton id="resetPassword"
+                                             icon="ui-icon-refresh"
+                                             actionListener="#{usersView.resetUserPassword(user)}"
+                                             update="user-table form:growl">
+                            </p:commandButton>
 
-                                <!-- Delete button -->
-                                <p:commandButton id="delete"
-                                                 icon="ui-icon-trash"
-                                                 actionListener="#{usersView.deleteUser(user)}"
-                                                 update="user-table form:growl"
-                                                 process="@all">
-                                    <p:confirm
-                                        message="#{msg.dialog_confirmdelete}">
-                                    </p:confirm>
-                                </p:commandButton>
-                            </div>
-                            <!-- Tooltips -->
-                            <p:tooltip id="toolTipEdit" for="edit"
-                                       value="#{msg.tooltip_edit} #{user.username}"
-                                       position="top" />
-                            <p:tooltip id="toolTipStatus" for="status"
-                                       value="#{user.active ? msg.tooltip_status_inactivate : msg.tooltip_status_activate} #{user.username}"
-                                       position="top" />
-                            <p:tooltip id="toolTipResetPassword"
-                                       for="resetPassword"
-                                       value="#{msg.tooltip_reset_password} #{user.username}"
-                                       position="top" />
-                            <p:tooltip id="toolTipDelete" for="delete"
-                                       value="#{msg.tooltip_delete} #{user.username}"
-                                       position="top" />
-                        </p:column>
-                    </p:dataTable>
-                    <p:confirmDialog global="true" showEffect="fade"
-                                     hideEffect="fade" header="#{msg.dialog_userdelete}">
-                        <p:commandButton value="#{msg.label_yes}"
-                                         type="button" styleClass="ui-confirmdialog-yes"
-                                         icon="ui-icon-check" />
-                        <p:commandButton value="#{msg.label_no}"
-                                         type="button" styleClass="ui-confirmdialog-no"
-                                         icon="ui-icon-close" />
-                    </p:confirmDialog>
-                </div>
-            </c:if>
+                            <!-- Delete button -->
+                            <p:commandButton id="delete"
+                                             icon="ui-icon-trash"
+                                             actionListener="#{usersView.deleteUser(user)}"
+                                             update="user-table form:growl"
+                                             process="@all">
+                                <p:confirm
+                                    message="#{msg.dialog_confirmdelete}">
+                                </p:confirm>
+                            </p:commandButton>
+                        </div>
+                        <!-- Tooltips -->
+                        <p:tooltip id="toolTipEdit" for="edit"
+                                   value="#{msg.tooltip_edit} #{user.username}"
+                                   position="top" />
+                        <p:tooltip id="toolTipStatus" for="status"
+                                   value="#{user.active ? msg.tooltip_status_inactivate : msg.tooltip_status_activate} #{user.username}"
+                                   position="top" />
+                        <p:tooltip id="toolTipResetPassword"
+                                   for="resetPassword"
+                                   value="#{msg.tooltip_reset_password} #{user.username}"
+                                   position="top" />
+                        <p:tooltip id="toolTipDelete" for="delete"
+                                   value="#{msg.tooltip_delete} #{user.username}"
+                                   position="top" />
+                    </p:column>
+                </p:dataTable>
+                <p:confirmDialog global="true" showEffect="fade"
+                                 hideEffect="fade" header="#{msg.dialog_userdelete}">
+                    <p:commandButton value="#{msg.label_yes}"
+                                     type="button" styleClass="ui-confirmdialog-yes"
+                                     icon="ui-icon-check" />
+                    <p:commandButton value="#{msg.label_no}"
+                                     type="button" styleClass="ui-confirmdialog-no"
+                                     icon="ui-icon-close" />
+                </p:confirmDialog>
+            </div>
         </h:form>
     </ui:define>
 </ui:composition>
