@@ -7,7 +7,7 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.QuotasVo;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
-import hu.schonherz.project.admin.web.view.form.CompanyRegistrationForm;
+import hu.schonherz.project.admin.web.view.form.CompanyForm;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +35,7 @@ public class CompanyRegistrationView {
     private static final String FAILURE = "error_failure_short";
     private static final String ERROR_ADMIN_EMAIL = "error_admin_email";
 
-    private CompanyRegistrationForm companyRegistrationForm;
+    private CompanyForm companyRegistrationForm;
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
@@ -47,7 +47,7 @@ public class CompanyRegistrationView {
 
     @PostConstruct
     public final void init() {
-        companyRegistrationForm = new CompanyRegistrationForm();
+        companyRegistrationForm = new CompanyForm();
     }
 
     public List<String> completeEmail(final String query) {

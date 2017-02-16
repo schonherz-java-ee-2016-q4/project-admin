@@ -5,6 +5,7 @@ import hu.schonherz.project.admin.service.api.vo.QuotasVo;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,10 +15,10 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Slf4j
-public class CompanyRegistrationForm {
+public class CompanyForm {
 
     private String adminEmail;
-    //    Vo fields
+    // Vo fields
     private Long id;
     private String companyName;
     private String domainAddress;
@@ -25,6 +26,17 @@ public class CompanyRegistrationForm {
     private QuotasVo quotes;
     private Set<UserVo> agents;
     private boolean active;
+
+    public CompanyForm(@NonNull final CompanyVo companyVo) {
+        setId(companyVo.getId());
+        setCompanyName(companyVo.getCompanyName());
+        setAdminUser(companyVo.getAdminUser());
+        setAdminEmail(companyVo.getAdminUser().getEmail());
+        setQuotes(companyVo.getQuotes());
+        setAgents(companyVo.getAgents());
+        setActive(companyVo.isActive());
+        setDomainAddress(companyVo.getDomainAddress());
+    }
 
     public CompanyVo getCompanyVo() {
         CompanyVo companyVo = new CompanyVo();

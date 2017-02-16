@@ -1,15 +1,8 @@
 package hu.schonherz.project.admin.web.view;
 
-import hu.schonherz.admin.web.locale.LocaleManagerBean;
-import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
-import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
-import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
-import hu.schonherz.project.admin.service.api.vo.CompanyVo;
-import hu.schonherz.project.admin.service.api.vo.UserVo;
-import hu.schonherz.project.admin.web.view.form.CompanyProfileForm;
-import hu.schonherz.project.admin.web.view.form.CompanyRegistrationForm;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,12 +10,19 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DualListModel;
+
+import hu.schonherz.admin.web.locale.LocaleManagerBean;
+import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
+import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.vo.CompanyVo;
+import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.web.view.form.CompanyForm;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @ManagedBean(name = "companyProfileView")
 @ViewScoped
@@ -37,7 +37,7 @@ public class CompanyProfileView {
     private static final String FAILURE = "error_failure_short";
     private static final String ERROR_ADMIN_EMAIL = "error_admin_email";
 
-    private CompanyRegistrationForm companyRegistrationForm;
+    private CompanyForm companyRegistrationForm;
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
@@ -49,7 +49,7 @@ public class CompanyProfileView {
 
     private CompanyVo currentCompanyVo;
 
-    private CompanyProfileForm companyProfileForm;
+    private CompanyForm companyProfileForm;
 
     private DualListModel<String> agents;
     
@@ -61,7 +61,7 @@ public class CompanyProfileView {
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
         currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
         
-        companyProfileForm = new CompanyProfileForm(currentCompanyVo);
+        companyProfileForm = new CompanyForm(currentCompanyVo);
         
         List<String> agentsSource = availableUsername();
         agentsSource.removeAll(companyUsername(currentCompanyVo));

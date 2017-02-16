@@ -2,14 +2,18 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
 	template="/pages/templates/masterLayout.xhtml">
 
 	<ui:define name="customTitle">#{msg.title_company_profile_page}</ui:define>
 	<ui:define name="customBody">
 		<div class="ui-g">
 			<div class="ui-g-9 ui-md-9 ui-lg-9">
-				<h:form id="profileForm">
+				<o:importConstants
+					type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
+					var="Pages" />
+				<h:form id="profileForm"
+					rendered="#{securityManagerBean.isPagePermitted(Pages.USER_LIST)}">
 					<p:panel header="#{msg.form_company}" id="profilePanel">
 						<div class="ui-fluid">
 							<p:panelGrid columns="3"
@@ -37,11 +41,24 @@
 								</p:autoComplete>
 								<p:message class="user-notification" for="email" />
 							</p:panelGrid>
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="#{msg.label_domain}:" for="companyName" />
+								<p:inputText id="domain"
+									value="#{companyProfileView.companyProfileForm.domainAddress}"
+									placeholder="www.company.com" required="true"
+									requiredMessage="#{msg.error_empty_field}">
+									<f:validateLength minimum="6" />
+								</p:inputText>
+								<p:message class="user-notification" for="domain" />
+							</p:panelGrid>
 							<p:separator />
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.field_maximum_usernumber}:" for="maxUser" />
+								<p:outputLabel value="#{msg.field_maximum_usernumber}:"
+									for="maxUser" />
 								<p:spinner id="maxUser"
 									value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" />
 								<p:message class="user-notification" for="maxUser" />
@@ -83,12 +100,14 @@
 								<p:message class="user-notification" for="maxMonthTickets" />
 							</p:panelGrid>
 							<p:separator />
-							<p:outputLabel value="#{msg.label_select_agents}:"/>
+							<p:outputLabel value="#{msg.label_select_agents}:" />
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.label_available_agents}" for="agentsPicklist"/>
-								<p:outputLabel value="#{msg.label_current_agents}" for="agentsPicklist"/>
+								<p:outputLabel value="#{msg.label_available_agents}"
+									for="agentsPicklist" />
+								<p:outputLabel value="#{msg.label_current_agents}"
+									for="agentsPicklist" />
 								<div></div>
 							</p:panelGrid>
 							<p:panelGrid columns="3"
