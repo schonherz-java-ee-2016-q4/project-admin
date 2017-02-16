@@ -40,16 +40,12 @@ public class LocaleManagerBean {
     }
 
     public String localize(final String key, final String... params) {
-        if (params == null) {
-            return localize(key);
+        if (params.length == 0) {
+            return localeMessages.getString(key);
         }
 
         String pattern = getLocalizedPattern(key);
         return format(pattern, params);
-    }
-
-    public String localize(final String key) {
-        return localeMessages.getString(key);
     }
 
     private String getLocalizedPattern(final String key) {
