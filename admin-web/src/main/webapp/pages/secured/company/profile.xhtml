@@ -27,26 +27,19 @@
 								<p:message class="user-notification" for="companyName" />
 								<!-- Company Administrator Email -->
 								<p:outputLabel value="#{msg.field_admin_email}:" for="email" />
-								<!--<p:autoComplete id="email"-->
-								<!--placeholder="example@example.com"-->
-								<!--value="#{companyRegistrationView.companyRegistrationForm.adminEmail}"-->
-								<!--completeMethod="#{companyRegistrationView.completeEmail}"-->
-								<!--required="true" requiredMessage="#{msg.error_empty_field}"-->
-								<!--validatorMessage="#{msg.error_invalid_email}">-->
-								<!--<f:validateRegex-->
-								<!--pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>-->
-								<!--</p:autoComplete>-->
 								<p:autoComplete id="email" placeholder="example@example.com"
 									value="#{companyProfileView.companyProfileForm.adminEmail}"
 									completeMethod="#{companyProfileView.completeEmail}"
-									required="true" requiredMessage="#{msg.error_empty_field}">
-									<!-- 									<f:validator validatorId="adminEmailValidator" /> -->
+									required="true" requiredMessage="#{msg.error_empty_field}"
+									validatorMessage="#{msg.error_invalid_email}">
+									<f:validateRegex
+										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 								</p:autoComplete>
 								<p:message class="user-notification" for="email" />
 							</p:panelGrid>
 							<p:separator />
 							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
 								<p:outputLabel value="Maximum usernumber:" for="maxUser" />
 								<p:spinner id="maxUser"
@@ -54,7 +47,7 @@
 								<p:message class="user-notification" for="maxUser" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
 								<p:outputLabel value="Maximum simultaneous login:"
 									for="maxLoggedIn" />
@@ -63,7 +56,7 @@
 								<p:message class="user-notification" for="maxLoggedIn" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
 								<p:outputLabel value="Maximum Issuetickets per Day:"
 									for="maxDayTickets" />
@@ -72,7 +65,7 @@
 								<p:message class="user-notification" for="maxDayTickets" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
 								<p:outputLabel value="Maximum Issuetickets per Week:"
 									for="maxWeekTickets" />
@@ -81,13 +74,23 @@
 								<p:message class="user-notification" for="maxWeekTickets" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
 								layout="grid" styleClass="ui-panelgrid-blank">
 								<p:outputLabel value="Maximum Issuetickets per Month:"
 									for="maxMonthTickets" />
 								<p:spinner id="maxMonthTickets"
 									value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" />
 								<p:message class="user-notification" for="maxMonthTickets" />
+							</p:panelGrid>
+							<p:separator />
+							<p:panelGrid columns="3"
+								columnClasses="ui-grid-col-4,ui-grid-col-6,ui-grid-col-2"
+								layout="grid" styleClass="ui-panelgrid-blank">
+								<p:outputLabel value="Select agents for this company:"
+									for="agentsPicklist" />
+								<p:pickList id="agentsPicklist" value="#{companyProfileView.agents}"
+									var="agents" itemLabel="#{agents}" itemValue="#{agents}" />
+								<p:message class="user-notification" for="agentsPicklist" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
 								columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"

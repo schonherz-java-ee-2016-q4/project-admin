@@ -24,6 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.model.DualListModel;
+
 @ManagedBean(name = "companyProfileView")
 @ViewScoped
 @Data
@@ -51,12 +53,23 @@ public class CompanyProfileView {
 
     private CompanyProfileForm companyProfileForm;
 
+    private DualListModel<String> agents;
+    
+    List<String> agentsTarget = new ArrayList<>();
+    
     @PostConstruct
     public final void init() {
         FacesContext context = FacesContext.getCurrentInstance();
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
         currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
+        
         companyProfileForm = new CompanyProfileForm(currentCompanyVo);
+        
+        List<String> agentsSource = availableUsername();
+        agentsSource.removeAll(companyUsername(currentCompanyVo));
+        List<String> agentsTarget = companyUsername(currentCompanyVo);
+        agents = new DualListModel<String>(agentsSource, agentsTarget);
+        
     }
 
     public List<String> completeEmail(final String query) {
@@ -69,12 +82,32 @@ public class CompanyProfileView {
         return emails;
     }
 
+    public List<String> availableUsername() {
+        List<String> usernames = new ArrayList<>();
+        for (UserVo userVo : userServiceRemote.findAll()) {
+                usernames.add(userVo.getUsername());
+        }
+        return usernames;
+    }
+    
+    public List<String> companyUsername(CompanyVo currentCompanyVo) {
+        List<String> usernames = new ArrayList<>();
+        for (UserVo userVo : currentCompanyVo.getAgents()) {
+                usernames.add(userVo.getUsername());
+        }
+        return usernames;
+    }
+
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
 
         CompanyVo companyVo = companyProfileForm.getCompanyVo();
         companyVo.setActive(currentCompanyVo.isActive());
-
+        HashSet<UserVo> userVos = new HashSet<>();
+        for (String username : agents.getTarget()) {
+            userVos.add(userServiceRemote.findByUsername(username));
+        }
+        companyVo.setAgents(userVos);
         try {
             companyServiceRemote.save(companyVo);
             currentCompanyVo = companyVo;
