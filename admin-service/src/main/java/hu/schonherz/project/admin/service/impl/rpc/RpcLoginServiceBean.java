@@ -10,6 +10,9 @@ import hu.schonherz.project.admin.service.api.vo.UserData;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mapper.user.UserDataVoMapper;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -21,11 +24,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RpcLoginServiceBean implements RpcLoginServiceRemote {
 
+    private final Map<String, UserVo> loginBuffer;
+
     @EJB
     private UserServiceLocal userService;
 
     @EJB
     private LoginService loginService;
+
+    public RpcLoginServiceBean() {
+        Map<String, UserVo> loginMap = new HashMap<>();
+        loginBuffer = Collections.synchronizedMap(loginMap);
+    }
 
     @Override
     public UserData rpcLogin(@NonNull final String username) throws FailedRpcLoginAttemptException {
@@ -42,13 +52,25 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
             throw new FailedRpcLoginAttemptException("User " + username + " is inactive!");
         }
 
+        log.info("Succesful first round of remote login. User: {} is available now", username);
+        loginBuffer.put(username, user);
+
+        return UserDataVoMapper.toData(user);
+    }
+
+    @Override
+    public void successfulLoginOf(@NonNull final String username) throws FailedRpcLoginAttemptException {
+        UserVo user = loginBuffer.get(username);
+        if (user == null) {
+            throw new FailedRpcLoginAttemptException("The user " + username + " has not done the first login round!");
+        }
+
         user.setLoggedIn(true);
         user.setAvailable(true);
         userService.registrationUser(user);
-        saveLoginData(user.getId());
-        log.info("Succesful remote login. User: {} is available now", username);
 
-        return UserDataVoMapper.toData(user);
+        loginBuffer.remove(username);
+        saveLoginData(user.getId());
     }
 
     @Override
