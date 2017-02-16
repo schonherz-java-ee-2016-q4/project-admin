@@ -12,110 +12,106 @@
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <p:panel header="#{msg.form_profile}" id="profilePanel">
-                    <h:form id="profileForm">
-                        <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
-                        <c:if test="#{securityManagerBean.isPagePermitted(Pages.USER_PROFILE)}">
-
-                            <div class="ui-fluid">
-                                <p:panelGrid columns="3"
-                                             columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
-                                             layout="grid"
-                                             styleClass="ui-panelgrid-blank">
-                                    <!-- Email -->
-                                    <p:outputLabel for="email"
-                                                   value="#{msg.field_email}" />
-                                    <p:inputText id="email"
-                                                 value="#{profileView.profileForm.email}"
-                                                 required="true"
-                                                 requiredMessage="#{msg.error_empty_field}"
-                                                 validatorMessage="#{msg.error_invalid_email}">
-                                        <f:validateRegex
-                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-                                    </p:inputText>
-                                    <p:message for="email" />
-                                    <!-- Username -->
-                                    <p:outputLabel for="username"
-                                                   value="#{msg.field_username}" />
-                                    <p:inputText id="username"
-                                                 value="#{profileView.profileForm.username}"
-                                                 readonly="true" />
-                                    <h:outputText
-                                        value="#{msg.label_username_unmodifiable}" />
-                                    <!-- Current Password -->
-                                    <p:outputLabel for="currentPassword"
-                                                   value="#{msg.field_password_current}" />
-                                    <p:password id="currentPassword"
-                                                value="#{profileView.profileForm.password}"
-                                                required="true" requiredMessage="#{msg.error_empty_field}" />
-                                    <p:message for="currentPassword" />
-                                </p:panelGrid>
-                                <p:panelGrid columns="3"
-                                             columnClasses="ui-grid-col-5,ui-grid-col-2,ui-grid-col-5"
-                                             layout="grid"
-                                             styleClass="ui-panelgrid-blank">
-                                    <h:outputText
-                                        value="#{msg.label_is_new_password_needed}" />
-                                    <p:selectBooleanButton id="boolButton"
-                                                           value="#{profileView.disableNewPassword}"
-                                                           onLabel="#{msg.label_yes}"
-                                                           offLabel="#{msg.label_no}"
-                                                           onIcon="ui-icon-check"
-                                                           offIcon="ui-icon-close">
-                                        <p:ajax update="newPassword newPasswordConfirm" />
-                                    </p:selectBooleanButton>
-                                    <p:separator />
-                                </p:panelGrid>
-                                <p:panelGrid columns="3"
-                                             columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
-                                             layout="grid"
-                                             styleClass="ui-panelgrid-blank">
-                                    <!-- New password -->
-                                    <p:outputLabel for="newPassword"
-                                                   value="#{msg.field_password_new}" />
-                                    <p:password id="newPassword"
-                                                value="#{profileView.profileForm.newPassword}"
-                                                match="newPasswordConfirm"
-                                                required="true"
-                                                requiredMessage="#{msg.error_empty_field}"
-                                                disabled="#{profileView.disableNewPassword}">
-                                        <f:validateLength minimum="6"
-                                                          maximum="15" />
-                                    </p:password>
-                                    <p:message for="newPassword" />
-                                    <!-- New password confirm -->
-                                    <p:outputLabel for="newPasswordConfirm"
-                                                   value="#{msg.field_password_new_confirm}" />
-                                    <p:password id="newPasswordConfirm"
-                                                value="#{profileView.profileForm.confirmNewPassword}"
-                                                required="true"
-                                                disabled="#{profileView.disableNewPassword}" />
-                                    <p:message for="profileForm" />
-                                </p:panelGrid>
+                    <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
+                    <h:form id="profileForm" rendered="#{securityManagerBean.isPagePermitted(Pages.USER_PROFILE)}">
+                        <div class="ui-fluid">
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
+                                         layout="grid"
+                                         styleClass="ui-panelgrid-blank">
+                                <!-- Email -->
+                                <p:outputLabel for="email"
+                                               value="#{msg.field_email}" />
+                                <p:inputText id="email"
+                                             value="#{profileView.profileForm.email}"
+                                             required="true"
+                                             requiredMessage="#{msg.error_empty_field}"
+                                             validatorMessage="#{msg.error_invalid_email}">
+                                    <f:validateRegex
+                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:inputText>
+                                <p:message for="email" />
+                                <!-- Username -->
+                                <p:outputLabel for="username"
+                                               value="#{msg.field_username}" />
+                                <p:inputText id="username"
+                                             value="#{profileView.profileForm.username}"
+                                             readonly="true" />
+                                <h:outputText
+                                    value="#{msg.label_username_unmodifiable}" />
+                                <!-- Current Password -->
+                                <p:outputLabel for="currentPassword"
+                                               value="#{msg.field_password_current}" />
+                                <p:password id="currentPassword"
+                                            value="#{profileView.profileForm.password}"
+                                            required="true" requiredMessage="#{msg.error_empty_field}" />
+                                <p:message for="currentPassword" />
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-5,ui-grid-col-2,ui-grid-col-5"
+                                         layout="grid"
+                                         styleClass="ui-panelgrid-blank">
+                                <h:outputText
+                                    value="#{msg.label_is_new_password_needed}" />
+                                <p:selectBooleanButton id="boolButton"
+                                                       value="#{profileView.disableNewPassword}"
+                                                       onLabel="#{msg.label_yes}"
+                                                       offLabel="#{msg.label_no}"
+                                                       onIcon="ui-icon-check"
+                                                       offIcon="ui-icon-close">
+                                    <p:ajax update="newPassword newPasswordConfirm" />
+                                </p:selectBooleanButton>
                                 <p:separator />
-                                <p:panelGrid columns="3"
-                                             columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
-                                             layout="grid"
-                                             styleClass="ui-panelgrid-blank">
-                                    <!-- Reset Fields Button -->
-                                    <p:commandButton
-                                        value="#{msg.label_reset_fields}"
-                                        update="profilePanel"
-                                        process="@this">
-                                        <p:resetInput target="profilePanel" />
-                                    </p:commandButton>
-                                    <div></div>
-                                    <!-- Save button -->
-                                    <p:commandButton
-                                        value="#{msg.label_save}"
-                                        icon="ui-icon-pencil"
-                                        actionListener="#{profileView.save()}"
-                                        update="profileForm" ajax="false"
-                                        validateClient="true">
-                                    </p:commandButton>
-                                </p:panelGrid>
-
-                            </div>
-                        </c:if>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
+                                         layout="grid"
+                                         styleClass="ui-panelgrid-blank">
+                                <!-- New password -->
+                                <p:outputLabel for="newPassword"
+                                               value="#{msg.field_password_new}" />
+                                <p:password id="newPassword"
+                                            value="#{profileView.profileForm.newPassword}"
+                                            match="newPasswordConfirm"
+                                            required="true"
+                                            requiredMessage="#{msg.error_empty_field}"
+                                            disabled="#{profileView.disableNewPassword}">
+                                    <f:validateLength minimum="6"
+                                                      maximum="15" />
+                                </p:password>
+                                <p:message for="newPassword" />
+                                <!-- New password confirm -->
+                                <p:outputLabel for="newPasswordConfirm"
+                                               value="#{msg.field_password_new_confirm}" />
+                                <p:password id="newPasswordConfirm"
+                                            value="#{profileView.profileForm.confirmNewPassword}"
+                                            required="true"
+                                            disabled="#{profileView.disableNewPassword}" />
+                                <p:message for="profileForm" />
+                            </p:panelGrid>
+                            <p:separator />
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-2,ui-grid-col-8,ui-grid-col-2"
+                                         layout="grid"
+                                         styleClass="ui-panelgrid-blank">
+                                <!-- Reset Fields Button -->
+                                <p:commandButton
+                                    value="#{msg.label_reset_fields}"
+                                    update="profilePanel"
+                                    process="@this">
+                                    <p:resetInput target="profilePanel" />
+                                </p:commandButton>
+                                <div></div>
+                                <!-- Save button -->
+                                <p:commandButton
+                                    value="#{msg.label_save}"
+                                    icon="ui-icon-pencil"
+                                    actionListener="#{profileView.save()}"
+                                    update="profileForm" ajax="false"
+                                    validateClient="true">
+                                </p:commandButton>
+                            </p:panelGrid>
+                        </div>
                     </h:form>
                 </p:panel>
             </div>

@@ -44,7 +44,7 @@ public class UserServiceBean implements UserServiceLocal {
     public UserVo findByUsername(final String username) {
         return UserEntityVoMapper.toVo(userRepository.findByUsername(username));
     }
-    
+
     @Override
     public UserVo findByEmail(final String email) {
         return UserEntityVoMapper.toVo(userRepository.findByEmail(email));
@@ -53,7 +53,9 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public UserVo registrationUser(final UserVo userVo) {
+        log.warn("-----------------------------------------------------------------");
         UserEntity user = UserEntityVoMapper.toEntity(userVo);
+        log.warn("-- -- -- -- -- -- -- " + user.toString());
         user = userRepository.save(user);
         if (user == null) {
             log.warn("Failed to persist user " + userVo.getUsername());

@@ -9,6 +9,7 @@
         <class>hu.schonherz.project.admin.data.entity.BaseEntity</class>
         <class>hu.schonherz.project.admin.data.entity.UserEntity</class>
         <class>hu.schonherz.project.admin.data.entity.CompanyEntity</class>
+        <class>hu.schonherz.project.admin.data.entity.LoginEntity</class>
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
 
         <properties>

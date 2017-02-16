@@ -20,6 +20,7 @@ public class CompanyVo extends BaseVo implements Serializable {
     private static final long serialVersionUID = -100L;
 
     private String companyName;
+    private String domainAddress;
     private UserVo adminUser;
     private QuotasVo quotes;
     private Set<UserVo> agents;

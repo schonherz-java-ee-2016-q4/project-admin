@@ -27,6 +27,9 @@ public class CompanyEntity extends BaseEntity implements Serializable {
     @Column(nullable = false, unique = true)
     private String companyName;
 
+    @Column(nullable = false, unique = true)
+    private String domainAddress;
+
     @OneToOne
     private UserEntity adminUser;
 
