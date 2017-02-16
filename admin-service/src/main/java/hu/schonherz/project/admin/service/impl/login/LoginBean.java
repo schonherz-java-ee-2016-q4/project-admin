@@ -39,6 +39,11 @@ public class LoginBean implements LoginService {
     }
 
     @Override
+    public List<LoginVo> findByUserIdOrderByLoginDateDesc(final Long userId) {
+        return LoginMapper.toVo(loginRepository.findByUserIdOrderByLoginDateDesc(userId));
+    }
+
+    @Override
     public Collection<LoginVo> findByDate(final LocalDateTime loginDate) {
         return LoginMapper.toVo(loginRepository.findByLoginDate(loginDate));
     }

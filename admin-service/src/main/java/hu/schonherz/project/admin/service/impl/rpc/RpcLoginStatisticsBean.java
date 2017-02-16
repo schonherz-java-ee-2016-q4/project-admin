@@ -37,7 +37,7 @@ public class RpcLoginStatisticsBean implements RpcLoginStatisticsService {
             throw new LoginDataRetrievalException("User with username " + username + " does not exist!");
         }
 
-        List<LoginVo> logins = loginService.findByUserId(user.getId());
+        List<LoginVo> logins = loginService.findByUserIdOrderByLoginDateDesc(user.getId());
 
         return logins.stream()
                 .map(login -> login.getLoginDate())

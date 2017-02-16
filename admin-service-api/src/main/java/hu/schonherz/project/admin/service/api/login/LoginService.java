@@ -13,6 +13,8 @@ public interface LoginService {
 
     List<LoginVo> findByUserId(Long userId);
 
+    List<LoginVo> findByUserIdOrderByLoginDateDesc(Long userId);
+
     Collection<LoginVo> findByDate(LocalDateTime loginDate);
 
     Long save(LoginVo login);
