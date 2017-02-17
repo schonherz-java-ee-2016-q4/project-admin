@@ -6,6 +6,7 @@ import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyData
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.QuotasVo;
+import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.CompanyForm;
 import lombok.Data;
@@ -71,6 +72,8 @@ public class CompanyRegistrationView {
         try {
             CompanyVo companyVo = companyRegistrationForm.getCompanyVo();
             companyVo.setAdminUser(getAdminUserByEmail());
+            companyVo.getAdminUser().setCompanyName(companyVo.getCompanyName());
+            companyVo.getAdminUser().setUserRole(UserRole.COMPANY_ADMIN);
             setDefaultValues(companyVo);
             companyServiceRemote.save(companyVo);
             log.info("Company '{}' successfully registered.", companyVo.getCompanyName());
