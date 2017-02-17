@@ -60,7 +60,7 @@
 								<p:outputLabel value="#{msg.field_maximum_usernumber}:"
 									for="maxUser" />
 								<p:spinner id="maxUser"
-									value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" min="0"/>
 								<p:message class="user-notification" for="maxUser" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -69,7 +69,7 @@
 								<p:outputLabel value="#{msg.field_maximum_simultaneous_login}:"
 									for="maxLoggedIn" />
 								<p:spinner id="maxLoggedIn"
-									value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" min="0"/>
 								<p:message class="user-notification" for="maxLoggedIn" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -78,7 +78,7 @@
 								<p:outputLabel value="#{msg.field_maximum_issuetickets_day}:"
 									for="maxDayTickets" />
 								<p:spinner id="maxDayTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" min="0"/>
 								<p:message class="user-notification" for="maxDayTickets" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -87,7 +87,7 @@
 								<p:outputLabel value="#{msg.field_maximum_issuetickets_week}:"
 									for="maxWeekTickets" />
 								<p:spinner id="maxWeekTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" min="0"/>
 								<p:message class="user-notification" for="maxWeekTickets" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -96,7 +96,7 @@
 								<p:outputLabel value="#{msg.field_maximum_issuetickets_month}:"
 									for="maxMonthTickets" />
 								<p:spinner id="maxMonthTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" min="0"/>
 								<p:message class="user-notification" for="maxMonthTickets" />
 							</p:panelGrid>
 							<p:separator />
