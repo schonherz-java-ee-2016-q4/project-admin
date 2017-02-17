@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import hu.schonherz.project.admin.service.api.vo.UserRole;
 import org.primefaces.model.DualListModel;
 
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
@@ -52,24 +53,17 @@ public class CompanyProfileView {
     private CompanyForm companyProfileForm;
 
     private DualListModel<String> agents;
-    
-    List<String> agentsTarget = new ArrayList<>();
-    
+
     @PostConstruct
-    public final void init() {
+    public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
         currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
-        
         companyProfileForm = new CompanyForm(currentCompanyVo);
-        
-        List<String> agentsSource = availableUsername();
-        agentsSource.removeAll(companyUsername(currentCompanyVo));
-        List<String> agentsTarget = companyUsername(currentCompanyVo);
-        agents = new DualListModel<String>(agentsSource, agentsTarget);
-        
+        initDualistModel();
     }
 
+//    Completing the email list for the email form
     public List<String> completeEmail(final String query) {
         List<String> emails = new ArrayList<>();
         for (UserVo userVo : userServiceRemote.findAll()) {
@@ -80,20 +74,39 @@ public class CompanyProfileView {
         return emails;
     }
 
-    public List<String> availableUsername() {
+    private void initDualistModel() {
+         agents = new DualListModel<>(agentsSource(), agentsTarget());
+    }
+
+    private List<String> agentsSource() {
         List<String> usernames = new ArrayList<>();
         for (UserVo userVo : userServiceRemote.findAll()) {
+            if (isAgent(userVo) && isIndependentUser(userVo)) {
                 usernames.add(userVo.getUsername());
+            }
         }
         return usernames;
     }
-    
-    public List<String> companyUsername(CompanyVo currentCompanyVo) {
+
+    private List<String> agentsTarget() {
         List<String> usernames = new ArrayList<>();
         for (UserVo userVo : currentCompanyVo.getAgents()) {
-                usernames.add(userVo.getUsername());
+            usernames.add(userVo.getUsername());
         }
         return usernames;
+    }
+
+    private boolean isAgent(final UserVo userVo) {
+        return userVo.getUserRole().equals(UserRole.AGENT);
+    }
+
+    private boolean isIndependentUser(final UserVo userVo) {
+        for (CompanyVo companyVo : companyServiceRemote.findAll()) {
+            if (companyVo.getCompanyName().equals(userVo.getCompanyName())) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void save() {
