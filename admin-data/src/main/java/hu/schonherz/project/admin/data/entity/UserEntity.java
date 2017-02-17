@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -39,4 +40,6 @@ public class UserEntity extends BaseEntity implements Serializable {
 
     @Column(nullable = false, columnDefinition = "VARCHAR(15) DEFAULT 'AGENT'")
     private String userRole;
+
+    private String companyName;
 }
