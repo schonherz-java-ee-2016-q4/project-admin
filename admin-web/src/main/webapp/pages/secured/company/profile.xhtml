@@ -111,12 +111,11 @@
 								<div></div>
 							</p:panelGrid>
 							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2"
+								columnClasses="ui-grid-col-4,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank">
 								<p:pickList id="agentsPicklist"
 									value="#{companyProfileView.agents}" var="agents"
 									itemLabel="#{agents}" itemValue="#{agents}" />
-								<p:message class="user-notification" for="agentsPicklist" />
 								<div></div>
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -127,11 +126,11 @@
 									update="profilePanel" process="@this">
 									<p:resetInput target="profilePanel" />
 								</p:commandButton>
-								<div></div>
+								<p:message class="user-notification" for="agentsPicklist" />
 								<!-- Save button -->
 								<p:commandButton value="#{msg.label_save}" icon="ui-icon-pencil"
 									actionListener="#{companyProfileView.save()}"
-									update="profileForm" ajax="false" validateClient="true">
+									update="profilePanel" ajax="false" validateClient="true">
 								</p:commandButton>
 							</p:panelGrid>
 						</div>
