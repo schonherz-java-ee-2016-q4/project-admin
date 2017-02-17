@@ -5,7 +5,8 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:o="http://omnifaces.org/ui">
 
     <f:view locale="#{localeManagerBean.locale}">
 
@@ -28,7 +29,7 @@
         </h:head>
 
         <h:body>
-            <div class="custom_body">
+            <div class="custom_body container">
                 <div class=" customrow">
                     <div class="smallnav">
                         <span class="menu" onclick="openNav()">
@@ -37,12 +38,12 @@
                         <h:graphicImage library="img" name="logoplanbig.png" styleClass="smallnav_icon"/>
                     </div>
                     <span class="largenav menu">
-                        <h:graphicImage library="img" name="logoplanbig.png" styleClass="largenav-icon">
-
-                            <ui:insert name="brandPictureLink"></ui:insert>
-
-                        </h:graphicImage>
-
+                        <h:form>
+                            <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
+                            <h:commandLink action="#{navigatorBean.redirectTo(Pages.HOME)}">
+                                <h:graphicImage library="img" name="logoplanbig.png" styleClass="largenav-icon"/>
+                            </h:commandLink>
+                        </h:form>
                     </span>
                     <div class="menu-item-row">
                         <div class="navbar-button"><ui:insert name="customLink0"></ui:insert></div>

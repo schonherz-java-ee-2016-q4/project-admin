@@ -11,14 +11,12 @@ import lombok.NonNull;
 @ApplicationScoped
 public class NavigatorBean {
 
-    // Every parameter that we put in the request have this prefix, so we can separate our own parameters from the others.
-    public static final String PARAM_PREFIX = "adminParam:";
-
     private static final String PUBLIC = "/pages/public/";
     private static final String SECURED_USER = "/pages/secured/";
     private static final String SECURED_COMPANY = "/pages/secured/company/";
 
     public enum Pages {
+        HOME(PUBLIC + "login.xhtml"),
         LOGIN(PUBLIC + "login.xhtml"),
         USER_REGISTRATION(PUBLIC + "registration.xhtml"),
         USER_PROFILE(SECURED_USER + "profile.xhtml"),
