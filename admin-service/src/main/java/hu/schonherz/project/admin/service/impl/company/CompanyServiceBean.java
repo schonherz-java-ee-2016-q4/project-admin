@@ -1,9 +1,12 @@
 package hu.schonherz.project.admin.service.impl.company;
 
 import hu.schonherz.project.admin.data.entity.CompanyEntity;
+import hu.schonherz.project.admin.data.entity.UserEntity;
 import hu.schonherz.project.admin.data.repository.CompanyRepository;
+import hu.schonherz.project.admin.data.repository.UserRepository;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
+import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.mapper.company.CompanyEntityVoMapper;
 
 import java.util.List;
@@ -12,6 +15,8 @@ import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.interceptor.Interceptors;
+
+import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +32,24 @@ public class CompanyServiceBean implements CompanyServiceLocal {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public CompanyVo save(@NonNull final CompanyVo companyVo) {
-        CompanyEntity entity = CompanyEntityVoMapper.toEntity(companyVo);
-        entity = companyRepository.save(entity);
-        if (entity == null) {
+        CompanyEntity companyEntity = CompanyEntityVoMapper.toEntity(companyVo);
+        UserEntity userEntity = UserEntityVoMapper.toEntity(companyVo.getAdminUser());
+        if (userEntity == null) {
+            log.warn("Failed to get user from the '{}' company!", companyVo.getCompanyName());
+        } else {
+            userRepository.save(userEntity);
+        }
+        companyEntity = companyRepository.save(companyEntity);
+        if (companyEntity == null) {
             log.warn("Failed to save company: " + companyVo.getCompanyName());
         }
 
-        return CompanyEntityVoMapper.toVo(entity);
+        return CompanyEntityVoMapper.toVo(companyEntity);
     }
 
     @Override
