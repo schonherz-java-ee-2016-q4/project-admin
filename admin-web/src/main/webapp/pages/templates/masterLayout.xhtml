@@ -45,26 +45,15 @@
 
                     </span>
                     <div class="menu-item-row">
+                        <div class="navbar-button"><ui:insert name="customLink0"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink1"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink2"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink3"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink4"></ui:insert></div>
                         <div class="navbar-button"><ui:insert name="customLink5"></ui:insert></div>
-                        <div>
-                            <h:form>
-                                <p:commandLink actionListener="#{loginView.logout()}" rendered="#{sessionScope.user != null}" value="#{msg.label_logout}"/>
-                            </h:form>
-                        </div>
-                        <div>
-                            <h:form>
-                                <p:commandButton action="#{localeManagerBean.setLanguage('en')}" value="" styleClass="locale-en" update="@all"/>
-                            </h:form>
-                        </div>
-                        <div>
-                            <h:form>
-                                <p:commandButton action="#{localeManagerBean.setLanguage('hu')}" value="" styleClass="locale-hu" update="@all"/>
-                            </h:form>
-                        </div>
+                        <div class="navbar-button"><ui:insert name="customLink6"></ui:insert></div>
+                        <div class="navbar-button"><ui:insert name="customLink7"></ui:insert></div>
+                        <div class="navbar-button"><ui:insert name="customLink8"></ui:insert></div>
                     </div>
                 </div>
                 <div id="mySidenav" class="sidenav">
@@ -72,12 +61,15 @@
                         <span>Helpdesk</span>
                         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                     </div>
+                    <ui:insert name="customLink0"></ui:insert>
                     <ui:insert name="customLink1"></ui:insert>
                     <ui:insert name="customLink2"></ui:insert>
                     <ui:insert name="customLink3"></ui:insert>
                     <ui:insert name="customLink4"></ui:insert>
                     <ui:insert name="customLink5"></ui:insert>
-                    <ui:insert name="customLogin"></ui:insert>
+                    <ui:insert name="customLink6"></ui:insert>
+                    <ui:insert name="customLink7"></ui:insert>
+                    <ui:insert name="customLink8"></ui:insert>
                 </div>
 
                 <ui:insert name="customBody" class="custom_body"></ui:insert>

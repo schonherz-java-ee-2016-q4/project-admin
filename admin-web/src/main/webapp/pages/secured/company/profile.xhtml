@@ -1,143 +1,143 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
-	template="/pages/templates/masterLayout.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+                template="/pages/templates/linkedLayout.xhtml">
 
-	<ui:define name="customTitle">#{msg.title_company_profile_page}</ui:define>
-	<ui:define name="customBody">
-		<div class="ui-g">
-			<div class="ui-g-9 ui-md-9 ui-lg-9">
-				<o:importConstants
-					type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
-					var="Pages" />
-				<h:form id="profileForm"
-					rendered="#{securityManagerBean.isPagePermitted(Pages.USER_LIST)}">
-					<p:panel header="#{msg.form_company}" id="profilePanel">
-						<div class="ui-fluid">
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<!-- Company name -->
-								<p:outputLabel value="#{msg.field_company_name}:"
-									for="companyName" />
-								<p:inputText id="companyName"
-									value="#{companyProfileView.companyProfileForm.companyName}"
-									placeholder="#{msg.field_company_name}" required="true"
-									requiredMessage="#{msg.error_empty_field}">
-									<f:validateLength minimum="2" maximum="50" />
-								</p:inputText>
-								<p:message class="user-notification" for="companyName" />
-								<!-- Company Administrator Email -->
-								<p:outputLabel value="#{msg.field_admin_email}:" for="email" />
-								<p:autoComplete id="email" placeholder="example@example.com"
-									value="#{companyProfileView.companyProfileForm.adminEmail}"
-									completeMethod="#{companyProfileView.completeEmail}"
-									required="true" requiredMessage="#{msg.error_empty_field}"
-									validatorMessage="#{msg.error_invalid_email}">
-									<f:validateRegex
-										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
-								</p:autoComplete>
-								<p:message class="user-notification" for="email" />
-							</p:panelGrid>
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.label_domain}:" for="companyName" />
-								<p:inputText id="domain"
-									value="#{companyProfileView.companyProfileForm.domainAddress}"
-									placeholder="www.company.com" required="true"
-									requiredMessage="#{msg.error_empty_field}">
-									<f:validateLength minimum="6" />
-								</p:inputText>
-								<p:message class="user-notification" for="domain" />
-							</p:panelGrid>
-							<p:separator />
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.field_maximum_usernumber}:"
-									for="maxUser" />
-								<p:spinner id="maxUser"
-									value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" min="0"/>
-								<p:message class="user-notification" for="maxUser" />
-							</p:panelGrid>
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.field_maximum_simultaneous_login}:"
-									for="maxLoggedIn" />
-								<p:spinner id="maxLoggedIn"
-									value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" min="0"/>
-								<p:message class="user-notification" for="maxLoggedIn" />
-							</p:panelGrid>
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.field_maximum_issuetickets_day}:"
-									for="maxDayTickets" />
-								<p:spinner id="maxDayTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" min="0"/>
-								<p:message class="user-notification" for="maxDayTickets" />
-							</p:panelGrid>
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.field_maximum_issuetickets_week}:"
-									for="maxWeekTickets" />
-								<p:spinner id="maxWeekTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" min="0"/>
-								<p:message class="user-notification" for="maxWeekTickets" />
-							</p:panelGrid>
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.field_maximum_issuetickets_month}:"
-									for="maxMonthTickets" />
-								<p:spinner id="maxMonthTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" min="0"/>
-								<p:message class="user-notification" for="maxMonthTickets" />
-							</p:panelGrid>
-							<p:separator />
-							<p:outputLabel value="#{msg.label_select_agents}:" />
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:outputLabel value="#{msg.label_available_agents}"
-									for="agentsPicklist" />
-								<p:outputLabel value="#{msg.label_current_agents}"
-									for="agentsPicklist" />
-								<div></div>
-							</p:panelGrid>
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<p:pickList id="agentsPicklist"
-									value="#{companyProfileView.agents}" var="agents"
-									itemLabel="#{agents}" itemValue="#{agents}" />
-								<p:message class="user-notification" for="agentsPicklist" />
-								<div></div>
-							</p:panelGrid>
-							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
-								layout="grid" styleClass="ui-panelgrid-blank">
-								<!-- Clear Fields Button -->
-								<p:commandButton value="#{msg.label_clear_fields}"
-									update="profilePanel" process="@this">
-									<p:resetInput target="profilePanel" />
-								</p:commandButton>
-								<div></div>
-								<!-- Save button -->
-								<p:commandButton value="#{msg.label_save}" icon="ui-icon-pencil"
-									actionListener="#{companyProfileView.save()}"
-									update="profileForm" ajax="false" validateClient="true">
-								</p:commandButton>
-							</p:panelGrid>
-						</div>
-					</p:panel>
-				</h:form>
-			</div>
-		</div>
-	</ui:define>
+    <ui:define name="customTitle">#{msg.title_company_profile_page}</ui:define>
+    <ui:define name="customBody">
+        <div class="ui-g">
+            <div class="ui-g-9 ui-md-9 ui-lg-9">
+                <o:importConstants
+                    type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
+                    var="Pages" />
+                <h:form id="profileForm"
+                        rendered="#{securityManagerBean.isPagePermitted(Pages.USER_LIST)}">
+                    <p:panel header="#{msg.form_company}" id="profilePanel">
+                        <div class="ui-fluid">
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <!-- Company name -->
+                                <p:outputLabel value="#{msg.field_company_name}:"
+                                               for="companyName" />
+                                <p:inputText id="companyName"
+                                             value="#{companyProfileView.companyProfileForm.companyName}"
+                                             placeholder="#{msg.field_company_name}" required="true"
+                                             requiredMessage="#{msg.error_empty_field}">
+                                    <f:validateLength minimum="2" maximum="50" />
+                                </p:inputText>
+                                <p:message class="user-notification" for="companyName" />
+                                <!-- Company Administrator Email -->
+                                <p:outputLabel value="#{msg.field_admin_email}:" for="email" />
+                                <p:autoComplete id="email" placeholder="example@example.com"
+                                                value="#{companyProfileView.companyProfileForm.adminEmail}"
+                                                completeMethod="#{companyProfileView.completeEmail}"
+                                                required="true" requiredMessage="#{msg.error_empty_field}"
+                                                validatorMessage="#{msg.error_invalid_email}">
+                                    <f:validateRegex
+                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                </p:autoComplete>
+                                <p:message class="user-notification" for="email" />
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.label_domain}:" for="companyName" />
+                                <p:inputText id="domain"
+                                             value="#{companyProfileView.companyProfileForm.domainAddress}"
+                                             placeholder="www.company.com" required="true"
+                                             requiredMessage="#{msg.error_empty_field}">
+                                    <f:validateLength minimum="6" />
+                                </p:inputText>
+                                <p:message class="user-notification" for="domain" />
+                            </p:panelGrid>
+                            <p:separator />
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_usernumber}:"
+                                               for="maxUser" />
+                                <p:spinner id="maxUser"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" min="0"/>
+                                <p:message class="user-notification" for="maxUser" />
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_simultaneous_login}:"
+                                               for="maxLoggedIn" />
+                                <p:spinner id="maxLoggedIn"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" min="0"/>
+                                <p:message class="user-notification" for="maxLoggedIn" />
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_day}:"
+                                               for="maxDayTickets" />
+                                <p:spinner id="maxDayTickets"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" min="0"/>
+                                <p:message class="user-notification" for="maxDayTickets" />
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_week}:"
+                                               for="maxWeekTickets" />
+                                <p:spinner id="maxWeekTickets"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" min="0"/>
+                                <p:message class="user-notification" for="maxWeekTickets" />
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_month}:"
+                                               for="maxMonthTickets" />
+                                <p:spinner id="maxMonthTickets"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" min="0"/>
+                                <p:message class="user-notification" for="maxMonthTickets" />
+                            </p:panelGrid>
+                            <p:separator />
+                            <p:outputLabel value="#{msg.label_select_agents}:" />
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.label_available_agents}"
+                                               for="agentsPicklist" />
+                                <p:outputLabel value="#{msg.label_current_agents}"
+                                               for="agentsPicklist" />
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:pickList id="agentsPicklist"
+                                            value="#{companyProfileView.agents}" var="agents"
+                                            itemLabel="#{agents}" itemValue="#{agents}" />
+                                <p:message class="user-notification" for="agentsPicklist" />
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <!-- Clear Fields Button -->
+                                <p:commandButton value="#{msg.label_clear_fields}"
+                                                 update="profilePanel" process="@this">
+                                    <p:resetInput target="profilePanel" />
+                                </p:commandButton>
+                                <div></div>
+                                <!-- Save button -->
+                                <p:commandButton value="#{msg.label_save}" icon="ui-icon-pencil"
+                                                 actionListener="#{companyProfileView.save()}"
+                                                 update="profileForm" ajax="false" validateClient="true">
+                                </p:commandButton>
+                            </p:panelGrid>
+                        </div>
+                    </p:panel>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
 </ui:composition>
