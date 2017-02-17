@@ -60,7 +60,7 @@
 								<p:outputLabel value="#{msg.field_maximum_usernumber}:"
 									for="maxUser" />
 								<p:spinner id="maxUser"
-									value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" min="0"/>
 								<p:message class="user-notification" for="maxUser" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -69,7 +69,7 @@
 								<p:outputLabel value="#{msg.field_maximum_simultaneous_login}:"
 									for="maxLoggedIn" />
 								<p:spinner id="maxLoggedIn"
-									value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" min="0"/>
 								<p:message class="user-notification" for="maxLoggedIn" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -78,7 +78,7 @@
 								<p:outputLabel value="#{msg.field_maximum_issuetickets_day}:"
 									for="maxDayTickets" />
 								<p:spinner id="maxDayTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" min="0"/>
 								<p:message class="user-notification" for="maxDayTickets" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -87,7 +87,7 @@
 								<p:outputLabel value="#{msg.field_maximum_issuetickets_week}:"
 									for="maxWeekTickets" />
 								<p:spinner id="maxWeekTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" min="0"/>
 								<p:message class="user-notification" for="maxWeekTickets" />
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -96,7 +96,7 @@
 								<p:outputLabel value="#{msg.field_maximum_issuetickets_month}:"
 									for="maxMonthTickets" />
 								<p:spinner id="maxMonthTickets"
-									value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" />
+									value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" min="0"/>
 								<p:message class="user-notification" for="maxMonthTickets" />
 							</p:panelGrid>
 							<p:separator />
@@ -111,12 +111,11 @@
 								<div></div>
 							</p:panelGrid>
 							<p:panelGrid columns="3"
-								columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2"
+								columnClasses="ui-grid-col-4,ui-grid-col-4"
 								layout="grid" styleClass="ui-panelgrid-blank">
 								<p:pickList id="agentsPicklist"
 									value="#{companyProfileView.agents}" var="agents"
 									itemLabel="#{agents}" itemValue="#{agents}" />
-								<p:message class="user-notification" for="agentsPicklist" />
 								<div></div>
 							</p:panelGrid>
 							<p:panelGrid columns="3"
@@ -127,11 +126,11 @@
 									update="profilePanel" process="@this">
 									<p:resetInput target="profilePanel" />
 								</p:commandButton>
-								<div></div>
+								<p:message class="user-notification" for="agentsPicklist" />
 								<!-- Save button -->
 								<p:commandButton value="#{msg.label_save}" icon="ui-icon-pencil"
 									actionListener="#{companyProfileView.save()}"
-									update="profileForm" ajax="false" validateClient="true">
+									update="profilePanel" ajax="false" validateClient="true">
 								</p:commandButton>
 							</p:panelGrid>
 						</div>

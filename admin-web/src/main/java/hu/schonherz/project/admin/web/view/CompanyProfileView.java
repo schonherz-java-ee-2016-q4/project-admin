@@ -33,12 +33,10 @@ public class CompanyProfileView {
 
     private static final String SUCCESSFUL_CHANGING = "success_profile_changes";
     private static final String SUCCESS = "success_short";
-    private static final String GLOBAL_COMP_ID = "companyRegistrationForm";
-    private static final String EMAIL_COMP_ID = "companyRegistrationForm:email";
+    private static final String AGENTS_COMP_ID = "profileForm:agentsPicklist";
+    private static final String EMAIL_COMP_ID = "profileForm:email";
     private static final String FAILURE = "error_failure_short";
     private static final String ERROR_ADMIN_EMAIL = "error_admin_email";
-
-    private CompanyForm companyRegistrationForm;
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
@@ -111,7 +109,11 @@ public class CompanyProfileView {
 
     public void save() {
         FacesContext context = FacesContext.getCurrentInstance();
-
+        if (userServiceRemote.findByEmail(companyProfileForm.getAdminEmail()) == null) {
+            context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    localeManagerBean.localize(FAILURE), localeManagerBean.localize(ERROR_ADMIN_EMAIL)));
+            return;
+        }
         CompanyVo companyVo = companyProfileForm.getCompanyVo();
         companyVo.setActive(currentCompanyVo.isActive());
         HashSet<UserVo> userVos = new HashSet<>();
@@ -123,13 +125,14 @@ public class CompanyProfileView {
             companyServiceRemote.save(companyVo);
             currentCompanyVo = companyVo;
 
-            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
+            context.addMessage(AGENTS_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_CHANGING)));
 
             log.info("Company profile '{}' successfully changed.", companyVo.getCompanyName());
         } catch (InvalidCompanyDataException icde) {
-            // TODO Auto-generated catch block
-            icde.printStackTrace();
+            
+        	log.warn("Unsuccessful changing attempt with data:{}{} ", System.getProperty("line.separator"), companyProfileForm);
+            log.warn("Causing exception:" + System.getProperty("line.separator"), icde);
         }
 
     }
