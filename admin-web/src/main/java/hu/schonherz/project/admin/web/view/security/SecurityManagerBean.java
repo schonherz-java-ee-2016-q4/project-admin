@@ -50,8 +50,8 @@ public class SecurityManagerBean {
         UserVo user = getLoggedInUser(context);
         // Check if there is a logged in user
         if (user == null) {
-            log.warn("User tried to reach " + page.name() + " page without logging in.");
             if (shouldRedirect) {
+                log.warn("User tried to reach " + page.name() + " page without logging in.");
                 navigator.redirectTo(Pages.LOGIN);
             }
             return false;
@@ -60,8 +60,8 @@ public class SecurityManagerBean {
         // Check if the user's permission is strong enough for the page
         UserRole minimumRole = permissionMap.get(page);
         if (minimumRole != null && user.getUserRole().getStrength() < minimumRole.getStrength()) {
-            log.warn("User " + user.getUsername() + " tried to reach " + page.name() + " without permission.");
             if (shouldRedirect) {
+                log.warn("User " + user.getUsername() + " tried to reach " + page.name() + " without permission.");
                 navigator.redirectTo(Pages.ERROR_PAGE);
             }
 
