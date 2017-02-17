@@ -8,28 +8,33 @@
     <ui:define name="customLink1">
         <h:form>
             <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
-            <p:commandLink value="#{msg.title_company_profile_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_PROFILE)}"/>
+            <o:importConstants type="hu.schonherz.project.admin.service.api.vo.UserRole" var="UserRole" />
+            <p:commandLink value="#{msg.title_company_profile_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_PROFILE)}"
+                           rendered="#{sessionScope.user != null &amp;&amp; sessionScope.user.userRole == UserRole.COMPANY_ADMIN}"/>
         </h:form>
     </ui:define>
 
     <ui:define name="customLink2">
         <h:form>
             <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
-            <p:commandLink value="#{msg.title_company_registration_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_REGISTRATION)}"/>
+            <p:commandLink value="#{msg.title_company_registration_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_REGISTRATION)}"
+                           rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_REGISTRATION, false)}"/>
         </h:form>
     </ui:define>
 
     <ui:define name="customLink3">
         <h:form>
             <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
-            <p:commandLink value="#{msg.title_users_page}" actionListener="#{navigatorBean.redirectTo(Pages.USER_LIST)}"/>
+            <p:commandLink value="#{msg.title_users_page}" actionListener="#{navigatorBean.redirectTo(Pages.USER_LIST)}"
+                           rendered="#{securityManagerBean.isPagePermitted(Pages.USER_LIST, false)}"/>
         </h:form>
     </ui:define>
 
     <ui:define name="customLink4">
         <h:form>
             <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
-            <p:commandLink value="#{msg.title_profile_page}" actionListener="#{navigatorBean.redirectTo(Pages.USER_PROFILE)}"/>
+            <p:commandLink value="#{msg.title_profile_page}" actionListener="#{navigatorBean.redirectTo(Pages.USER_PROFILE)}"
+                           rendered="#{securityManagerBean.isPagePermitted(Pages.USER_PROFILE, false)}"/>
         </h:form>
     </ui:define>
 

@@ -34,7 +34,7 @@ public class SecurityManagerBean {
         permissionMap.put(Pages.ERROR_PAGE, null);
 
         permissionMap.put(Pages.USER_PROFILE, UserRole.AGENT);
-        permissionMap.put(Pages.USER_LIST, UserRole.COMPANY_ADMIN);
+        permissionMap.put(Pages.USER_LIST, UserRole.ADMIN);
 
         permissionMap.put(Pages.COMPANY_REGISTRATION, UserRole.ADMIN);
         permissionMap.put(Pages.COMPANY_PROFILE, UserRole.COMPANY_ADMIN);
@@ -42,12 +42,18 @@ public class SecurityManagerBean {
     }
 
     public boolean isPagePermitted(NavigatorBean.Pages page) {
+        return isPagePermitted(page, true);
+    }
+
+    public boolean isPagePermitted(NavigatorBean.Pages page, boolean shouldRedirect) {
         FacesContext context = FacesContext.getCurrentInstance();
         UserVo user = getLoggedInUser(context);
         // Check if there is a logged in user
         if (user == null) {
             log.warn("User tried to reach " + page.name() + " page without logging in.");
-            navigator.redirectTo(Pages.LOGIN);
+            if (shouldRedirect) {
+                navigator.redirectTo(Pages.LOGIN);
+            }
             return false;
         }
 
@@ -55,7 +61,10 @@ public class SecurityManagerBean {
         UserRole minimumRole = permissionMap.get(page);
         if (minimumRole != null && user.getUserRole().getStrength() < minimumRole.getStrength()) {
             log.warn("User " + user.getUsername() + " tried to reach " + page.name() + " without permission.");
-            navigator.redirectTo(Pages.ERROR_PAGE);
+            if (shouldRedirect) {
+                navigator.redirectTo(Pages.ERROR_PAGE);
+            }
+
             return false;
         }
 
