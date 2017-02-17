@@ -29,6 +29,7 @@ public class MailSender {
             log.info("Message sent successfully!");
         } catch (MessagingException e) {
             log.warn("Message was not send!");
+            log.warn("Causing exception:" + System.getProperty("line.separator"), e);
             throw new RuntimeException(e);
         }
 
