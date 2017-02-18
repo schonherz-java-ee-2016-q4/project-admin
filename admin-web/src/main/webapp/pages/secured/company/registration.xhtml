@@ -3,15 +3,12 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:o="http://omnifaces.org/ui"
-                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
                 template="/pages/templates/linkedLayout.xhtml">
 
     <ui:define name="customTitle">#{msg.title_company_registration_page}</ui:define>
     <ui:define name="customBody">
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
                 <h:form id="companyRegistrationForm" rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_REGISTRATION)}">
                     <p:panel header="#{msg.form_company}" id="companyRegistrationPanel">
                         <div class="ui-fluid">

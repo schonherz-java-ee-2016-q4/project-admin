@@ -9,11 +9,8 @@
     <ui:define name="customBody">
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <o:importConstants
-                    type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
-                    var="Pages" />
                 <h:form id="profileForm"
-                        rendered="#{securityManagerBean.isPagePermitted(Pages.USER_LIST)}">
+                        rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_PROFILE)}">
                     <p:panel header="#{msg.form_company}" id="profilePanel">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"

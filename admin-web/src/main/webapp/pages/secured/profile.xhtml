@@ -3,7 +3,6 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:o="http://omnifaces.org/ui"
                 template="/pages/templates/linkedLayout.xhtml">
 
     <ui:define name="customTitle">#{msg.title_profile_page}</ui:define>
@@ -11,7 +10,6 @@
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <p:panel header="#{msg.form_profile}" id="profilePanel">
-                    <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
                     <h:form id="profileForm" rendered="#{securityManagerBean.isPagePermitted(Pages.USER_PROFILE)}">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"
