@@ -2,7 +2,7 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+                xmlns:p="http://primefaces.org/ui"
                 template="/pages/templates/linkedLayout.xhtml">
 
     <ui:define name="customTitle">#{msg.title_company_profile_page}</ui:define>
@@ -108,12 +108,11 @@
                                 <div></div>
                             </p:panelGrid>
                             <p:panelGrid columns="3"
-                                         columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-2"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-4"
                                          layout="grid" styleClass="ui-panelgrid-blank">
                                 <p:pickList id="agentsPicklist"
                                             value="#{companyProfileView.agents}" var="agents"
                                             itemLabel="#{agents}" itemValue="#{agents}" />
-                                <p:message class="user-notification" for="agentsPicklist" />
                                 <div></div>
                             </p:panelGrid>
                             <p:panelGrid columns="3"
@@ -121,15 +120,15 @@
                                          layout="grid" styleClass="ui-panelgrid-blank">
                                 <!-- Clear Fields Button -->
                                 <p:commandButton value="#{msg.label_clear_fields}"
-                                                 type="reset"
-                                                 update="profilePanel" process="@this">
+                                                 update="profilePanel" process="@this"
+                                                 type="reset">
                                     <p:resetInput target="profilePanel" />
                                 </p:commandButton>
-                                <div></div>
+                                <p:message class="user-notification" for="agentsPicklist" />
                                 <!-- Save button -->
                                 <p:commandButton value="#{msg.label_save}" icon="ui-icon-pencil"
                                                  actionListener="#{companyProfileView.save()}"
-                                                 update="profileForm" ajax="false" validateClient="true">
+                                                 update="profilePanel" ajax="false" validateClient="true">
                                 </p:commandButton>
                             </p:panelGrid>
                         </div>
@@ -138,4 +137,5 @@
             </div>
         </div>
     </ui:define>
+    >>>>>>> company-create-edit
 </ui:composition>

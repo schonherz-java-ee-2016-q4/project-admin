@@ -39,4 +39,6 @@ public class UserEntity extends BaseEntity implements Serializable {
 
     @Column(nullable = false, columnDefinition = "VARCHAR(15) DEFAULT 'AGENT'")
     private String userRole;
+
+    private String companyName;
 }
