@@ -140,12 +140,14 @@ public class CompanyProfileView {
       //set all agents' company name to current company name in the target menu
         for (String username : agents.getTarget()) {
             UserVo agent = userServiceRemote.findByUsername(username);
-            agent.setCompanyName(currentCompanyVo.getCompanyName());
-            try {
-                userServiceRemote.registrationUser(agent);
-            } catch (InvalidUserDataException iude) {
-                log.warn("Unsuccessful save attempt with data:{}{} ", System.getProperty("line.separator"), agent);
-                log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+            if (agent.getCompanyName()!=currentCompanyVo.getCompanyName()) {
+                agent.setCompanyName(currentCompanyVo.getCompanyName());
+                try {
+                    userServiceRemote.registrationUser(agent);
+                } catch (InvalidUserDataException iude) {
+                    log.warn("Unsuccessful save attempt with data:{}{} ", System.getProperty("line.separator"), agent);
+                    log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+                }
             }
             userVos.add(agent);
         }
@@ -167,12 +169,14 @@ public class CompanyProfileView {
       //(agents with null parameter are independents)
         for (String username : agents.getSource()) {
             UserVo independentAgent = userServiceRemote.findByUsername(username);
-            independentAgent.setCompanyName(null);
-            try {
-                userServiceRemote.registrationUser(independentAgent);
-            } catch (InvalidUserDataException iude) {
-                log.warn("Unsuccessful save attempt with data:{}{} ", System.getProperty("line.separator"), independentAgent);
-                log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+            if (independentAgent.getCompanyName()!=null) {
+                independentAgent.setCompanyName(null);
+                try {
+                    userServiceRemote.registrationUser(independentAgent);
+                } catch (InvalidUserDataException iude) {
+                    log.warn("Unsuccessful save attempt with data:{}{} ", System.getProperty("line.separator"), independentAgent);
+                    log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+                }
             }
         }
     }
