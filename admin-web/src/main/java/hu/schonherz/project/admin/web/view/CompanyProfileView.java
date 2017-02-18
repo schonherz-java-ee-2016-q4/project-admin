@@ -60,15 +60,20 @@ public class CompanyProfileView {
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
+        UserVo userVo = getLoggedInUser(context);
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
         if (companyIdParameter == null) {
-            UserVo userVo = getLoggedInUser(context);
-            if (userVo.getUserRole().equals(UserRole.COMPANY_ADMIN)) {
+            if (userVo.getUserRole().equals(UserRole.ADMIN)) {
+                navigator.redirectTo(NavigatorBean.Pages.COMPANY_LIST);
+            } else {
                 Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
-            } else {
-                navigator.redirectTo(NavigatorBean.Pages.COMPANY_LIST);
             }
+        } else if (userVo.getUserRole().equals(UserRole.COMPANY_ADMIN)) {
+                Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
+                if (!companyId.equals(Long.valueOf(companyIdParameter))) {
+                    navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
+                }
         }
         currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
         companyProfileForm = new CompanyForm(currentCompanyVo);
