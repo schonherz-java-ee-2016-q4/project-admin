@@ -17,6 +17,7 @@ import hu.schonherz.project.admin.web.view.form.ProfileForm;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.ExternalContext;
 import javax.servlet.http.HttpSession;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProfileView {
 
+    private static final String USER_PARAM_NAME = "user";
     // Short messages
     private static final String SUCCESS = "success_short";
     private static final String FAILURE = "error_failure_short";
@@ -64,7 +66,7 @@ public class ProfileView {
         if (userIdParameter == null) {
             // If there is no id parameter, than the logged in user's profile it is
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-            currentUserVo = (UserVo) session.getAttribute("user");
+            currentUserVo = (UserVo) session.getAttribute(USER_PARAM_NAME);
             log.info("User " + currentUserVo.getUsername() + " is visiting his own profile.");
         } else {
             // If there is an id parameter, get that user from the database
@@ -86,16 +88,14 @@ public class ProfileView {
         }
 
         try {
-            UserVo userVo = prepareUserToSave();
-
-            userServiceRemote.registrationUser(userVo);
-            currentUserVo = userVo;
+            currentUserVo = prepareUserToSave();
+            userServiceRemote.registrationUser(currentUserVo);
 
             // Notify user about success and log it
             context.addMessage(MESSAGE_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_CHANGING)));
 
-            log.info("User '{}' successfully changed his/her profile.", userVo.getUsername());
+            log.info("User '{}' successfully changed his/her profile.", currentUserVo.getUsername());
             updateSessionOrRedirect();
         } catch (InvalidUserDataException iude) {
             // Notify user about duplication and log it with details
@@ -108,9 +108,14 @@ public class ProfileView {
     }
 
     private void updateSessionOrRedirect() {
-        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        if (currentUserVo.getId() == ((UserVo) session.getAttribute("user")).getId()) {
-            session.setAttribute("user", currentUserVo);
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(true);
+        Long sessionUserId = ((UserVo) session.getAttribute(USER_PARAM_NAME)).getId();
+        Long modifiedUserId = currentUserVo.getId();
+
+        // Don't redirect if user is on his own profile page
+        if (sessionUserId.equals(modifiedUserId)) {
+            session.setAttribute(USER_PARAM_NAME, currentUserVo);
         } else {
             navigator.redirectTo(NavigatorBean.Pages.USER_LIST);
         }

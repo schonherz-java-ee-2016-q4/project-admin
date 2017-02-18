@@ -39,12 +39,12 @@ public class NavigatorBean {
     }
 
     public void redirectTo(@NonNull final Pages toPage, final String paramKey, final Object paramValue) {
-        Map<String, String> paramMap = new HashMap<>();
-        paramMap.put(paramKey, paramValue.toString());
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put(paramKey, paramValue);
         redirectTo(toPage, paramMap);
     }
 
-    public void redirectTo(@NonNull final Pages toPage, final Map<String, String> params) {
+    public void redirectTo(@NonNull final Pages toPage, final Map<String, Object> params) {
         String fullUrl = createFullUrl(toPage.getUrl(), params);
         FacesContext context = FacesContext.getCurrentInstance();
         context.getApplication().getNavigationHandler().handleNavigation(context, null, fullUrl);
@@ -54,12 +54,12 @@ public class NavigatorBean {
         redirectTo(toPage, null);
     }
 
-    private String createFullUrl(final String url, final Map<String, String> params) {
+    private String createFullUrl(final String url, final Map<String, Object> params) {
         String fullUrl = url;
 
         if (params != null) {
-            for (Map.Entry<String, String> paramEntry : params.entrySet()) {
-                fullUrl = addParameter(fullUrl, paramEntry.getKey(), paramEntry.getValue());
+            for (Map.Entry<String, Object> paramEntry : params.entrySet()) {
+                fullUrl = addParameter(fullUrl, paramEntry.getKey(), paramEntry.getValue().toString());
             }
         }
 
