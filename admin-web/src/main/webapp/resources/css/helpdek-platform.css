@@ -186,7 +186,7 @@ html, body {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #fff;
+    background-color: #263238;
     overflow-x: hidden;
     transition: 0.5s;
     box-shadow: 0 4px 8px -3px #555454;

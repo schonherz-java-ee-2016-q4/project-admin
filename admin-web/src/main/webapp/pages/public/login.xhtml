@@ -39,6 +39,7 @@
                                          layout="grid" styleClass="ui-panelgrid-blank">
                                 <!-- Clear Fields Button -->
                                 <p:commandButton value="#{msg.label_clear_fields}"
+                                                 type="reset"
                                                  update="username password" process="@this">
                                     <p:resetInput target="loginPanel" />
                                 </p:commandButton>
