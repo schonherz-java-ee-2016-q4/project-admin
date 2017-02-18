@@ -14,6 +14,7 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.ProfileForm;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 import javax.faces.bean.ManagedProperty;
 import javax.servlet.http.HttpSession;
@@ -45,6 +46,9 @@ public class ProfileView {
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
+
+    @ManagedProperty(value = "#{navigatorBean}")
+    private NavigatorBean navigator;
 
     @ManagedProperty(value = "#{securityManagerBean}")
     private SecurityManagerBean securityManagerBean;
@@ -82,14 +86,7 @@ public class ProfileView {
         }
 
         try {
-            // Get user vo and set new password if given
-            UserVo userVo = profileForm.getUserVo();
-            userVo.setPassword(currentUserVo.getPassword());
-            userVo.setActive(currentUserVo.isActive());
-            String newPassword = profileForm.getNewPassword();
-            if (!disableNewPassword) {
-                userVo.setPassword(Encrypter.encrypt(newPassword));
-            }
+            UserVo userVo = prepareUserToSave();
 
             userServiceRemote.registrationUser(userVo);
             currentUserVo = userVo;
@@ -99,6 +96,7 @@ public class ProfileView {
                     localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_CHANGING)));
 
             log.info("User '{}' successfully changed his/her profile.", userVo.getUsername());
+            updateSessionOrRedirect();
         } catch (InvalidUserDataException iude) {
             // Notify user about duplication and log it with details
             context.addMessage(MESSAGE_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
@@ -107,6 +105,27 @@ public class ProfileView {
             log.warn("Unsuccessful changing attempt with data:{}{} ", System.getProperty("line.separator"), profileForm);
             log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
         }
+    }
+
+    private void updateSessionOrRedirect() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        if (currentUserVo.getId() == ((UserVo) session.getAttribute("user")).getId()) {
+            session.setAttribute("user", currentUserVo);
+        } else {
+            navigator.redirectTo(NavigatorBean.Pages.USER_LIST);
+        }
+    }
+
+    private UserVo prepareUserToSave() {
+        UserVo userVo = profileForm.getUserVo();
+        userVo.setPassword(currentUserVo.getPassword());
+        userVo.setActive(currentUserVo.isActive());
+        String newPassword = profileForm.getNewPassword();
+        if (!disableNewPassword) {
+            userVo.setPassword(Encrypter.encrypt(newPassword));
+        }
+
+        return userVo;
     }
 
 }
