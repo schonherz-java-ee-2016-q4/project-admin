@@ -83,8 +83,9 @@
                                 <p:password id="newPasswordConfirm"
                                             value="#{profileView.profileForm.confirmNewPassword}"
                                             required="true"
+                                            requiredMessage="#{msg.error_empty_field}"
                                             disabled="#{profileView.disableNewPassword}" />
-                                <p:message for="profileForm" />
+                                <p:message for="newPasswordConfirm" />
                             </p:panelGrid>
                             <p:separator />
                             <p:panelGrid columns="3"

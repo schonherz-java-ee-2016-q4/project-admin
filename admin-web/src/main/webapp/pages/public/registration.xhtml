@@ -49,10 +49,11 @@
                                                for="confirmPassword" />
                                 <p:password id="confirmPassword"
                                             value="#{registrationView.form.confirmPassword}"
-                                            placeholder="#{msg.field_password_confirm}" required="true"
+                                            placeholder="#{msg.field_password_confirm}"
+                                            required="true"
                                             requiredMessage="#{msg.error_empty_field}">
                                 </p:password>
-                                <p:message class="user-notification" for="registrationForm"
+                                <p:message class="user-notification" for="confirmPassword"
                                            id="registrationNotification" />
                             </p:panelGrid>
                             <p:panelGrid columns="3"

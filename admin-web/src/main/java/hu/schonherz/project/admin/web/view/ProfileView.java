@@ -35,7 +35,7 @@ public class ProfileView {
     private static final String INVALID_PASSWORD = "error_invalid_password";
     // Ids of message components
     private static final String PASSWORD_COMP_ID = "profileForm:currentPassword";
-    private static final String GLOBAL_COMP_ID = "profileForm";
+    private static final String MESSAGE_COMP_ID = "profileForm:newPasswordConfirm";
 
     // Wired to the profile xhtml
     private ProfileForm profileForm;
@@ -95,13 +95,13 @@ public class ProfileView {
             currentUserVo = userVo;
 
             // Notify user about success and log it
-            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
+            context.addMessage(MESSAGE_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_CHANGING)));
 
             log.info("User '{}' successfully changed his/her profile.", userVo.getUsername());
         } catch (InvalidUserDataException iude) {
             // Notify user about duplication and log it with details
-            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+            context.addMessage(MESSAGE_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     localeManagerBean.localize(FAILURE), localeManagerBean.localize(DUPLICATION_EMAIL)));
 
             log.warn("Unsuccessful changing attempt with data:{}{} ", System.getProperty("line.separator"), profileForm);

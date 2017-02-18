@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginView {
 
+    private static final String MESSAGE_COMP_ID = "loginForm:password";
     private static final String FAILURE = "error_failure_short";
     private static final String FAILED_LOGIN = "growl_invalid_username_or_password";
 
@@ -70,7 +71,7 @@ public class LoginView {
     }
 
     private void sendErrorMessage(final FacesContext context) {
-        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+        context.addMessage(MESSAGE_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                 localeManager.localize(FAILURE), localeManager.localize(FAILED_LOGIN)));
     }
 

@@ -10,7 +10,6 @@
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <h:form id="loginForm">
-                    <p:growl id="growl" showDetail="true" />
                     <p:panel header="#{msg.form_login}" id="loginPanel">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"
@@ -48,7 +47,7 @@
                                 <p:commandButton value="#{msg.title_login_page}"
                                                  icon="ui-icon-plusthick"
                                                  actionListener="#{loginView.login()}"
-                                                 update="loginForm loginForm:growl">
+                                                 update="loginForm">
                                 </p:commandButton>
                             </p:panelGrid>
                         </div>
