@@ -11,8 +11,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import hu.schonherz.project.admin.service.api.vo.UserRole;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import org.primefaces.model.DualListModel;
 
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
@@ -41,6 +43,9 @@ public class CompanyProfileView {
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
 
+    @ManagedProperty(value = "#{navigatorBean}")
+    private NavigatorBean navigator;
+
     @EJB
     private UserServiceRemote userServiceRemote;
     @EJB
@@ -56,6 +61,15 @@ public class CompanyProfileView {
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
+        if (companyIdParameter == null) {
+            UserVo userVo = getLoggedInUser(context);
+            if (userVo.getUserRole().equals(UserRole.COMPANY_ADMIN)) {
+                Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
+                navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
+            } else {
+                navigator.redirectTo(NavigatorBean.Pages.COMPANY_LIST);
+            }
+        }
         currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
         companyProfileForm = new CompanyForm(currentCompanyVo);
         initDualistModel();
@@ -135,6 +149,11 @@ public class CompanyProfileView {
             log.warn("Causing exception:" + System.getProperty("line.separator"), icde);
         }
 
+    }
+
+    private UserVo getLoggedInUser(FacesContext context) {
+        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+        return (UserVo) session.getAttribute("user");
     }
 
 }
