@@ -8,7 +8,7 @@
 
 
 
-	<ui:define name="customTitle">#{msg.title_users_page}</ui:define>
+	<ui:define name="customTitle">#{msg.title_companies_page}</ui:define>
 	<ui:define name="customBody">
 		<o:importConstants
 			type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
@@ -19,7 +19,7 @@
 			<div class="ui-g-9 ui-md-9 ui-lg-9">
 				<p:dataTable var="company" value="#{companiesView.companies}"
 					id="company-table" sortBy="${company.companyName}"
-					emptyMessage="#{msg.label_no_records}">
+					emptyMessage="#{msg.label_no_records_company}">
 					<p:column headerText="#{msg.field_company_name}">
 						<div class="user-table-content">
 							<h:outputText value="#{company.companyName}" />
