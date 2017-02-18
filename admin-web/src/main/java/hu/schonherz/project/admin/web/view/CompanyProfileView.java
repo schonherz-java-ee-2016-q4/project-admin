@@ -71,10 +71,10 @@ public class CompanyProfileView {
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
             }
         } else if (userVo.getUserRole().equals(UserRole.COMPANY_ADMIN)) {
-                Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
-                if (!companyId.equals(Long.valueOf(companyIdParameter))) {
-                    navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
-                }
+            Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
+            if (!companyId.equals(Long.valueOf(companyIdParameter))) {
+                navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
+            }
         }
         currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
         companyProfileForm = new CompanyForm(currentCompanyVo);
@@ -93,7 +93,7 @@ public class CompanyProfileView {
     }
 
     private void initDualistModel() {
-         agents = new DualListModel<>(agentsSource(), agentsTarget());
+        agents = new DualListModel<>(agentsSource(), agentsTarget());
     }
 
     private List<String> agentsSource() {
@@ -137,16 +137,17 @@ public class CompanyProfileView {
         CompanyVo companyVo = companyProfileForm.getCompanyVo();
         companyVo.setActive(currentCompanyVo.isActive());
         HashSet<UserVo> userVos = new HashSet<>();
-      //set all agents' company name to current company name in the target menu
+        final String lnSep = System.getProperty("line.separator");
+        //set all agents' company name to current company name in the target menu
         for (String username : agents.getTarget()) {
             UserVo agent = userServiceRemote.findByUsername(username);
-            if (agent.getCompanyName()!=currentCompanyVo.getCompanyName()) {
+            if (!agent.getCompanyName().equals(currentCompanyVo.getCompanyName())) {
                 agent.setCompanyName(currentCompanyVo.getCompanyName());
                 try {
                     userServiceRemote.registrationUser(agent);
                 } catch (InvalidUserDataException iude) {
-                    log.warn("Unsuccessful save attempt with data:{}{} ", System.getProperty("line.separator"), agent);
-                    log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+                    log.warn("Unsuccessful save attempt with data:{}{} ", lnSep, agent);
+                    log.warn("Causing exception:" + lnSep, iude);
                 }
             }
             userVos.add(agent);
@@ -161,21 +162,21 @@ public class CompanyProfileView {
 
             log.info("Company profile '{}' successfully changed.", companyVo.getCompanyName());
         } catch (InvalidCompanyDataException icde) {
-            
-        	log.warn("Unsuccessful changing attempt with data:{}{} ", System.getProperty("line.separator"), companyProfileForm);
-            log.warn("Causing exception:" + System.getProperty("line.separator"), icde);
+
+            log.warn("Unsuccessful changing attempt with data:{}{} ", lnSep, companyProfileForm);
+            log.warn("Causing exception:" + lnSep, icde);
         }
-      //set all agents' company name to null in the source menu
-      //(agents with null parameter are independents)
+        //set all agents' company name to null in the source menu
+        //(agents with null parameter are independents)
         for (String username : agents.getSource()) {
             UserVo independentAgent = userServiceRemote.findByUsername(username);
-            if (independentAgent.getCompanyName()!=null) {
+            if (independentAgent.getCompanyName() != null) {
                 independentAgent.setCompanyName(null);
                 try {
                     userServiceRemote.registrationUser(independentAgent);
                 } catch (InvalidUserDataException iude) {
-                    log.warn("Unsuccessful save attempt with data:{}{} ", System.getProperty("line.separator"), independentAgent);
-                    log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+                    log.warn("Unsuccessful save attempt with data:{}{} ", lnSep, independentAgent);
+                    log.warn("Causing exception:" + lnSep, iude);
                 }
             }
         }

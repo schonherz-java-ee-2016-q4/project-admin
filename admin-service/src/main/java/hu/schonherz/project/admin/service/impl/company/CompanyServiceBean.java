@@ -6,7 +6,6 @@ import hu.schonherz.project.admin.data.repository.CompanyRepository;
 import hu.schonherz.project.admin.data.repository.UserRepository;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
-import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.mapper.company.CompanyEntityVoMapper;
 
 import java.util.List;
