@@ -20,6 +20,7 @@ import org.primefaces.model.DualListModel;
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
+import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
@@ -136,8 +137,17 @@ public class CompanyProfileView {
         CompanyVo companyVo = companyProfileForm.getCompanyVo();
         companyVo.setActive(currentCompanyVo.isActive());
         HashSet<UserVo> userVos = new HashSet<>();
+      //set all agents' company name to current company name in the target menu
         for (String username : agents.getTarget()) {
-            userVos.add(userServiceRemote.findByUsername(username));
+            UserVo agent = userServiceRemote.findByUsername(username);
+            agent.setCompanyName(currentCompanyVo.getCompanyName());
+            try {
+                userServiceRemote.registrationUser(agent);
+            } catch (InvalidUserDataException iude) {
+                log.warn("Unsuccessful save attempt with data:{}{} ", System.getProperty("line.separator"), agent);
+                log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+            }
+            userVos.add(agent);
         }
         companyVo.setAgents(userVos);
         try {
@@ -153,7 +163,18 @@ public class CompanyProfileView {
         	log.warn("Unsuccessful changing attempt with data:{}{} ", System.getProperty("line.separator"), companyProfileForm);
             log.warn("Causing exception:" + System.getProperty("line.separator"), icde);
         }
-
+      //set all agents' company name to null in the source menu
+      //(agents with null parameter are independents)
+        for (String username : agents.getSource()) {
+            UserVo independentAgent = userServiceRemote.findByUsername(username);
+            independentAgent.setCompanyName(null);
+            try {
+                userServiceRemote.registrationUser(independentAgent);
+            } catch (InvalidUserDataException iude) {
+                log.warn("Unsuccessful save attempt with data:{}{} ", System.getProperty("line.separator"), independentAgent);
+                log.warn("Causing exception:" + System.getProperty("line.separator"), iude);
+            }
+        }
     }
 
     private UserVo getLoggedInUser(FacesContext context) {
