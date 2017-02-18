@@ -3,12 +3,13 @@ package hu.schonherz.project.admin.service.impl.user;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.ejb.EJB;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -33,13 +34,15 @@ public class UserServiceBean implements UserServiceLocal {
 
     private static final String DOES_NOT_EXIST = " does not exist!";
 
+    @EJB
+    private MailSender mailSender;
+
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public UserVo findByUsername(final String username) {
-        UserEntity user = userRepository.findByUsername(username);
-               return UserEntityVoMapper.toVo(user);
+        return UserEntityVoMapper.toVo(userRepository.findByUsername(username));
     }
 
     @Override
@@ -62,7 +65,6 @@ public class UserServiceBean implements UserServiceLocal {
 
     @Override
     public void delete(final Long id) {
-        log.warn("User with id " + id + DOES_NOT_EXIST);
         userRepository.delete(id);
     }
 
@@ -70,9 +72,9 @@ public class UserServiceBean implements UserServiceLocal {
     public void changeStatus(final Long id) {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity != null) {
-            userEntity.setActive(!(userEntity.isActive()));
+            userEntity.setActive(!userEntity.isActive());
         } else {
-            log.warn("User with id " + id + DOES_NOT_EXIST);
+            log.warn("User with id " + id + DOES_NOT_EXIST + "! Cannot change status.");
         }
     }
 
@@ -83,18 +85,16 @@ public class UserServiceBean implements UserServiceLocal {
         if (userEntity != null) {
             String generatedPassword = RandomStringUtils.randomAlphanumeric(passwordLength);
             String hashedPassword = Encrypter.encrypt(generatedPassword);
-            log.info("The generated password is: {}", generatedPassword);
-            log.info("The hashed password is: {}", hashedPassword);
             userEntity.setPassword(hashedPassword);
-            MailSender.sendFromGmail(userEntity.getEmail(), generatedPassword);
+            mailSender.sendFromGmail(userEntity.getEmail(), generatedPassword);
+        } else {
+            log.warn("The user with id " + id + DOES_NOT_EXIST + "! Cannot reset password.");
         }
     }
 
     @Override
     public UserVo findById(final Long id) {
-        UserEntity userEntity = findOne(id);
-
-        return UserEntityVoMapper.toVo(userEntity);
+        return UserEntityVoMapper.toVo(findOne(id));
     }
 
     private UserEntity findOne(final Long id) {

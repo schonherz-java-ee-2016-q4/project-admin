@@ -3,7 +3,6 @@ package hu.schonherz.admin.web.locale;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.stream.Stream;
 import javax.annotation.PostConstruct;
 
 import javax.faces.bean.ManagedBean;
@@ -36,29 +35,30 @@ public class LocaleManagerBean {
         }
     }
 
-    private void updateLocaleMessages() {
-        localeMessages = ResourceBundle.getBundle(PROPERTIES_FILE_NAME, locale);
-    }
-
     public Locale getLocale() {
         return locale;
     }
 
-    public ResourceBundle getLocaleMessages() {
-        return localeMessages;
-    }
+    public String localize(final String key, final String... params) {
+        if (params.length == 0) {
+            return localeMessages.getString(key);
+        }
 
-    public String localize(String key, String... params) {
         String pattern = getLocalizedPattern(key);
         return format(pattern, params);
     }
 
-    private String getLocalizedPattern(String key) {
-        return getLocaleMessages().getString(key);
+    private String getLocalizedPattern(final String key) {
+        return localeMessages.getString(key);
     }
 
-    private String format(String pattern, String... params) {
+    private String format(final String pattern, final String... params) {
         MessageFormat formatter = new MessageFormat(pattern, getLocale());
         return formatter.format(params);
     }
+
+    private void updateLocaleMessages() {
+        localeMessages = ResourceBundle.getBundle(PROPERTIES_FILE_NAME, locale);
+    }
+
 }
