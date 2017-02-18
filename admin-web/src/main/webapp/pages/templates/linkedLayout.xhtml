@@ -9,6 +9,13 @@
         <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
     </h:form>
 
+    <ui:define name="customLink0">
+        <h:form>
+            <p:commandLink value="#{msg.title_companies_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_LIST)}"
+                           rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_LIST, false)}"/>
+        </h:form>
+    </ui:define>
+
     <ui:define name="customLink1">
         <h:form>
             <o:importConstants type="hu.schonherz.project.admin.service.api.vo.UserRole" var="UserRole" />

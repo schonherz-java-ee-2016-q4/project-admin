@@ -1,79 +1,79 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
-	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
-	template="/pages/templates/masterLayout.xhtml">
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                template="/pages/templates/linkedLayout.xhtml">
 
 
 
-	<ui:define name="customTitle">#{msg.title_companies_page}</ui:define>
-	<ui:define name="customBody">
-		<o:importConstants
-			type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
-			var="Pages" />
-		<h:form class="ui-g" id="form"
-			rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_LIST)}">
-			<p:growl id="growl" showDetail="true" />
-			<div class="ui-g-9 ui-md-9 ui-lg-9">
-				<p:dataTable var="company" value="#{companiesView.companies}"
-					id="company-table" sortBy="${company.companyName}"
-					emptyMessage="#{msg.label_no_records_company}">
-					<p:column headerText="#{msg.field_company_name}">
-						<div class="user-table-content">
-							<h:outputText value="#{company.companyName}" />
-						</div>
-					</p:column>
-					<p:column headerText="#{msg.label_domain}" priority="3">
-						<div class="user-table-content">
-							<h:outputText value="#{company.domainAddress}" />
-						</div>
-					</p:column>
-					<p:column headerText="#{msg.field_admin_email}" priority="4">
-						<div class="user-table-content">
-							<h:outputText value="#{company.adminUser.email}" />
-						</div>
-					</p:column>
-					<p:column headerText="#{msg.field_status}" priority="2">
-						<div
-							class="company-table-content #{company.active ? 'active-status' : 'inactive-status'}">
-							<h:outputText value="#{company.active ? 'Active' : 'Inactive'}" />
-						</div>
-					</p:column>
-					<p:column headerText="#{msg.field_settings}">
-						<div class="user-table-content">
+    <ui:define name="customTitle">#{msg.title_companies_page}</ui:define>
+    <ui:define name="customBody">
+        <o:importConstants
+            type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
+            var="Pages" />
+        <h:form class="ui-g" id="form"
+                rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_LIST)}">
+            <p:growl id="growl" showDetail="true" />
+            <div class="ui-g-9 ui-md-9 ui-lg-9">
+                <p:dataTable var="company" value="#{companiesView.companies}"
+                             id="company-table" sortBy="${company.companyName}"
+                             emptyMessage="#{msg.label_no_records_company}">
+                    <p:column headerText="#{msg.field_company_name}">
+                        <div class="user-table-content">
+                            <h:outputText value="#{company.companyName}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="#{msg.label_domain}" priority="3">
+                        <div class="user-table-content">
+                            <h:outputText value="#{company.domainAddress}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="#{msg.field_admin_email}" priority="4">
+                        <div class="user-table-content">
+                            <h:outputText value="#{company.adminUser.email}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="#{msg.field_status}" priority="2">
+                        <div
+                            class="company-table-content #{company.active ? 'active-status' : 'inactive-status'}">
+                            <h:outputText value="#{company.active ? 'Active' : 'Inactive'}" />
+                        </div>
+                    </p:column>
+                    <p:column headerText="#{msg.field_settings}">
+                        <div class="user-table-content">
 
-							<!-- Edit button -->
-							<p:commandButton id="edit" icon="ui-icon-pencil"
-								actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_PROFILE, 'id', company.id)}">
+                            <!-- Edit button -->
+                            <p:commandButton id="edit" icon="ui-icon-pencil"
+                                             actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_PROFILE, 'id', company.id)}">
 
-							</p:commandButton>
+                            </p:commandButton>
 
-							<!-- Status button -->
-							<p:commandButton id="status" icon="ui-icon-power"
-								actionListener="#{companiesView.changeCompanyStatus(company)}"
-								update="company-table form:growl" process="@all">
-							</p:commandButton>
+                            <!-- Status button -->
+                            <p:commandButton id="status" icon="ui-icon-power"
+                                             actionListener="#{companiesView.changeCompanyStatus(company)}"
+                                             update="company-table form:growl" process="@all">
+                            </p:commandButton>
 
-							<!-- Reset password button -->
-							<p:commandButton id="generateReport" icon="ui-icon-clipboard"
-								actionListener="#{companiesView.generateReport(company)}"
-								update="company-table form:growl">
-							</p:commandButton>
-						</div>
-						<!-- Tooltips -->
-						<p:tooltip id="toolTipEdit" for="edit"
-							value="#{msg.tooltip_edit} #{company.companyName}" position="top" />
-						<p:tooltip id="toolTipStatus" for="status"
-							value="#{company.active ? msg.tooltip_status_inactivate : msg.tooltip_status_activate} #{company.companyName}"
-							position="top" />
-						<p:tooltip id="toolTipGenerateReport" for="generateReport"
-							value="#{msg.tooltip_generate_report} #{company.companyName}"
-							position="top" />
-					</p:column>
-				</p:dataTable>
-			</div>
-		</h:form>
-	</ui:define>
+                            <!-- Reset password button -->
+                            <p:commandButton id="generateReport" icon="ui-icon-clipboard"
+                                             actionListener="#{companiesView.generateReport(company)}"
+                                             update="company-table form:growl">
+                            </p:commandButton>
+                        </div>
+                        <!-- Tooltips -->
+                        <p:tooltip id="toolTipEdit" for="edit"
+                                   value="#{msg.tooltip_edit} #{company.companyName}" position="top" />
+                        <p:tooltip id="toolTipStatus" for="status"
+                                   value="#{company.active ? msg.tooltip_status_inactivate : msg.tooltip_status_activate} #{company.companyName}"
+                                   position="top" />
+                        <p:tooltip id="toolTipGenerateReport" for="generateReport"
+                                   value="#{msg.tooltip_generate_report} #{company.companyName}"
+                                   position="top" />
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </h:form>
+    </ui:define>
 </ui:composition>
