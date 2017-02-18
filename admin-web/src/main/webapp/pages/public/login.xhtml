@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/templates/linkedLayout.xhtml">
+
+    <ui:define name="customTitle">#{msg.title_login_page}</ui:define>
+    <ui:define name="customBody">
+        <div class="ui-g">
+            <div class="ui-g-9 ui-md-9 ui-lg-9">
+                <h:form id="loginForm">
+                    <p:panel header="#{msg.form_login}" id="loginPanel">
+                        <div class="ui-fluid">
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <!-- Username -->
+                                <p:outputLabel value="#{msg.field_username}:" for="username" />
+                                <p:inputText id="username"
+                                             value="#{loginView.loginForm.username}"
+                                             placeholder="#{msg.field_username}" required="true"
+                                             requiredMessage="#{msg.error_empty_field}">
+                                </p:inputText>
+                                <p:message class="user-notification" for="username" />
+                                <!-- Password -->
+                                <p:outputLabel value="#{msg.field_password}:" for="password" />
+                                <p:password id="password"
+                                            value="#{loginView.loginForm.password}"
+                                            placeholder="#{msg.field_password}" required="true"
+                                            requiredMessage="#{msg.error_empty_field}">
+                                </p:password>
+                                <p:message class="user-notification" for="password" />
+                                <!--<p:message styleClass="float-right" for="loginForm" />-->
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <!-- Clear Fields Button -->
+                                <p:commandButton value="#{msg.label_clear_fields}"
+                                                 type="reset"
+                                                 update="username password" process="@this">
+                                    <p:resetInput target="loginPanel" />
+                                </p:commandButton>
+                                <div></div>
+                                <!-- Login button -->
+                                <p:commandButton value="#{msg.title_login_page}"
+                                                 icon="ui-icon-plusthick"
+                                                 actionListener="#{loginView.login()}"
+                                                 update="loginForm">
+                                </p:commandButton>
+                            </p:panelGrid>
+                        </div>
+                    </p:panel>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

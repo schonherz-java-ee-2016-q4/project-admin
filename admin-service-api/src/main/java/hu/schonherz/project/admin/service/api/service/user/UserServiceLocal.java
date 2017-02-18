@@ -1,4 +1,4 @@
-package hu.schonherz.project.admin.service.api.service;
+package hu.schonherz.project.admin.service.api.service.user;
 
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 

@@ -17,6 +17,16 @@ public class UserData implements Serializable {
 
     private UserRole userRole;
 
+    private String fullName;
+
+    private Gender gender;
+
+    private String companyName;
+
+    private String phone;
+
+    private String picUrl;
+
     public Long getId() {
         return id;
     }
@@ -55,6 +65,46 @@ public class UserData implements Serializable {
 
     public void setUserRole(final UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getPicUrl() {
+        return picUrl;
+    }
+
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 
     @Override

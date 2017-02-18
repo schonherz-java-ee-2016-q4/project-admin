@@ -12,8 +12,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 
 import javax.faces.bean.ManagedProperty;
 
@@ -37,6 +38,9 @@ public class UsersView {
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
+
+    @ManagedProperty(value = "#{securityManagerBean}")
+    private SecurityManagerBean securityManagerBean;
 
     @EJB
     private UserServiceRemote userServiceRemote;

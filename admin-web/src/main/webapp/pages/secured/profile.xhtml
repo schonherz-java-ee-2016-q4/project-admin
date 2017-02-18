@@ -3,14 +3,14 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/pages/templates/masterLayout.xhtml">
+                template="/pages/templates/linkedLayout.xhtml">
 
     <ui:define name="customTitle">#{msg.title_profile_page}</ui:define>
     <ui:define name="customBody">
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <p:panel header="#{msg.form_profile}" id="profilePanel">
-                    <h:form id="profileForm">
+                    <h:form id="profileForm" rendered="#{securityManagerBean.isPagePermitted(Pages.USER_PROFILE)}">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"
                                          columnClasses="ui-grid-col-2,ui-grid-col-5,ui-grid-col-5"
@@ -83,8 +83,9 @@
                                 <p:password id="newPasswordConfirm"
                                             value="#{profileView.profileForm.confirmNewPassword}"
                                             required="true"
+                                            requiredMessage="#{msg.error_empty_field}"
                                             disabled="#{profileView.disableNewPassword}" />
-                                <p:message for="profileForm" />
+                                <p:message for="newPasswordConfirm" />
                             </p:panelGrid>
                             <p:separator />
                             <p:panelGrid columns="3"
@@ -94,6 +95,7 @@
                                 <!-- Reset Fields Button -->
                                 <p:commandButton
                                     value="#{msg.label_reset_fields}"
+                                    type="reset"
                                     update="profilePanel"
                                     process="@this">
                                     <p:resetInput target="profilePanel" />
@@ -108,7 +110,6 @@
                                     validateClient="true">
                                 </p:commandButton>
                             </p:panelGrid>
-
                         </div>
                     </h:form>
                 </p:panel>

@@ -10,12 +10,14 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
-import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
-import hu.schonherz.project.admin.service.api.service.InvalidUserDataException;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.RegistrationForm;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import javax.faces.bean.ManagedProperty;
+import javax.servlet.http.HttpSession;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,13 +34,16 @@ public class RegistrationView {
     private static final String SUCCESSFUL_REGISTRATION = "success_registration";
     private static final String DUPLICATION = "error_duplication";
     // Ids of message components
-    private static final String GLOBAL_COMP_ID = "registrationForm";
+    private static final String MESSAGE_COMP_ID = "registrationForm:confirmPassword";
 
     // Wired to the registration xhtml
     private RegistrationForm form;
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
+
+    @ManagedProperty(value = "#{navigatorBean}")
+    private NavigatorBean navigator;
 
     @EJB
     private UserServiceRemote userServiceRemote;
@@ -57,16 +62,22 @@ public class RegistrationView {
 
             // Try to save user data
             userVo.setPassword(Encrypter.encrypt(form.getUserVo().getPassword()));
-            userServiceRemote.registrationUser(userVo);
+            // This vo has ID
+            userVo = userServiceRemote.registrationUser(userVo);
 
             // Notify user about success and log it
-            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
+            context.addMessage(MESSAGE_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
                     localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
 
             log.info("User '{}' successfully registered.", userVo.getUsername());
+
+            // Automatically login user and redirect to profile page
+            HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+            session.setAttribute("user", userVo);
+            navigator.redirectTo(NavigatorBean.Pages.USER_PROFILE);
         } catch (InvalidUserDataException iude) {
             // Notify user about duplication and log it with details
-            context.addMessage(GLOBAL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+            context.addMessage(MESSAGE_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
                     localeManagerBean.localize(FAILURE), localeManagerBean.localize(DUPLICATION)));
 
             log.warn("Unsuccessful registration attempt with data:{}{} ", System.getProperty("line.separator"), form);

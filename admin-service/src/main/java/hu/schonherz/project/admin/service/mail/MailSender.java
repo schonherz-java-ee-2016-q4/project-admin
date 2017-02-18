@@ -1,6 +1,5 @@
 package hu.schonherz.project.admin.service.mail;
 
-
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.mail.Message;
@@ -17,9 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 public class MailSender {
 
     @Resource(name = "java:/mail/admin")
-    private  Session session;
+    private Session session;
 
-    public  void sendFromGmail(final String to, final String password) {
+    public void sendFromGmail(final String to, final String password) {
         try {
             Message message = new MimeMessage(session);
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));

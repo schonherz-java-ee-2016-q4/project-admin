@@ -1,8 +1,8 @@
 package hu.schonherz.project.admin.service.mapper.user;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.dozer.DozerBeanMapper;
@@ -42,32 +42,32 @@ public final class UserEntityVoMapper {
         return MAPPER.map(userVo, UserEntity.class);
     }
 
-    public static List<UserVo> toVo(final Collection<UserEntity> entities) {
+    public static Set<UserVo> toVo(final Collection<UserEntity> entities) {
         if (entities == null) {
             return null;
         }
 
         if (entities.isEmpty()) {
-            return new ArrayList<>();
+            return new HashSet<>();
         }
 
         return entities.stream()
                 .map(entity -> toVo(entity))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
-    public static List<UserEntity> toEntity(final Collection<UserVo> vos) {
+    public static Set<UserEntity> toEntity(final Collection<UserVo> vos) {
         if (vos == null) {
             return null;
         }
 
         if (vos.isEmpty()) {
-            return new ArrayList<>();
+            return new HashSet<>();
         }
 
         return vos.stream()
                 .map(vo -> toEntity(vo))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
 }

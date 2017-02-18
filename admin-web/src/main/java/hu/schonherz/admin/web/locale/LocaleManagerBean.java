@@ -28,6 +28,8 @@ public class LocaleManagerBean {
     }
 
     public void setLanguage(final String language) {
+        Locale facesLocale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+        log.warn("facesLocale before: " + facesLocale.getLanguage());
         if (!locale.getLanguage().equals(language)) {
             locale = new Locale(language);
             updateLocaleMessages();

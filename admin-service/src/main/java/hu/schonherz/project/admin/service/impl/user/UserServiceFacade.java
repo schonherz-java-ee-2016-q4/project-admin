@@ -7,9 +7,9 @@ import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 
-import hu.schonherz.project.admin.service.api.service.UserServiceLocal;
-import hu.schonherz.project.admin.service.api.service.UserServiceRemote;
-import hu.schonherz.project.admin.service.api.service.InvalidUserDataException;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 
 @Stateless(mappedName = "UserServiceFacade")
@@ -22,6 +22,11 @@ public class UserServiceFacade implements UserServiceRemote {
     @Override
     public UserVo findByUsername(final String username) {
         return realService.findByUsername(username);
+    }
+
+    @Override
+    public UserVo findByEmail(final String email) {
+        return realService.findByEmail(email);
     }
 
     @Override

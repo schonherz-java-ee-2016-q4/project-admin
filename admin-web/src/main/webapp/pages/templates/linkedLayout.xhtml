@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui"
+                template="/pages/templates/masterLayout.xhtml">
+
+    <h:form>
+        <o:importConstants type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages" var="Pages" />
+    </h:form>
+
+    <ui:define name="customLink0">
+        <h:form>
+            <p:commandLink value="#{msg.title_companies_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_LIST)}"
+                           rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_LIST, false)}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="customLink1">
+        <h:form>
+            <o:importConstants type="hu.schonherz.project.admin.service.api.vo.UserRole" var="UserRole" />
+            <p:commandLink value="#{msg.title_company_profile_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_PROFILE)}"
+                           rendered="#{sessionScope.user != null &amp;&amp; sessionScope.user.userRole == UserRole.COMPANY_ADMIN}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="customLink2">
+        <h:form>
+            <p:commandLink value="#{msg.title_company_registration_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_REGISTRATION)}"
+                           rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_REGISTRATION, false)}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="customLink3">
+        <h:form>
+            <p:commandLink value="#{msg.title_users_page}" actionListener="#{navigatorBean.redirectTo(Pages.USER_LIST)}"
+                           rendered="#{securityManagerBean.isPagePermitted(Pages.USER_LIST, false)}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="customLink4">
+        <h:form>
+            <p:commandLink value="#{msg.title_profile_page}" actionListener="#{navigatorBean.redirectTo(Pages.USER_PROFILE)}"
+                           rendered="#{securityManagerBean.isPagePermitted(Pages.USER_PROFILE, false)}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="customLink5">
+        <h:form>
+            <p:commandLink value="#{msg.title_registration_page}" actionListener="#{navigatorBean.redirectTo(Pages.USER_REGISTRATION)}"
+                           rendered="#{sessionScope.user == null}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="customLink6">
+        <h:form>
+            <p:commandLink actionListener="#{loginView.logout()}" value="#{msg.label_logout}" rendered="#{sessionScope.user != null}"/>
+            <p:commandLink actionListener="#{navigatorBean.redirectTo(Pages.LOGIN)}" value="#{msg.title_login_page}" rendered="#{sessionScope.user == null}"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="customLink7">
+        <h:form>
+            <p:commandButton action="#{localeManagerBean.setLanguage('en')}" value="" styleClass="locale-en" update="@all"/>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="customLink8">
+        <h:form>
+            <p:commandButton action="#{localeManagerBean.setLanguage('hu')}" value="" styleClass="locale-hu" update="@all"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

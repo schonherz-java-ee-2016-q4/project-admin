@@ -1,4 +1,4 @@
-package hu.schonherz.project.admin.service.api.service;
+package hu.schonherz.project.admin.service.api.service.user;
 
 import java.util.List;
 
@@ -9,6 +9,8 @@ public interface UserService {
     UserVo findById(Long id);
 
     UserVo findByUsername(String username);
+
+    UserVo findByEmail(String email);
 
     List<UserVo> findAll();
 
