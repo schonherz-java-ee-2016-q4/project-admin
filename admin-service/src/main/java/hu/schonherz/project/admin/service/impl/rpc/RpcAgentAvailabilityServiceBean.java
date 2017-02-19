@@ -1,8 +1,13 @@
 package hu.schonherz.project.admin.service.impl.rpc;
 
 import javax.ejb.EJB;
+import javax.ejb.Remote;
+import javax.ejb.Stateless;
+import javax.interceptor.Interceptor;
+import javax.interceptor.Interceptors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import hu.schonherz.project.admin.data.repository.CompanyRepository;
 import hu.schonherz.project.admin.data.repository.UserRepository;
@@ -15,6 +20,9 @@ import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mapper.company.CompanyEntityVoMapper;
 import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
 
+@Stateless
+@Remote(RpcAgentAvailabilityServiceRemote.class)
+@Interceptors(SpringBeanAutowiringInterceptor.class)
 public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServiceRemote {
     @Autowired
     private CompanyRepository companyRepository;
