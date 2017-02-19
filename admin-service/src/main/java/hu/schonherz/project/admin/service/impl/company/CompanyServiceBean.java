@@ -8,7 +8,6 @@ import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLoca
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.mapper.company.CompanyEntityVoMapper;
 
-import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.ejb.TransactionManagement;
@@ -20,6 +19,8 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
+
+import java.util.List;
 
 @Stateless(mappedName = "CompanyServiceBean")
 @Local(CompanyServiceLocal.class)
