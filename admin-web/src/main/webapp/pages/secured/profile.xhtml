@@ -28,7 +28,7 @@
                                         pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
                                 </p:inputText>
                                 <p:message for="email" />
-                                <!-- Username -->
+                                <!-- Username - readonly -->
                                 <p:outputLabel for="username"
                                                value="#{msg.field_username}" />
                                 <p:inputText id="username"
@@ -36,6 +36,14 @@
                                              readonly="true" />
                                 <h:outputText
                                     value="#{msg.label_username_unmodifiable}" />
+                                <!-- Company  - readonly -->
+                                <p:outputLabel for="company"
+                                               value="#{msg.field_company}" />
+                                <p:inputText id="company"
+                                             value="#{profileView.profileForm.companyName}"
+                                             readonly="true" />
+                                <h:outputText
+                                    value="#{msg.label_company_unmodifiable}" />
                                 <!-- Current Password -->
                                 <p:outputLabel for="currentPassword"
                                                value="#{msg.field_password_current}" />
