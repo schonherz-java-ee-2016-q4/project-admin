@@ -14,6 +14,7 @@ public final class UserDataVoMapper {
     }
 
     public static UserData toData(final UserVo userVo) {
+        initMockUserVo(userVo);
         UserData userData = new UserData();
         userData.setId(userVo.getId());
         userData.setUsername(userVo.getUsername());
@@ -21,11 +22,11 @@ public final class UserDataVoMapper {
         userData.setEmail(userVo.getEmail());
         userData.setUserRole(userVo.getUserRole());
 
-        userData.setCompanyName("Wayne Enterprises, Inc");
-        userData.setFullName("Bruce Wayne");
-        userData.setPhone("+36-30-1112367");
-        userData.setPicUrl("https://pbs.twimg.com/profile_images/649259478332784640/7Pjcfx_v_reasonably_small.jpg");
-        userData.setGender(Gender.MALE);
+        userData.setCompanyName(userVo.getCompanyName());
+        userData.setFullName(userVo.getFullName());
+        userData.setPhone(userVo.getPhone());
+        userData.setPicUrl(userVo.getPicUrl());
+        userData.setGender(userVo.getGender());
 
         return userData;
     }
@@ -44,4 +45,11 @@ public final class UserDataVoMapper {
                 .collect(Collectors.toList());
     }
 
+
+    private static void initMockUserVo(final UserVo userVo) {
+        userVo.setFullName("Bruce Wayne asassa");
+        userVo.setGender(Gender.MALE);
+        userVo.setPhone("+36-30-1112367");
+        userVo.setPicUrl("https://pbs.twimg.com/profile_images/649259478332784640/7Pjcfx_v_reasonably_small.jpg");
+    }
 }
