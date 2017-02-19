@@ -31,4 +31,12 @@ public class UserVo extends BaseVo implements Serializable {
 
     private String companyName;
 
+    private String fullName;
+
+    private String phone;
+
+    private  String picUrl;
+
+    private Gender gender;
+
 }
