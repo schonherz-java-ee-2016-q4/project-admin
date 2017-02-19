@@ -13,16 +13,13 @@ import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
 
 public class RpcSetAgentAvailabilityServiceBean implements RpcSetAgentAvailabilityServiceRemote {
 	@Autowired
-	UserRepository userRepository;
+	private UserRepository userRepository;
 	@EJB
-	UserServiceLocal userServiceLocal;
+	private UserServiceLocal userServiceLocal;
 	@Override
-	public void SetAgentAvailability(String username) throws NoAvailableAgentFoundException {
+	public void SetAgentAvailability(final String username) throws NoAvailableAgentFoundException {
 		UserVo userVo = UserEntityVoMapper.toVo(userRepository.findByUsername(username));
-		
 		userVo.setAvailable(true);
-		
 		userRepository.save(UserEntityVoMapper.toEntity(userVo));
 	}
-
 }
