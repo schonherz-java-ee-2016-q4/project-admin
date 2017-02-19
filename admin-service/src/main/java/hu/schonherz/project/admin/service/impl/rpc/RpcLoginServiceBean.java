@@ -94,7 +94,7 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
         log.info("Successful remote logout for user {}", username);
     }
 
-    private void saveLoginData(Long userId) {
+    private void saveLoginData(final Long userId) {
         LoginVo loginVo = new LoginVo();
         loginVo.setUserId(userId);
         loginVo.setLoginDate(LocalDateTime.now());
