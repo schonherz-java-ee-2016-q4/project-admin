@@ -14,13 +14,12 @@ import hu.schonherz.project.admin.service.mapper.company.CompanyEntityVoMapper;
 
 public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServiceRemote{
 	@Autowired
-	CompanyRepository companyRepository;
+	private CompanyRepository companyRepository;
 	@EJB
-	CompanyServiceLocal companyServiceLocal;
+	private CompanyServiceLocal companyServiceLocal;
 	@Override
-	public Long getAvailableAgent(String source) throws NoAvailableAgentFoundException {
+	public Long getAvailableAgent(final String source) throws NoAvailableAgentFoundException {
 		CompanyVo currentCompanyVo = CompanyEntityVoMapper.toVo(companyRepository.findByDomainAddressContaining(source));
-		
 		for (UserVo agent : currentCompanyVo.getAgents()) {
 			if (agent.isAvailable()) {
 				agent.setAvailable(false);
@@ -29,5 +28,4 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
 		}
 		throw new NoAvailableAgentFoundException("There's no available Agent with " + source + " domain.");
 	}
-
 }
