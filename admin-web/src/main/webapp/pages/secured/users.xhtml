@@ -26,6 +26,14 @@
                             <h:outputText value="#{user.email}" />
                         </div>
                     </p:column>
+
+                    <p:column headerText="#{msg.field_company}"
+                              priority="4">
+                        <div class="user-table-content">
+                            <h:outputText value="#{user.companyName}" />
+                        </div>
+                    </p:column>
+
                     <p:column headerText="#{msg.field_status}"
                               priority="2">
                         <div
