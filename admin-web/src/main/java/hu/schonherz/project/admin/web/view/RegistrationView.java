@@ -63,6 +63,7 @@ public class RegistrationView {
             userVo.setFullName("Bruce Wayne asassa");
             userVo.setGender(Gender.MALE);
             userVo.setPhone("+36-30-1112367");
+            userVo.setCompanyName("Wayne Industries");
             userVo.setPicUrl("https://pbs.twimg.com/profile_images/649259478332784640/7Pjcfx_v_reasonably_small.jpg");
             // Try to save user data
             userVo.setPassword(Encrypter.encrypt(form.getUserVo().getPassword()));
