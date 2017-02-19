@@ -134,8 +134,9 @@ public class CompanyProfileView {
                     localeManagerBean.localize(FAILURE), localeManagerBean.localize(ERROR_ADMIN_EMAIL)));
             return;
         }
+
         CompanyVo companyVo = companyProfileForm.getCompanyVo();
-        companyVo.setActive(currentCompanyVo.isActive());
+//        companyVo.setActive(currentCompanyVo.isActive());
         HashSet<UserVo> userVos = new HashSet<>();
         final String lnSep = System.getProperty("line.separator");
         //set all agents' company name to current company name in the target menu
@@ -153,6 +154,9 @@ public class CompanyProfileView {
             userVos.add(agent);
         }
         companyVo.setAgents(userVos);
+
+        setNewCompanyAdminIfGiven(companyVo);
+
         try {
             companyServiceRemote.save(companyVo);
             currentCompanyVo = companyVo;
@@ -185,6 +189,36 @@ public class CompanyProfileView {
     private UserVo getLoggedInUser(FacesContext context) {
         HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
         return (UserVo) session.getAttribute("user");
+    }
+
+    private void setNewCompanyAdminIfGiven(CompanyVo companyVo) {
+        UserVo newCompAdmin = userServiceRemote.findByEmail(companyProfileForm.getAdminEmail());
+        UserVo oldCompAdmin = companyVo.getAdminUser();
+        // if company admin changed
+        if (!oldCompAdmin.getEmail().equals(newCompAdmin.getEmail())) {
+            newCompAdmin.setUserRole(UserRole.COMPANY_ADMIN);
+            oldCompAdmin.setUserRole(UserRole.AGENT);
+            oldCompAdmin.setCompanyName(null);
+
+            try {
+                userServiceRemote.registrationUser(newCompAdmin);
+                userServiceRemote.registrationUser(oldCompAdmin);
+                companyVo.setAdminUser(newCompAdmin);
+            } catch (InvalidUserDataException iude) {
+                log.error("Could not change company admin for company " + companyVo.getCompanyName(), iude);
+            }
+
+            // Update dual list model
+            List<String> source = agents.getSource();
+            List<String> target = agents.getTarget();
+            String newCompAdminName = newCompAdmin.getUsername();
+            String oldCompAdminName = oldCompAdmin.getUsername();
+            source.remove(newCompAdminName);
+            target.remove(newCompAdminName);
+            if (!source.contains(oldCompAdminName)) {
+                source.add(oldCompAdminName);
+            }
+        }
     }
 
 }
