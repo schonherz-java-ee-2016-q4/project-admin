@@ -3,7 +3,6 @@ package hu.schonherz.project.admin.service.impl.rpc;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-import javax.interceptor.Interceptor;
 import javax.interceptor.Interceptors;
 
 import org.springframework.beans.factory.annotation.Autowired;
