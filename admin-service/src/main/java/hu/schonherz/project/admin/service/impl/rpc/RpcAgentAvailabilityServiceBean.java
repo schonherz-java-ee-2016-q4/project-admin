@@ -29,6 +29,7 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
         for (UserVo agent : currentCompanyVo.getAgents()) {
             if (agent.isAvailable()) {
                 agent.setAvailable(false);
+                userServiceLocal.changeAvailability(agent.getId());
                 return agent.getId();
             }
         }
@@ -38,7 +39,6 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
     @Override
     public void SetAgentAvailability(final String username) throws NoAvailableAgentFoundException {
         UserVo userVo = userServiceLocal.findByUsername(username);
-        userVo.setAvailable(true);
-        userServiceLocal.registrationUser(userVo);
+        userServiceLocal.changeAvailability(userVo.getId());
     }
 }

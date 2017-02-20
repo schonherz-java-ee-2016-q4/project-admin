@@ -19,4 +19,6 @@ public interface UserService {
     void changeStatus(Long id);
 
     void resetPassword(Long id);
+    
+    void changeAvailability(Long id);
 }
