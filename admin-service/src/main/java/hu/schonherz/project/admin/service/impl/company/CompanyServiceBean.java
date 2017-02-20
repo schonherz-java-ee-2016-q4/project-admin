@@ -91,4 +91,10 @@ public class CompanyServiceBean implements CompanyServiceLocal {
         }
     }
 
+    @Override
+    public CompanyVo findByDomainAddressContaining(String source) {
+        CompanyVo companyVo = CompanyEntityVoMapper.toVo(companyRepository.findByDomainAddressContaining(source));
+        return companyVo;
+    }
+
 }

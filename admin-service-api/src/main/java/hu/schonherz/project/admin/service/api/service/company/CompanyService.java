@@ -12,5 +12,7 @@ public interface CompanyService {
     List<CompanyVo> findAll();
 
     void changeStatus(Long id);
+    
+    CompanyVo findByDomainAddressContaining(String source);
 
 }

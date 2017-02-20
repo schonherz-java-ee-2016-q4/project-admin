@@ -48,4 +48,9 @@ public class CompanyServiceFacade implements CompanyServiceRemote {
         realService.changeStatus(id);
     }
 
+    @Override
+    public CompanyVo findByDomainAddressContaining(String source) {
+        return realService.findByDomainAddressContaining(source);
+    }
+
 }
