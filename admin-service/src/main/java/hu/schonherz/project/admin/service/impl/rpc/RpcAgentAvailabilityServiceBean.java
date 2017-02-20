@@ -12,6 +12,7 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 import hu.schonherz.project.admin.service.api.rpc.NoAvailableAgentFoundException;
 import hu.schonherz.project.admin.service.api.rpc.NoSuchDomainException;
 import hu.schonherz.project.admin.service.api.rpc.RpcAgentAvailabilityServiceRemote;
+import hu.schonherz.project.admin.service.api.rpc.UsernameNotFoundException;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLocal;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
@@ -39,8 +40,7 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
         log.info("Current Company Agents: {}", agents);
         for (UserVo agent : currentCompanyVo.getAgents()) {
             if (agent.isAvailable()) {
-                agent.setAvailable(false);
-                userServiceLocal.changeAvailability(agent.getId());
+                userServiceLocal.changeAvailability(agent.getId(), false);
                 return agent.getId();
             }
         }
@@ -49,8 +49,11 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
     }
 
     @Override
-    public void setAgentAvailability(final String username) throws NoAvailableAgentFoundException {
+    public void setAgentAvailabilityToTrue(final String username) throws UsernameNotFoundException {
         UserVo userVo = userServiceLocal.findByUsername(username);
-        userServiceLocal.changeAvailability(userVo.getId());
+        if (userVo == null) {
+            throw new UsernameNotFoundException("Username not found: {}", username);
+        }
+        userServiceLocal.changeAvailability(userVo.getId(), true);
     }
 }

@@ -20,5 +20,5 @@ public interface UserService {
 
     void resetPassword(Long id);
     
-    void changeAvailability(Long id);
+    void changeAvailability(Long id, boolean available);
 }
