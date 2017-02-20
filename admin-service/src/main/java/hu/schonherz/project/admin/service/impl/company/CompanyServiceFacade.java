@@ -49,7 +49,7 @@ public class CompanyServiceFacade implements CompanyServiceRemote {
     }
 
     @Override
-    public CompanyVo findByDomainAddressContaining(String source) {
+    public CompanyVo findByDomainAddressContaining(final String source) {
         return realService.findByDomainAddressContaining(source);
     }
 
