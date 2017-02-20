@@ -10,6 +10,7 @@ import javax.interceptor.Interceptors;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 import hu.schonherz.project.admin.service.api.rpc.NoAvailableAgentFoundException;
+import hu.schonherz.project.admin.service.api.rpc.NoSuchDomainException;
 import hu.schonherz.project.admin.service.api.rpc.RpcAgentAvailabilityServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLocal;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
@@ -28,8 +29,11 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
     private UserServiceLocal userServiceLocal;
 
     @Override
-    public Long getAvailableAgent(final String source) throws NoAvailableAgentFoundException {
+    public Long getAvailableAgent(final String source) throws NoAvailableAgentFoundException, NoSuchDomainException {
         CompanyVo currentCompanyVo = companyServiceLocal.findByDomainAddressContaining(source);
+        if (currentCompanyVo == null) {
+            throw new NoSuchDomainException("No such Domain Address in Company Domain Addresses.");
+        }
         log.info("Company with domain:{}:  {}", source, currentCompanyVo);
         Set<UserVo> agents = currentCompanyVo.getAgents();
         log.info("Current Company Agents: {}", agents);
@@ -40,11 +44,12 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
                 return agent.getId();
             }
         }
+
         throw new NoAvailableAgentFoundException("There's no available Agent with " + source + " domain.");
     }
 
     @Override
-    public void SetAgentAvailability(final String username) throws NoAvailableAgentFoundException {
+    public void setAgentAvailability(final String username) throws NoAvailableAgentFoundException {
         UserVo userVo = userServiceLocal.findByUsername(username);
         userServiceLocal.changeAvailability(userVo.getId());
     }

@@ -1,7 +1,7 @@
 package hu.schonherz.project.admin.service.api.rpc;
 
 public interface RpcAgentAvailabilityServiceRemote {
-    Long getAvailableAgent(String source) throws NoAvailableAgentFoundException;
+    Long getAvailableAgent(String source) throws NoAvailableAgentFoundException, NoSuchDomainException;
     
-    void SetAgentAvailability(String username) throws NoAvailableAgentFoundException;
+    void setAgentAvailability(String username) throws NoAvailableAgentFoundException, NoSuchDomainException;
     }
