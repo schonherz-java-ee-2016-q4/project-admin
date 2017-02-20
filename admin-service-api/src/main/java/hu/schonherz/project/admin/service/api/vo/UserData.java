@@ -71,7 +71,7 @@ public class UserData implements Serializable {
         return fullName;
     }
 
-    public void setFullName(String fullName) {
+    public void setFullName(final String fullName) {
         this.fullName = fullName;
     }
 
@@ -79,7 +79,7 @@ public class UserData implements Serializable {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(final Gender gender) {
         this.gender = gender;
     }
 
@@ -87,7 +87,7 @@ public class UserData implements Serializable {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
+    public void setCompanyName(final String companyName) {
         this.companyName = companyName;
     }
 
@@ -95,7 +95,7 @@ public class UserData implements Serializable {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(final String phone) {
         this.phone = phone;
     }
 
@@ -103,7 +103,7 @@ public class UserData implements Serializable {
         return picUrl;
     }
 
-    public void setPicUrl(String picUrl) {
+    public void setPicUrl(final String picUrl) {
         this.picUrl = picUrl;
     }
 

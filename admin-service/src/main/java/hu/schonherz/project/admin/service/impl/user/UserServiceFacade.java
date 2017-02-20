@@ -65,7 +65,7 @@ public class UserServiceFacade implements UserServiceRemote {
     }
 
     @Override
-    public void changeAvailability(Long id, boolean available) {
+    public void changeAvailability(final Long id, final boolean available) {
         realService.changeAvailability(id, available);
     }
 }

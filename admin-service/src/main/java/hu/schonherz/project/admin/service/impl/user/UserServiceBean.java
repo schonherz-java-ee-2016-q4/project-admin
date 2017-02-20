@@ -114,7 +114,7 @@ public class UserServiceBean implements UserServiceLocal {
     }
 
     @Override
-    public void changeAvailability(Long id, boolean available) {
+    public void changeAvailability(final Long id, final boolean available) {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity != null) {
             userEntity.setAvailable(available);
