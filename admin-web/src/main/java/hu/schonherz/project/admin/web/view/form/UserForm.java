@@ -12,6 +12,7 @@ public class UserForm {
 
     private Long id;
     private String email;
+    private String companyName;
     private String username;
     private String password;
     private boolean active;
@@ -22,6 +23,7 @@ public class UserForm {
     public UserForm(@NonNull final UserVo vo) {
         id = vo.getId();
         email = vo.getEmail();
+        companyName = vo.getCompanyName();
         username = vo.getUsername();
         password = vo.getPassword();
         active = vo.isActive();
@@ -34,6 +36,7 @@ public class UserForm {
         UserVo vo = new UserVo();
         vo.setId(id);
         vo.setEmail(email);
+        vo.setCompanyName(companyName);
         vo.setUsername(username);
         vo.setPassword(password);
         vo.setUserRole(userRole);
@@ -55,6 +58,14 @@ public class UserForm {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public void setEmail(String email) {

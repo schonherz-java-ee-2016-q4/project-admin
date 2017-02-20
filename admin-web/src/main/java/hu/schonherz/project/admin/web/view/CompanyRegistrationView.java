@@ -9,6 +9,7 @@ import hu.schonherz.project.admin.service.api.vo.QuotasVo;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.CompanyForm;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,12 +35,16 @@ public class CompanyRegistrationView {
     private static final String EMAIL_COMP_ID = "companyRegistrationForm:email";
     private static final String DOMAIN_COMP_ID = "companyRegistrationForm:domain";
     private static final String FAILURE = "error_failure_short";
+    private static final String REG_FAILURE = "error_registration_failure";
     private static final String ERROR_ADMIN_EMAIL = "error_admin_email";
 
     private CompanyForm companyRegistrationForm;
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
+
+    @ManagedProperty(value = "#{navigatorBean}")
+    private NavigatorBean navigator;
 
     @EJB
     private UserServiceRemote userServiceRemote;
@@ -75,10 +80,19 @@ public class CompanyRegistrationView {
             companyVo.getAdminUser().setCompanyName(companyVo.getCompanyName());
             companyVo.getAdminUser().setUserRole(UserRole.COMPANY_ADMIN);
             setDefaultValues(companyVo);
-            companyServiceRemote.save(companyVo);
-            log.info("Company '{}' successfully registered.", companyVo.getCompanyName());
-            context.addMessage(DOMAIN_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
+
+            companyVo = companyServiceRemote.save(companyVo);
+            if (companyVo.getId() == null) {
+                log.error("Failed to save company: {}", companyVo.getCompanyName());
+                context.addMessage(DOMAIN_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                        localeManagerBean.localize(FAILURE), localeManagerBean.localize(REG_FAILURE)));
+            } else {
+                log.info("Company '{}' successfully registered.", companyVo.getCompanyName());
+                context.addMessage(DOMAIN_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                        localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
+
+                navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyVo.getId());
+            }
         } catch (InvalidCompanyDataException e) {
             log.warn("Unsuccessful company registration attempt with data:{}{} ", System.getProperty("line.separator"), companyRegistrationForm);
             log.warn("Causing exception:" + System.getProperty("line.separator"), e);

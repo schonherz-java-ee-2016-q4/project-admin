@@ -34,7 +34,7 @@ public class SecurityManagerBean {
         permissionMap.put(Pages.ERROR_PAGE, null);
 
         permissionMap.put(Pages.USER_PROFILE, UserRole.AGENT);
-        permissionMap.put(Pages.USER_LIST, UserRole.ADMIN);
+        permissionMap.put(Pages.USER_LIST, UserRole.COMPANY_ADMIN);
 
         permissionMap.put(Pages.COMPANY_REGISTRATION, UserRole.ADMIN);
         permissionMap.put(Pages.COMPANY_PROFILE, UserRole.COMPANY_ADMIN);
@@ -46,8 +46,7 @@ public class SecurityManagerBean {
     }
 
     public boolean isPagePermitted(NavigatorBean.Pages page, boolean shouldRedirect) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        UserVo user = getLoggedInUser(context);
+        UserVo user = getLoggedInUser();
         // Check if there is a logged in user
         if (user == null) {
             if (shouldRedirect) {
@@ -72,8 +71,8 @@ public class SecurityManagerBean {
         return true;
     }
 
-    private UserVo getLoggedInUser(FacesContext context) {
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+    public UserVo getLoggedInUser() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         return (UserVo) session.getAttribute("user");
     }
 
