@@ -52,7 +52,7 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
     public void setAgentAvailabilityToTrue(final String username) throws UsernameNotFoundException {
         UserVo userVo = userServiceLocal.findByUsername(username);
         if (userVo == null) {
-            throw new UsernameNotFoundException("Username not found: {}", username);
+            throw new UsernameNotFoundException("Username not found:" + username);
         }
         userServiceLocal.changeAvailability(userVo.getId(), true);
     }

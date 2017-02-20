@@ -2,7 +2,7 @@ package hu.schonherz.project.admin.service.api.rpc;
 
 public class UsernameNotFoundException extends Exception {
     
-    public UsernameNotFoundException(final String message, final String username) {
+    public UsernameNotFoundException(final String message) {
         super(message);
     }
 
