@@ -1,5 +1,7 @@
 package hu.schonherz.project.admin.service.impl.rpc;
 
+import java.util.Set;
+
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -13,7 +15,9 @@ import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLoca
 import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Stateless(mappedName = "RpcAgentAvailabilityService")
 @Remote(RpcAgentAvailabilityServiceRemote.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
@@ -26,6 +30,9 @@ public class RpcAgentAvailabilityServiceBean implements RpcAgentAvailabilityServ
     @Override
     public Long getAvailableAgent(final String source) throws NoAvailableAgentFoundException {
         CompanyVo currentCompanyVo = companyServiceLocal.findByDomainAddressContaining(source);
+        log.info("Company with domain:{}:  {}", source, currentCompanyVo);
+        Set<UserVo> agents = currentCompanyVo.getAgents();
+        log.info("Current Company Agents: {}", agents);
         for (UserVo agent : currentCompanyVo.getAgents()) {
             if (agent.isAvailable()) {
                 agent.setAvailable(false);

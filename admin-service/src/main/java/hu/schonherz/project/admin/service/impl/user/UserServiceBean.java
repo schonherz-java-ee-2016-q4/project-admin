@@ -118,6 +118,7 @@ public class UserServiceBean implements UserServiceLocal {
         UserEntity userEntity = userRepository.findOne(id);
         if (userEntity != null) {
             userEntity.setAvailable(!userEntity.isAvailable());
+            userRepository.save(userEntity);
         } else {
             log.warn("The user with id " + id + DOES_NOT_EXIST + "! Cannot change availability.");
         }
