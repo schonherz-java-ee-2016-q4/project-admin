@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/templates/linkedLayout.xhtml">
+
+    <ui:define name="customTitle">#{msg.title_company_profile_page}</ui:define>
+    <ui:define name="customBody">
+        <div class="ui-g">
+            <div class="ui-g-9 ui-md-9 ui-lg-9">
+                <h:form id="profileForm">
+<!--                         rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_PROFILE)}" -->
+                    <p:panel header="#{msg.form_company}" id="profilePanel">
+                        <div class="ui-fluid">
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <!-- Company name -->
+                                <p:outputLabel value="#{msg.field_company_name}:"
+                                                for="companyName"/>
+                                <h:outputText id="companyName"
+                                             value="#{companyProfileView.companyProfileForm.companyName}"/>
+                                <div></div>
+                                <!-- Company Administrator Email -->
+                                <p:outputLabel value="#{msg.field_admin_email}:" for="email" />
+                                <h:outputText id="email"
+                                                value="#{companyProfileView.companyProfileForm.adminEmail}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.label_domain}:" for="companyName" />
+                                <h:outputText id="domain"
+                                             value="#{companyProfileView.companyProfileForm.domainAddress}"/>
+                                    <div></div>         
+                            </p:panelGrid>
+                            <p:separator />
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_usernumber}:"
+                                               for="maxUser" />
+                                <h:outputText id="maxUser"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxUsers}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_simultaneous_login}:"
+                                               for="maxLoggedIn" />
+                                <h:outputText id="maxLoggedIn"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_day}:"
+                                               for="maxDayTickets" />
+                                <h:outputText id="maxDayTickets"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_week}:"
+                                               for="maxWeekTickets" />
+                                <h:outputText id="maxWeekTickets"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_month}:"
+                                               for="maxMonthTickets" />
+                                <h:outputText id="maxMonthTickets"
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:separator/>
+                        </div>
+                    </p:panel>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+    >>>>>>> company-create-edit
+</ui:composition>
