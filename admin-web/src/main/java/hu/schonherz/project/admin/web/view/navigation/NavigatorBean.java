@@ -23,6 +23,7 @@ public class NavigatorBean {
         USER_LIST(SECURED_USER + "users.xhtml"),
         COMPANY_REGISTRATION(SECURED_COMPANY + "registration.xhtml"),
         COMPANY_PROFILE(SECURED_COMPANY + "profile.xhtml"),
+        COMPANY_REPORT(SECURED_COMPANY + "report.xhtml"),
         COMPANY_LIST(SECURED_COMPANY + "companies.xhtml"),
         ERROR_PAGE("/dummyErrorPage.xhtml");
 

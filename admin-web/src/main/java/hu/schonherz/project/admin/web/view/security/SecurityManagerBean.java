@@ -38,6 +38,7 @@ public class SecurityManagerBean {
 
         permissionMap.put(Pages.COMPANY_REGISTRATION, UserRole.ADMIN);
         permissionMap.put(Pages.COMPANY_PROFILE, UserRole.COMPANY_ADMIN);
+        permissionMap.put(Pages.COMPANY_REPORT, UserRole.COMPANY_ADMIN);
         permissionMap.put(Pages.COMPANY_LIST, UserRole.ADMIN);
     }
 
