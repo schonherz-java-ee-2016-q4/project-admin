@@ -11,6 +11,7 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import java.util.Collection;
 
 @Stateless(mappedName = "UserServiceFacade")
 @Remote(UserServiceRemote.class)
@@ -36,6 +37,11 @@ public class UserServiceFacade implements UserServiceRemote {
         } catch (EJBTransactionRolledbackException rolledBackException) {
             throw new InvalidUserDataException("Could not save user: " + userVo.getUsername(), rolledBackException);
         }
+    }
+
+    @Override
+    public void saveAll(Collection<UserVo> users) {
+        realService.saveAll(users);
     }
 
     @Override

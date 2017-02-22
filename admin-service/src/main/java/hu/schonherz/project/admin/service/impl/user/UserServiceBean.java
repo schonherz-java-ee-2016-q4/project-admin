@@ -23,6 +23,7 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mail.MailSender;
 import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
+import java.util.Collection;
 import lombok.extern.slf4j.Slf4j;
 
 @Stateless(mappedName = "UserService")
@@ -53,15 +54,18 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public UserVo registrationUser(final UserVo userVo) {
-        log.warn("-----------------------------------------------------------------");
         UserEntity user = UserEntityVoMapper.toEntity(userVo);
-        log.warn("-- -- -- -- -- -- -- " + user.toString());
         user = userRepository.save(user);
         if (user == null) {
             log.warn("Failed to persist user " + userVo.getUsername());
         }
 
         return UserEntityVoMapper.toVo(user);
+    }
+
+    @Override
+    public void saveAll(Collection<UserVo> vos) {
+        userRepository.save(UserEntityVoMapper.toEntity(vos));
     }
 
     @Override

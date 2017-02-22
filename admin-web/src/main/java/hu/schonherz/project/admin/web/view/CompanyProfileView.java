@@ -25,7 +25,11 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.CompanyForm;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @ManagedBean(name = "companyProfileView")
@@ -135,53 +139,92 @@ public class CompanyProfileView {
             return;
         }
 
+        updateCompanyAgentsIFChanged();
         CompanyVo companyVo = companyProfileForm.getCompanyVo();
-//        companyVo.setActive(currentCompanyVo.isActive());
-        HashSet<UserVo> userVos = new HashSet<>();
-        final String lnSep = System.getProperty("line.separator");
-        //set all agents' company name to current company name in the target menu
-        for (String username : agents.getTarget()) {
-            UserVo agent = userServiceRemote.findByUsername(username);
-            if (!currentCompanyVo.getCompanyName().equals(agent.getCompanyName())) {
-                agent.setCompanyName(currentCompanyVo.getCompanyName());
-                try {
-                    userServiceRemote.registrationUser(agent);
-                } catch (InvalidUserDataException iude) {
-                    log.warn("Unsuccessful save attempt with data:{}{} ", lnSep, agent);
-                    log.warn("Causing exception:" + lnSep, iude);
-                }
-            }
-            userVos.add(agent);
-        }
-        companyVo.setAgents(userVos);
-
-        setNewCompanyAdminIfGiven(companyVo);
+//        HashSet<UserVo> userVos = new HashSet<>();
+//        final String lnSep = System.getProperty("line.separator");
+//        //set all agents' company name to current company name in the target menu
+//        for (String username : agents.getTarget()) {
+//            UserVo agent = userServiceRemote.findByUsername(username);
+//            if (!currentCompanyVo.getCompanyName().equals(agent.getCompanyName())) {
+//                agent.setCompanyName(currentCompanyVo.getCompanyName());
+//                try {
+//                    userServiceRemote.registrationUser(agent);
+//                } catch (InvalidUserDataException iude) {
+//                    log.warn("Unsuccessful save attempt with data:{}{} ", lnSep, agent);
+//                    log.warn("Causing exception:" + lnSep, iude);
+//                }
+//            }
+//            userVos.add(agent);
+//        }
+//        companyVo.setAgents(userVos);
+//        setNewCompanyAdminIfGiven(companyVo);
 
         try {
-            companyServiceRemote.save(companyVo);
-            currentCompanyVo = companyVo;
-
-            context.addMessage(AGENTS_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                    localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_CHANGING)));
-
+            currentCompanyVo = companyServiceRemote.save(companyVo);
+            sendMessage(AGENTS_COMP_ID, FacesMessage.SEVERITY_INFO, SUCCESSFUL_CHANGING);
             log.info("Company profile '{}' successfully changed.", companyVo.getCompanyName());
         } catch (InvalidCompanyDataException icde) {
-
+            String lnSep = System.getProperty("line.separator");
             log.warn("Unsuccessful changing attempt with data:{}{} ", lnSep, companyProfileForm);
             log.warn("Causing exception:" + lnSep, icde);
         }
         //set all agents' company name to null in the source menu
         //(agents with null parameter are independents)
-        for (String username : agents.getSource()) {
-            UserVo independentAgent = userServiceRemote.findByUsername(username);
-            if (independentAgent.getCompanyName() != null) {
-                independentAgent.setCompanyName(null);
-                try {
-                    userServiceRemote.registrationUser(independentAgent);
-                } catch (InvalidUserDataException iude) {
-                    log.warn("Unsuccessful save attempt with data:{}{} ", lnSep, independentAgent);
-                    log.warn("Causing exception:" + lnSep, iude);
-                }
+//        for (String username : agents.getSource()) {
+//            UserVo independentAgent = userServiceRemote.findByUsername(username);
+//            if (independentAgent.getCompanyName() != null) {
+//                independentAgent.setCompanyName(null);
+//                try {
+//                    userServiceRemote.registrationUser(independentAgent);
+//                } catch (InvalidUserDataException iude) {
+//                    log.warn("Unsuccessful save attempt with data:{}{} ", lnSep, independentAgent);
+//                    log.warn("Causing exception:" + lnSep, iude);
+//                }
+//            }
+//        }
+    }
+
+    private void updateCompanyAgentsIFChanged() {
+        Set<String> currentAgentUsernames = currentCompanyVo.getAgents().stream()
+                .map(UserVo::getUsername)
+                .collect(Collectors.toSet());
+
+        List<String> updatedAgentUsernames = agents.getTarget();
+
+        Set<String> removedAgentUsernames = currentAgentUsernames.stream()
+                .filter(agentUsername -> !updatedAgentUsernames.contains(agentUsername))
+                .collect(Collectors.toSet());
+        Set<String> addedAgentUsernames = updatedAgentUsernames.stream()
+                .filter(agentUsername -> !currentAgentUsernames.contains(agentUsername))
+                .collect(Collectors.toSet());
+
+        // Set new state of changed agents if there are any
+        updateAgentCollection(removedAgentUsernames, null);
+        updateAgentCollection(addedAgentUsernames, currentCompanyVo.getCompanyName());
+    }
+
+    private void updateAgentCollection(@NonNull final Collection<String> changedAgentUsernames, final String newCompanyName) {
+        if (!changedAgentUsernames.isEmpty()) {
+            Set<UserVo> allChangedAgents = new HashSet<>();
+            // Set new state (set company name) for each added agent
+            changedAgentUsernames.forEach(changedAgentUsername -> {
+                UserVo changedAgent = userServiceRemote.findByUsername(changedAgentUsername);
+                changedAgent.setCompanyName(newCompanyName);    // null if removed, current company's name if added
+                allChangedAgents.add(changedAgent);
+            });
+
+            userServiceRemote.saveAll(allChangedAgents);
+
+            // Apply the changes to the agent set in the company vo
+            Set<UserVo> companyAgents = currentCompanyVo.getAgents();
+            if (newCompanyName != null) {
+                companyAgents.addAll(allChangedAgents);
+            } else {
+                companyAgents = companyAgents.stream()
+                        .filter(agent -> !changedAgentUsernames.contains(agent.getUsername()))
+                        .collect(Collectors.toSet());
+                currentCompanyVo.setAgents(companyAgents);
             }
         }
     }
@@ -219,6 +262,14 @@ public class CompanyProfileView {
                 source.add(oldCompAdminName);
             }
         }
+    }
+
+    private void sendMessage(final String compId, final FacesMessage.Severity severity, final String detailedKey) {
+        String localizedShort = severity == FacesMessage.SEVERITY_INFO ? localeManagerBean.localize(SUCCESS)
+                : localeManagerBean.localize(FAILURE);
+        String localizedDetailed = localeManagerBean.localize(detailedKey);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(compId, new FacesMessage(severity, localizedShort, localizedDetailed));
     }
 
 }
