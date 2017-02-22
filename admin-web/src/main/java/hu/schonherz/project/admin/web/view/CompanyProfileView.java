@@ -23,6 +23,7 @@ import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyData
 import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
+import hu.schonherz.project.admin.service.api.vo.QuotasVo;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.CompanyForm;
 import java.util.Collection;
@@ -139,27 +140,32 @@ public class CompanyProfileView {
             return;
         }
 
-        updateCompanyAgentsIFChanged();
-        CompanyVo companyVo = companyProfileForm.getCompanyVo();
-//        HashSet<UserVo> userVos = new HashSet<>();
-//        final String lnSep = System.getProperty("line.separator");
-//        //set all agents' company name to current company name in the target menu
-//        for (String username : agents.getTarget()) {
-//            UserVo agent = userServiceRemote.findByUsername(username);
-//            if (!currentCompanyVo.getCompanyName().equals(agent.getCompanyName())) {
-//                agent.setCompanyName(currentCompanyVo.getCompanyName());
-//                try {
-//                    userServiceRemote.registrationUser(agent);
-//                } catch (InvalidUserDataException iude) {
-//                    log.warn("Unsuccessful save attempt with data:{}{} ", lnSep, agent);
-//                    log.warn("Causing exception:" + lnSep, iude);
-//                }
-//            }
-//            userVos.add(agent);
-//        }
-//        companyVo.setAgents(userVos);
-//        setNewCompanyAdminIfGiven(companyVo);
+        // Update company name if changed
+        String newCompanyName = companyProfileForm.getCompanyName();
+        String oldCompanyName = currentCompanyVo.getCompanyName();
+        if (!oldCompanyName.equals(newCompanyName)) {
+            log.debug("Company name changed from {0} to {1}. Modifiing employees.", oldCompanyName, newCompanyName);
+            currentCompanyVo.setCompanyName(newCompanyName);
+            // Modify company name for all employees too
+            currentCompanyVo.getAgents().forEach(agent -> agent.setCompanyName(newCompanyName));
+            userServiceRemote.saveAll(currentCompanyVo.getAgents());
+        }
 
+        // Update quotas
+        QuotasVo companyQuotas = currentCompanyVo.getQuotes();
+        QuotasVo newQuotas = companyProfileForm.getQuotes();
+        companyQuotas.setMaxDayTickets(newQuotas.getMaxDayTickets());
+        companyQuotas.setMaxLoggedIn(newQuotas.getMaxLoggedIn());
+        companyQuotas.setMaxMonthTickets(newQuotas.getMaxMonthTickets());
+        companyQuotas.setMaxUsers(newQuotas.getMaxUsers());
+        companyQuotas.setMaxWeekTickets(newQuotas.getMaxWeekTickets());
+
+        // Update agents and agent set
+        updateCompanyAgentsIFChanged();
+
+        CompanyVo companyVo = companyProfileForm.getCompanyVo();
+
+        // Save company and notify user
         try {
             currentCompanyVo = companyServiceRemote.save(companyVo);
             sendMessage(AGENTS_COMP_ID, FacesMessage.SEVERITY_INFO, SUCCESSFUL_CHANGING);
@@ -169,20 +175,6 @@ public class CompanyProfileView {
             log.warn("Unsuccessful changing attempt with data:{}{} ", lnSep, companyProfileForm);
             log.warn("Causing exception:" + lnSep, icde);
         }
-        //set all agents' company name to null in the source menu
-        //(agents with null parameter are independents)
-//        for (String username : agents.getSource()) {
-//            UserVo independentAgent = userServiceRemote.findByUsername(username);
-//            if (independentAgent.getCompanyName() != null) {
-//                independentAgent.setCompanyName(null);
-//                try {
-//                    userServiceRemote.registrationUser(independentAgent);
-//                } catch (InvalidUserDataException iude) {
-//                    log.warn("Unsuccessful save attempt with data:{}{} ", lnSep, independentAgent);
-//                    log.warn("Causing exception:" + lnSep, iude);
-//                }
-//            }
-//        }
     }
 
     private void updateCompanyAgentsIFChanged() {
