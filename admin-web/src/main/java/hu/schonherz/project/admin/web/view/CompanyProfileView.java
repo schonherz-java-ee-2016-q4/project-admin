@@ -20,7 +20,6 @@ import org.primefaces.model.DualListModel;
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
-import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.QuotasVo;
@@ -225,6 +224,7 @@ public class CompanyProfileView {
         return (UserVo) session.getAttribute("user");
     }
 
+    /*
     private void setNewCompanyAdminIfGiven(CompanyVo companyVo) {
         UserVo newCompAdmin = userServiceRemote.findByEmail(companyProfileForm.getAdminEmail());
         UserVo oldCompAdmin = companyVo.getAdminUser();
@@ -254,7 +254,7 @@ public class CompanyProfileView {
             }
         }
     }
-
+     */
     private void sendMessage(final String compId, final FacesMessage.Severity severity, final String detailedKey) {
         String localizedShort = severity == FacesMessage.SEVERITY_INFO ? localeManagerBean.localize(SUCCESS)
                 : localeManagerBean.localize(FAILURE);

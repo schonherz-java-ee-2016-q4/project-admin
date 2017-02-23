@@ -21,7 +21,7 @@ public class CompanyVo extends BaseVo implements Serializable {
 
     private String companyName;
     private String domainAddress;
-    private UserVo adminUser;
+    private String adminEmail;
     private QuotasVo quotes;
     private Set<UserVo> agents;
     private boolean active;

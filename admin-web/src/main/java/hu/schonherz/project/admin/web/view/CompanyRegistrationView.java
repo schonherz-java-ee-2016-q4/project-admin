@@ -3,6 +3,7 @@ package hu.schonherz.project.admin.web.view;
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
+import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.QuotasVo;
@@ -68,28 +69,37 @@ public class CompanyRegistrationView {
 
     public void registration() {
         FacesContext context = FacesContext.getCurrentInstance();
-        if (getAdminUserByEmail() == null) {
-            context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    localeManagerBean.localize(FAILURE), localeManagerBean.localize(ERROR_ADMIN_EMAIL)));
+        UserVo adminUser = getAdminUserByEmail();
+        if (adminUser == null) {
+            sendMessage(EMAIL_COMP_ID, FacesMessage.SEVERITY_ERROR, ERROR_ADMIN_EMAIL);
+            return;
+        }
+
+        // Set state of new admin user and save
+        adminUser.setCompanyName(companyRegistrationForm.getCompanyName());
+        if (adminUser.getUserRole() != UserRole.ADMIN) {
+            adminUser.setUserRole(UserRole.COMPANY_ADMIN);
+        }
+        try {
+            userServiceRemote.registrationUser(adminUser);
+        } catch (InvalidUserDataException ex) {
+            log.error("Could not update state of new company admin: " + adminUser.getUsername(), ex);
+            sendMessage(DOMAIN_COMP_ID, FacesMessage.SEVERITY_ERROR, REG_FAILURE);
             return;
         }
 
         try {
             CompanyVo companyVo = companyRegistrationForm.getCompanyVo();
-            companyVo.setAdminUser(getAdminUserByEmail());
-            companyVo.getAdminUser().setCompanyName(companyVo.getCompanyName());
-            companyVo.getAdminUser().setUserRole(UserRole.COMPANY_ADMIN);
+            companyVo.setAdminEmail(adminUser.getEmail());
             setDefaultValues(companyVo);
 
             companyVo = companyServiceRemote.save(companyVo);
             if (companyVo.getId() == null) {
                 log.error("Failed to save company: {}", companyVo.getCompanyName());
-                context.addMessage(DOMAIN_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                        localeManagerBean.localize(FAILURE), localeManagerBean.localize(REG_FAILURE)));
+                sendMessage(DOMAIN_COMP_ID, FacesMessage.SEVERITY_ERROR, REG_FAILURE);
             } else {
                 log.info("Company '{}' successfully registered.", companyVo.getCompanyName());
-                context.addMessage(DOMAIN_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                        localeManagerBean.localize(SUCCESS), localeManagerBean.localize(SUCCESSFUL_REGISTRATION)));
+                sendMessage(DOMAIN_COMP_ID, FacesMessage.SEVERITY_INFO, SUCCESSFUL_REGISTRATION);
 
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyVo.getId());
             }
@@ -107,6 +117,14 @@ public class CompanyRegistrationView {
 
     private UserVo getAdminUserByEmail() {
         return userServiceRemote.findByEmail(companyRegistrationForm.getAdminEmail());
+    }
+
+    private void sendMessage(final String compId, final FacesMessage.Severity severity, final String detailedKey) {
+        String localizedShort = severity == FacesMessage.SEVERITY_INFO ? localeManagerBean.localize(SUCCESS)
+                : localeManagerBean.localize(FAILURE);
+        String localizedDetailed = localeManagerBean.localize(detailedKey);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(compId, new FacesMessage(severity, localizedShort, localizedDetailed));
     }
 
 }
