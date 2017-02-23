@@ -128,11 +128,8 @@ public class CompanyProfileView {
         return usernames;
     }
 
-    private boolean isAgent(final UserVo userVo) {
-        return userVo.getUserRole().equals(UserRole.AGENT);
-    }
-
     public void save() {
+        // If company admin is changed
         if (userServiceRemote.findByEmail(companyProfileForm.getAdminEmail()) == null) {
             sendMessage(EMAIL_COMP_ID, FacesMessage.SEVERITY_ERROR, ERROR_ADMIN_EMAIL);
             return;
