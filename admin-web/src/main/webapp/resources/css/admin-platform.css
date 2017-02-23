@@ -30,3 +30,8 @@
     width: 28px;
     border-bottom-right-radius: 6px;
 }
+
+.reportPagePanel {
+	padding-bottom: 50px;
+	padding-top: 50px;
+}
