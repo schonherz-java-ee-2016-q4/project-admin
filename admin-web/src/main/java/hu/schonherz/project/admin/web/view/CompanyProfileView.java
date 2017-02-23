@@ -28,6 +28,7 @@ import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.CompanyForm;
 import java.util.Collection;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NonNull;
@@ -102,13 +103,22 @@ public class CompanyProfileView {
     }
 
     private List<String> agentsSource() {
-        List<String> usernames = new ArrayList<>();
-        for (UserVo userVo : userServiceRemote.findAll()) {
-            if (isAgent(userVo) && isIndependentUser(userVo)) {
-                usernames.add(userVo.getUsername());
+        // A user can be hired if he has no company yet or he work at the current company but not as an agent.
+        Predicate<UserVo> canHireUser = user -> {
+            if (user.getCompanyName() == null) {
+                return true;
             }
-        }
-        return usernames;
+            if (!user.getCompanyName().equals(currentCompanyVo.getCompanyName())) {
+                return false;
+            }
+
+            return !currentCompanyVo.getAgents().contains(user);
+        };
+        return userServiceRemote.findAll().stream()
+                .filter(canHireUser)
+                .map(UserVo::getUsername)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     private List<String> agentsTarget() {
@@ -123,20 +133,9 @@ public class CompanyProfileView {
         return userVo.getUserRole().equals(UserRole.AGENT);
     }
 
-    private boolean isIndependentUser(final UserVo userVo) {
-        for (CompanyVo companyVo : companyServiceRemote.findAll()) {
-            if (companyVo.getCompanyName().equals(userVo.getCompanyName())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public void save() {
-        FacesContext context = FacesContext.getCurrentInstance();
         if (userServiceRemote.findByEmail(companyProfileForm.getAdminEmail()) == null) {
-            context.addMessage(EMAIL_COMP_ID, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    localeManagerBean.localize(FAILURE), localeManagerBean.localize(ERROR_ADMIN_EMAIL)));
+            sendMessage(EMAIL_COMP_ID, FacesMessage.SEVERITY_ERROR, ERROR_ADMIN_EMAIL);
             return;
         }
 
@@ -163,18 +162,18 @@ public class CompanyProfileView {
         // Update agents and agent set
         updateCompanyAgentsIFChanged();
 
-        CompanyVo companyVo = companyProfileForm.getCompanyVo();
-
         // Save company and notify user
         try {
-            currentCompanyVo = companyServiceRemote.save(companyVo);
+            currentCompanyVo = companyServiceRemote.save(currentCompanyVo);
             sendMessage(AGENTS_COMP_ID, FacesMessage.SEVERITY_INFO, SUCCESSFUL_CHANGING);
-            log.info("Company profile '{}' successfully changed.", companyVo.getCompanyName());
+            log.info("Company profile '{}' successfully changed.", currentCompanyVo.getCompanyName());
         } catch (InvalidCompanyDataException icde) {
             String lnSep = System.getProperty("line.separator");
             log.warn("Unsuccessful changing attempt with data:{}{} ", lnSep, companyProfileForm);
             log.warn("Causing exception:" + lnSep, icde);
         }
+
+        initDualistModel();
     }
 
     private void updateCompanyAgentsIFChanged() {
