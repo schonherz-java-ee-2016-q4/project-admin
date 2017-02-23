@@ -112,14 +112,14 @@ public class CompanyReportView implements Serializable {
         yAxisLoginsEachDay.setMin(0);
         yAxisLoginsEachDay.setMax(10);
         
-        animatedModelMonthly = initLinearModelDaily();
+        animatedModelMonthly = initLinearModelMonthly();
         animatedModelMonthly.setAnimate(true);
         animatedModelMonthly.setLegendPosition("se");
         Axis yAxisLoginsEachMonth = animatedModelMonthly.getAxis(AxisType.Y);
         yAxisLoginsEachMonth.setMin(0);
         yAxisLoginsEachMonth.setMax(10);
         
-        animatedModelAnnual = initLinearModelDaily();
+        animatedModelAnnual = initLinearModelAnnual();
         animatedModelAnnual.setAnimate(true);
         animatedModelAnnual.setLegendPosition("se");
         Axis yAxisLoginsEachYear = animatedModelAnnual.getAxis(AxisType.Y);
@@ -130,15 +130,16 @@ public class CompanyReportView implements Serializable {
     private LineChartModel initLinearModelDaily() {
         LineChartModel model = new LineChartModel();
  
-        LineChartSeries series1 = new LineChartSeries();
- 
-        series1.set(1, 2);
-        series1.set(2, 1);
-        series1.set(3, 3);
-        series1.set(4, 6);
-        series1.set(5, 8);
+        LineChartSeries days = new LineChartSeries();
+        days.setLabel("Daily logins");
         
-        model.addSeries(series1);
+        days.set(1, 2);
+        days.set(2, 1);
+        days.set(3, 3);
+        days.set(4, 6);
+        days.set(5, 8);
+        
+        model.addSeries(days);
          
         return model;
     }
@@ -146,15 +147,16 @@ public class CompanyReportView implements Serializable {
     private LineChartModel initLinearModelMonthly() {
         LineChartModel model = new LineChartModel();
  
-        LineChartSeries series1 = new LineChartSeries();
- 
-        series1.set(1, 2);
-        series1.set(2, 1);
-        series1.set(3, 3);
-        series1.set(4, 6);
-        series1.set(5, 8);
+        LineChartSeries months = new LineChartSeries();
+        months.setLabel("Monthly logins");
         
-        model.addSeries(series1);
+        months.set(1, 2);
+        months.set(2, 1);
+        months.set(3, 3);
+        months.set(4, 6);
+        months.set(5, 8);
+        
+        model.addSeries(months);
          
         return model;
     }
@@ -162,15 +164,16 @@ public class CompanyReportView implements Serializable {
     private LineChartModel initLinearModelAnnual() {
         LineChartModel model = new LineChartModel();
  
-        LineChartSeries series1 = new LineChartSeries();
- 
-        series1.set(1, 2);
-        series1.set(2, 1);
-        series1.set(3, 3);
-        series1.set(4, 6);
-        series1.set(5, 8);
+        LineChartSeries years = new LineChartSeries();
+        years.setLabel("Annual logins");
         
-        model.addSeries(series1);
+        years.set(2012, 2);
+        years.set(2013, 1);
+        years.set(2014, 3);
+        years.set(2015, 6);
+        years.set(2016, 8);
+        
+        model.addSeries(years);
          
         return model;
     }
