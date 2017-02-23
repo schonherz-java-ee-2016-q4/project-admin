@@ -150,7 +150,7 @@ public class CompanyProfileView {
         }
 
         // Update quotas
-        QuotasVo companyQuotas = currentCompanyVo.getQuotes();
+        QuotasVo companyQuotas = currentCompanyVo.getQuotas();
         QuotasVo newQuotas = companyProfileForm.getQuotes();
         companyQuotas.setMaxDayTickets(newQuotas.getMaxDayTickets());
         companyQuotas.setMaxLoggedIn(newQuotas.getMaxLoggedIn());

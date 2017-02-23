@@ -30,7 +30,7 @@ public final class CompanyEntityVoMapper {
         companyVo.setAdminEmail(entity.getAdminEmail());
         companyVo.setAgents(UserEntityVoMapper.toVo(entity.getAgents()));
         companyVo.setActive(entity.isActive());
-        companyVo.setQuotes(quotasVo);
+        companyVo.setQuotas(quotasVo);
         return companyVo;
     }
 
@@ -39,11 +39,11 @@ public final class CompanyEntityVoMapper {
             return null;
         }
         CompanyEntity companyEntity = new CompanyEntity();
-        companyEntity.setMaxUsers(vo.getQuotes().getMaxUsers());
-        companyEntity.setMaxLoggedIn(vo.getQuotes().getMaxLoggedIn());
-        companyEntity.setMaxDayTickets(vo.getQuotes().getMaxDayTickets());
-        companyEntity.setMaxWeekTickets(vo.getQuotes().getMaxWeekTickets());
-        companyEntity.setMaxMonthTickets(vo.getQuotes().getMaxMonthTickets());
+        companyEntity.setMaxUsers(vo.getQuotas().getMaxUsers());
+        companyEntity.setMaxLoggedIn(vo.getQuotas().getMaxLoggedIn());
+        companyEntity.setMaxDayTickets(vo.getQuotas().getMaxDayTickets());
+        companyEntity.setMaxWeekTickets(vo.getQuotas().getMaxWeekTickets());
+        companyEntity.setMaxMonthTickets(vo.getQuotas().getMaxMonthTickets());
         companyEntity.setId(vo.getId());
         companyEntity.setCompanyName(vo.getCompanyName());
         companyEntity.setDomainAddress(vo.getDomainAddress());

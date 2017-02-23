@@ -111,7 +111,7 @@ public class CompanyRegistrationView {
 
     private void setDefaultValues(final CompanyVo companyVo) {
         companyVo.setAgents(new HashSet<>());
-        companyVo.setQuotes(new QuotasVo());
+        companyVo.setQuotas(new QuotasVo());
         companyVo.setActive(true);
     }
 

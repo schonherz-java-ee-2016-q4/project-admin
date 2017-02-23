@@ -30,7 +30,7 @@ public class CompanyForm {
         setId(companyVo.getId());
         setCompanyName(companyVo.getCompanyName());
         setAdminEmail(companyVo.getAdminEmail());
-        setQuotes(companyVo.getQuotes());
+        setQuotes(companyVo.getQuotas());
         setAgents(companyVo.getAgents());
         setActive(companyVo.isActive());
         setDomainAddress(companyVo.getDomainAddress());
@@ -42,7 +42,7 @@ public class CompanyForm {
         companyVo.setCompanyName(companyName);
         companyVo.setDomainAddress(domainAddress);
         companyVo.setAdminEmail(adminEmail);
-        companyVo.setQuotes(quotes);
+        companyVo.setQuotas(quotes);
         companyVo.setAgents(agents);
         companyVo.setActive(active);
         return companyVo;
