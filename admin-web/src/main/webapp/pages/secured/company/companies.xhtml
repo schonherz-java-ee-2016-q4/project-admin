@@ -7,42 +7,41 @@
                 template="/pages/templates/linkedLayout.xhtml">
 
 
-
     <ui:define name="customTitle">#{msg.title_companies_page}</ui:define>
     <ui:define name="customBody">
         <o:importConstants
-            type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
-            var="Pages" />
+                type="hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages"
+                var="Pages"/>
         <h:form class="ui-g" id="form"
                 rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_LIST)}">
-            <p:growl id="growl" showDetail="true" />
+            <p:growl id="growl" showDetail="true"/>
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <p:dataTable var="company" value="#{companiesView.companies}"
                              id="company-table" sortBy="${company.companyName}"
                              emptyMessage="#{msg.label_no_records_company}">
                     <p:column headerText="#{msg.field_company_name}">
-                        <div class="user-table-content">
-                            <h:outputText value="#{company.companyName}" />
+                        <div class="company-table-content">
+                            <h:outputText value="#{company.companyName}"/>
                         </div>
                     </p:column>
                     <p:column headerText="#{msg.label_domain}" priority="3">
-                        <div class="user-table-content">
-                            <h:outputText value="#{company.domainAddress}" />
+                        <div class="company-table-content">
+                            <h:outputText value="#{company.domainAddress}"/>
                         </div>
                     </p:column>
                     <p:column headerText="#{msg.field_admin_email}" priority="4">
-                        <div class="user-table-content">
-                            <h:outputText value="#{company.adminUser.email}" />
+                        <div class="company-table-content">
+                            <h:outputText value="#{company.adminUser.email}"/>
                         </div>
                     </p:column>
                     <p:column headerText="#{msg.field_status}" priority="2">
                         <div
-                            class="company-table-content #{company.active ? 'active-status' : 'inactive-status'}">
-                            <h:outputText value="#{company.active ? 'Active' : 'Inactive'}" />
+                                class="company-table-content #{company.active ? 'active-status' : 'inactive-status'}">
+                            <h:outputText value="#{company.active ? 'Active' : 'Inactive'}"/>
                         </div>
                     </p:column>
                     <p:column headerText="#{msg.field_settings}">
-                        <div class="user-table-content">
+                        <div class="company-table-content">
 
                             <!-- Edit button -->
                             <p:commandButton id="edit" icon="ui-icon-pencil"
@@ -64,13 +63,13 @@
                         </div>
                         <!-- Tooltips -->
                         <p:tooltip id="toolTipEdit" for="edit"
-                                   value="#{msg.tooltip_edit} #{company.companyName}" position="top" />
+                                   value="#{msg.tooltip_edit} #{company.companyName}" position="top"/>
                         <p:tooltip id="toolTipStatus" for="status"
                                    value="#{company.active ? msg.tooltip_status_inactivate : msg.tooltip_status_activate} #{company.companyName}"
-                                   position="top" />
+                                   position="top"/>
                         <p:tooltip id="toolTipGenerateReport" for="generateReport"
                                    value="#{msg.tooltip_generate_report} #{company.companyName}"
-                                   position="top" />
+                                   position="top"/>
                     </p:column>
                 </p:dataTable>
             </div>
