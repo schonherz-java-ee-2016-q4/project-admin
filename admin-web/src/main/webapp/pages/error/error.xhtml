@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/templates/linkedLayout.xhtml">
+
+    <ui:define name="customBody">
+        <div class="ui-g">
+            <div style="text-align: center" class="ui-g-9 ui-md-9 ui-lg-9">
+                <h1>
+                    #{msg.error_code}: #{requestScope['javax.servlet.error.status_code']}
+                </h1>
+                <h5>
+                    #{requestScope['javax.servlet.error.message']}
+                </h5>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
