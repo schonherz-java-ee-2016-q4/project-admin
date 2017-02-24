@@ -9,7 +9,7 @@
     <ui:define name="customBody">
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <p:panel header="#{msg.form_profile}" id="profilePanel">
+                <p:panel header="#{msg.form_profile}" id="profilePanel" styleClass="main-page-panel">
                     <h:form id="profileForm" rendered="#{securityManagerBean.isPagePermitted(Pages.USER_PROFILE)}">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"

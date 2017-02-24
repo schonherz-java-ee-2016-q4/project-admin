@@ -16,7 +16,7 @@
                 rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_LIST)}">
             <p:growl id="growl" showDetail="true"/>
             <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <p:dataTable var="company" value="#{companiesView.companies}"
+                <p:dataTable var="company" value="#{companiesView.companies}" styleClass="main-page-panel"
                              id="company-table" sortBy="${company.companyName}"
                              emptyMessage="#{msg.label_no_records_company}">
                     <p:column headerText="#{msg.field_company_name}">
