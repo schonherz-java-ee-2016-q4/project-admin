@@ -24,6 +24,7 @@ import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mail.MailSender;
 import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
 import java.util.Collection;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 
 @Stateless(mappedName = "UserService")
@@ -49,6 +50,11 @@ public class UserServiceBean implements UserServiceLocal {
     @Override
     public UserVo findByEmail(final String email) {
         return UserEntityVoMapper.toVo(userRepository.findByEmail(email));
+    }
+
+    @Override
+    public Set<UserVo> findByCompanyName(String companyName) {
+        return UserEntityVoMapper.toVo(userRepository.findByCompanyName(companyName));
     }
 
     @Override

@@ -20,7 +20,7 @@
         <h:form>
             <o:importConstants type="hu.schonherz.project.admin.service.api.vo.UserRole" var="UserRole" />
             <p:commandLink value="#{msg.title_company_profile_page}" actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_PROFILE)}"
-                           rendered="#{sessionScope.user != null &amp;&amp; sessionScope.user.userRole == UserRole.COMPANY_ADMIN}"/>
+                           rendered="#{securityManagerBean.isUserCompanyAdmin()}"/>
         </h:form>
     </ui:define>
 

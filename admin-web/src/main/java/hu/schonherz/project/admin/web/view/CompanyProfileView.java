@@ -11,7 +11,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
@@ -24,9 +23,15 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.QuotasVo;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.web.util.EmailUtils;
 import hu.schonherz.project.admin.web.view.form.CompanyForm;
+import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import lombok.Data;
@@ -40,11 +45,16 @@ import lombok.extern.slf4j.Slf4j;
 public class CompanyProfileView {
 
     private static final String SUCCESSFUL_CHANGING = "success_profile_changes";
-    private static final String SUCCESS = "success_short";
     private static final String AGENTS_COMP_ID = "profileForm:agentsPicklist";
     private static final String EMAIL_COMP_ID = "profileForm:email";
-    private static final String FAILURE = "error_failure_short";
     private static final String ERROR_ADMIN_EMAIL = "error_admin_email";
+    private static final String ERROR_MODIFY_PROFILE = "error_modify_profile";
+
+    private static final Lock LOCK;
+
+    static {
+        LOCK = new ReentrantLock();
+    }
 
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
@@ -52,10 +62,15 @@ public class CompanyProfileView {
     @ManagedProperty(value = "#{navigatorBean}")
     private NavigatorBean navigator;
 
+    @ManagedProperty(value = "#{securityManagerBean}")
+    private SecurityManagerBean securityManager;
+
     @EJB
     private UserServiceRemote userServiceRemote;
     @EJB
     private CompanyServiceRemote companyServiceRemote;
+    @EJB
+    private EmailUtils emailUtils;
 
     private CompanyVo currentCompanyVo;
 
@@ -65,18 +80,18 @@ public class CompanyProfileView {
 
     @PostConstruct
     public void init() {
+        UserVo loggedInUser = securityManager.getLoggedInUser();
         FacesContext context = FacesContext.getCurrentInstance();
-        UserVo userVo = getLoggedInUser(context);
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
         if (companyIdParameter == null) {
-            if (userVo.getUserRole().equals(UserRole.ADMIN)) {
+            if (!securityManager.isUserCompanyAdmin()) {
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_LIST);
             } else {
-                Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
+                Long companyId = companyServiceRemote.findByName(loggedInUser.getCompanyName()).getId();
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
             }
-        } else if (userVo.getUserRole().equals(UserRole.COMPANY_ADMIN)) {
-            Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
+        } else if (loggedInUser.getUserRole() == UserRole.COMPANY_ADMIN) {
+            Long companyId = companyServiceRemote.findByName(loggedInUser.getCompanyName()).getId();
             if (!companyId.equals(Long.valueOf(companyIdParameter))) {
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
             }
@@ -86,15 +101,8 @@ public class CompanyProfileView {
         initDualistModel();
     }
 
-//    Completing the email list for the email form
-    public List<String> completeEmail(final String query) {
-        List<String> emails = new ArrayList<>();
-        for (UserVo userVo : userServiceRemote.findAll()) {
-            if (userVo.getEmail().contains(query)) {
-                emails.add(userVo.getEmail());
-            }
-        }
-        return emails;
+    public List<String> completeEmail(final String emailPart) {
+        return emailUtils.completeEmailForProfile(emailPart, currentCompanyVo.getCompanyName());
     }
 
     private void initDualistModel() {
@@ -129,47 +137,40 @@ public class CompanyProfileView {
     }
 
     public void save() {
-        // If company admin is changed
-        if (userServiceRemote.findByEmail(companyProfileForm.getAdminEmail()) == null) {
-            sendMessage(EMAIL_COMP_ID, FacesMessage.SEVERITY_ERROR, ERROR_ADMIN_EMAIL);
-            return;
-        }
-
-        // Update company name if changed
-        String newCompanyName = companyProfileForm.getCompanyName();
-        String oldCompanyName = currentCompanyVo.getCompanyName();
-        if (!oldCompanyName.equals(newCompanyName)) {
-            log.debug("Company name changed from {0} to {1}. Modifiing employees.", oldCompanyName, newCompanyName);
-            currentCompanyVo.setCompanyName(newCompanyName);
-            // Modify company name for all employees too
-            currentCompanyVo.getAgents().forEach(agent -> agent.setCompanyName(newCompanyName));
-            userServiceRemote.saveAll(currentCompanyVo.getAgents());
-        }
-
-        // Update quotas
-        QuotasVo companyQuotas = currentCompanyVo.getQuotas();
-        QuotasVo newQuotas = companyProfileForm.getQuotes();
-        companyQuotas.setMaxDayTickets(newQuotas.getMaxDayTickets());
-        companyQuotas.setMaxLoggedIn(newQuotas.getMaxLoggedIn());
-        companyQuotas.setMaxMonthTickets(newQuotas.getMaxMonthTickets());
-        companyQuotas.setMaxUsers(newQuotas.getMaxUsers());
-        companyQuotas.setMaxWeekTickets(newQuotas.getMaxWeekTickets());
-
-        // Update agents and agent set
-        updateCompanyAgentsIFChanged();
-
-        // Save company and notify user
         try {
-            currentCompanyVo = companyServiceRemote.save(currentCompanyVo);
-            sendMessage(AGENTS_COMP_ID, FacesMessage.SEVERITY_INFO, SUCCESSFUL_CHANGING);
-            log.info("Company profile '{}' successfully changed.", currentCompanyVo.getCompanyName());
-        } catch (InvalidCompanyDataException icde) {
-            String lnSep = System.getProperty("line.separator");
-            log.warn("Unsuccessful changing attempt with data:{}{} ", lnSep, companyProfileForm);
-            log.warn("Causing exception:" + lnSep, icde);
-        }
+            LOCK.lock();
 
-        initDualistModel();
+            if (!setNewCompanyAdminIfGiven() || !saveCompanyAndNotify()) {
+                return;
+            }
+
+            // Update company name if changed
+            String newCompanyName = companyProfileForm.getCompanyName();
+            String oldCompanyName = currentCompanyVo.getCompanyName();
+            if (!oldCompanyName.equals(newCompanyName)) {
+                log.debug("Company name changed from {0} to {1}. Modifiing employees.", oldCompanyName, newCompanyName);
+                currentCompanyVo.setCompanyName(newCompanyName);
+                // Modify company name for all employees too
+                currentCompanyVo.getAgents().forEach(agent -> agent.setCompanyName(newCompanyName));
+                userServiceRemote.saveAll(currentCompanyVo.getAgents());
+            }
+
+            // Update quotas
+            QuotasVo companyQuotas = currentCompanyVo.getQuotas();
+            QuotasVo newQuotas = companyProfileForm.getQuotes();
+            companyQuotas.setMaxDayTickets(newQuotas.getMaxDayTickets());
+            companyQuotas.setMaxLoggedIn(newQuotas.getMaxLoggedIn());
+            companyQuotas.setMaxMonthTickets(newQuotas.getMaxMonthTickets());
+            companyQuotas.setMaxUsers(newQuotas.getMaxUsers());
+            companyQuotas.setMaxWeekTickets(newQuotas.getMaxWeekTickets());
+
+            updateCompanyAgentsIFChanged();
+
+            saveCompanyAndNotify();
+            initDualistModel();
+        } finally {
+            LOCK.unlock();
+        }
     }
 
     private void updateCompanyAgentsIFChanged() {
@@ -197,7 +198,9 @@ public class CompanyProfileView {
             // Set new state (set company name) for each added agent
             changedAgentUsernames.forEach(changedAgentUsername -> {
                 UserVo changedAgent = userServiceRemote.findByUsername(changedAgentUsername);
-                changedAgent.setCompanyName(newCompanyName);    // null if removed, current company's name if added
+                if (!changedAgent.getEmail().equals(currentCompanyVo.getAdminEmail())) {
+                    changedAgent.setCompanyName(newCompanyName);    // null if removed, current company's name if added
+                }
                 allChangedAgents.add(changedAgent);
             });
 
@@ -216,9 +219,70 @@ public class CompanyProfileView {
         }
     }
 
-    private UserVo getLoggedInUser(FacesContext context) {
-        HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
-        return (UserVo) session.getAttribute("user");
+    private boolean saveCompanyAndNotify() {
+        // Save company and notify user
+        try {
+            currentCompanyVo = companyServiceRemote.save(currentCompanyVo);
+            localeManagerBean.sendMessage(AGENTS_COMP_ID, FacesMessage.SEVERITY_INFO, SUCCESSFUL_CHANGING);
+            log.info("Company profile '{}' successfully changed.", currentCompanyVo.getCompanyName());
+            return true;
+        } catch (InvalidCompanyDataException icde) {
+            String lnSep = System.getProperty("line.separator");
+            localeManagerBean.sendMessage(AGENTS_COMP_ID, FacesMessage.SEVERITY_ERROR, ERROR_MODIFY_PROFILE);
+            log.warn("Unsuccessful changing attempt with data:{}{} ", lnSep, companyProfileForm);
+            log.warn("Causing exception:" + lnSep, icde);
+            return false;
+        }
+    }
+
+    private boolean setNewCompanyAdminIfGiven() {
+        String oldAdminEmail = currentCompanyVo.getAdminEmail();
+        String newAdminEmail = companyProfileForm.getAdminEmail();
+        // If company admin has changed
+        if (!newAdminEmail.equals(oldAdminEmail)) {
+            // Load both user vos
+            UserVo oldAdmin = userServiceRemote.findByEmail(oldAdminEmail);
+            UserVo newAdmin = userServiceRemote.findByEmail(newAdminEmail);
+            if (oldAdmin == null || newAdmin == null) {
+                log.error("Could not read both old ({}) and new ({}) company admins from the database!", oldAdmin, newAdminEmail);
+                localeManagerBean.sendMessage(EMAIL_COMP_ID, FacesMessage.SEVERITY_ERROR, ERROR_ADMIN_EMAIL);
+                return false;
+            }
+
+            // Apply state changes to old admin
+            if (oldAdmin.getUserRole() != UserRole.ADMIN) {
+                oldAdmin.setUserRole(UserRole.AGENT);
+            }
+            Set<UserVo> companyAgents = currentCompanyVo.getAgents();
+            Optional<UserVo> adminAgent = companyAgents.stream()
+                    .filter(agent -> agent.getEmail().equals(oldAdminEmail))
+                    .findAny();
+            if (adminAgent.isPresent()) {
+                // Update the instance in the agents set too
+                adminAgent.get().setUserRole(oldAdmin.getUserRole());
+            } else {
+                oldAdmin.setCompanyName(null);
+            }
+
+            // Apply state changes to new admin
+            if (newAdmin.getUserRole() != UserRole.ADMIN) {
+                newAdmin.setUserRole(UserRole.COMPANY_ADMIN);
+            }
+            if (newAdmin.getCompanyName() == null) {
+                newAdmin.setCompanyName(currentCompanyVo.getCompanyName());
+            }
+
+            currentCompanyVo.setAdminEmail(newAdminEmail);
+
+            try {
+                userServiceRemote.saveAll(Arrays.asList(oldAdmin, newAdmin));
+            } catch (Exception e) {
+                log.error("Failed to switch company admin for company: " + currentCompanyVo.getCompanyName(), e);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /*
@@ -252,12 +316,4 @@ public class CompanyProfileView {
         }
     }
      */
-    private void sendMessage(final String compId, final FacesMessage.Severity severity, final String detailedKey) {
-        String localizedShort = severity == FacesMessage.SEVERITY_INFO ? localeManagerBean.localize(SUCCESS)
-                : localeManagerBean.localize(FAILURE);
-        String localizedDetailed = localeManagerBean.localize(detailedKey);
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(compId, new FacesMessage(severity, localizedShort, localizedDetailed));
-    }
-
 }

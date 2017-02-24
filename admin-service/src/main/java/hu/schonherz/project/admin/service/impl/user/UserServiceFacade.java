@@ -12,6 +12,7 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import java.util.Collection;
+import java.util.Set;
 
 @Stateless(mappedName = "UserServiceFacade")
 @Remote(UserServiceRemote.class)
@@ -28,6 +29,11 @@ public class UserServiceFacade implements UserServiceRemote {
     @Override
     public UserVo findByEmail(final String email) {
         return realService.findByEmail(email);
+    }
+
+    @Override
+    public Set<UserVo> findByCompanyName(String companyName) {
+        return realService.findByCompanyName(companyName);
     }
 
     @Override

@@ -1,17 +1,22 @@
 package hu.schonherz.project.admin.web.view.security;
 
+import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
+import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import static hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages;
@@ -24,6 +29,10 @@ public class SecurityManagerBean {
 
     @ManagedProperty(value = "#{navigatorBean}")
     private NavigatorBean navigator;
+
+    @EJB
+    private CompanyServiceRemote companyService;
+
     private Map<Pages, UserRole> permissionMap;
 
     @PostConstruct
@@ -71,9 +80,32 @@ public class SecurityManagerBean {
         return true;
     }
 
+    public boolean isUserCompanyAdmin() {
+        UserVo loggedInUser = getLoggedInUser();
+        if (loggedInUser == null || loggedInUser.getCompanyName() == null) {
+            return false;
+        }
+
+        if (loggedInUser.getUserRole() == UserRole.COMPANY_ADMIN) {
+            return true;
+        }
+
+        CompanyVo employerCompany = companyService.findByName(loggedInUser.getCompanyName());
+        if (employerCompany == null) {
+            return false;
+        }
+
+        return Objects.equals(employerCompany.getAdminEmail(), loggedInUser.getEmail());
+    }
+
     public UserVo getLoggedInUser() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         return (UserVo) session.getAttribute("user");
+    }
+
+    public void updateLoggedInUser(@NonNull final UserVo user) {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+        session.setAttribute("user", user);
     }
 
 }
