@@ -29,9 +29,7 @@ public class RemoteQuotasServiceBean implements RemoteQuotasService {
         QuotasVo quotasVo = companyVo.getQuotas();
         RemoteQuotasVo remoteVo = new RemoteQuotasVo();
         remoteVo.setMaxDayTickets(quotasVo.getMaxDayTickets());
-        remoteVo.setMaxLoggedIn(quotasVo.getMaxLoggedIn());
         remoteVo.setMaxMonthTickets(quotasVo.getMaxMonthTickets());
-        remoteVo.setMaxUsers(quotasVo.getMaxUsers());
         remoteVo.setMaxWeekTickets(quotasVo.getMaxWeekTickets());
 
         log.info("Returning quotas of company: {}", companyName);

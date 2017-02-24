@@ -6,29 +6,11 @@ public class RemoteQuotasVo implements Serializable {
 
     private static final long serialVersionUID = 3457533455L;
 
-    private int maxUsers;
-    private int maxLoggedIn;
     private int maxDayTickets;
     private int maxWeekTickets;
     private int maxMonthTickets;
 
     public RemoteQuotasVo() {
-    }
-
-    public int getMaxUsers() {
-        return maxUsers;
-    }
-
-    public void setMaxUsers(int maxUsers) {
-        this.maxUsers = maxUsers;
-    }
-
-    public int getMaxLoggedIn() {
-        return maxLoggedIn;
-    }
-
-    public void setMaxLoggedIn(int maxLoggedIn) {
-        this.maxLoggedIn = maxLoggedIn;
     }
 
     public int getMaxDayTickets() {
@@ -57,15 +39,13 @@ public class RemoteQuotasVo implements Serializable {
 
     @Override
     public String toString() {
-        return "RemoteQuotasVo{" + "maxUsers=" + maxUsers + ", maxLoggedIn=" + maxLoggedIn + ", maxDayTickets=" + maxDayTickets + ", maxWeekTickets=" + maxWeekTickets + ", maxMonthTickets=" + maxMonthTickets + '}';
+        return "RemoteQuotasVo{" + "maxDayTickets=" + maxDayTickets + ", maxWeekTickets=" + maxWeekTickets + ", maxMonthTickets=" + maxMonthTickets + '}';
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
         final int base = 37;
-        hash = base * hash + this.maxUsers;
-        hash = base * hash + this.maxLoggedIn;
         hash = base * hash + this.maxDayTickets;
         hash = base * hash + this.maxWeekTickets;
         hash = base * hash + this.maxMonthTickets;
@@ -84,12 +64,6 @@ public class RemoteQuotasVo implements Serializable {
             return false;
         }
         final RemoteQuotasVo other = (RemoteQuotasVo) obj;
-        if (this.maxUsers != other.maxUsers) {
-            return false;
-        }
-        if (this.maxLoggedIn != other.maxLoggedIn) {
-            return false;
-        }
         if (this.maxDayTickets != other.maxDayTickets) {
             return false;
         }
