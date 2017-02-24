@@ -52,10 +52,6 @@ public class CompanyProfileView {
 
     private static final Lock LOCK;
 
-    static {
-        LOCK = new ReentrantLock();
-    }
-
     @ManagedProperty(value = "#{localeManagerBean}")
     private LocaleManagerBean localeManagerBean;
 
@@ -77,6 +73,10 @@ public class CompanyProfileView {
     private CompanyForm companyProfileForm;
 
     private DualListModel<String> agents;
+
+    static {
+        LOCK = new ReentrantLock();
+    }
 
     @PostConstruct
     public void init() {
