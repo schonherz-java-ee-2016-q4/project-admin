@@ -83,6 +83,11 @@
                 <artifactId>remote-admin-api</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>hu.schonherz.javatraining</groupId>
+                <artifactId>issue-tracker-shared-api</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
             <!-- Logging dependencies -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -312,26 +317,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin> -->
-            <!--<groupId>org.codehaus.mojo</groupId> -->
-            <!--<artifactId>findbugs-maven-plugin</artifactId> -->
-            <!--<version>LATEST</version> -->
-            <!--<configuration> -->
-            <!--<xmlOutput>true</xmlOutput> -->
-            <!--<effort>Max</effort> -->
-            <!--<threshold>Medium</threshold> -->
-            <!--<excludeFilterFile>${dir.codequality}/findbugs/findbugs-exclude.xml</excludeFilterFile> -->
-            <!--</configuration> -->
-            <!--<executions> -->
-            <!--<execution> -->
-            <!--<id>findbugs-code-verification</id> -->
-            <!--<phase>verify</phase> -->
-            <!--<goals> -->
-            <!--<goal>findbugs</goal> -->
-            <!--</goals> -->
-            <!--</execution> -->
-            <!--</executions> -->
-            <!--</plugin> -->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>

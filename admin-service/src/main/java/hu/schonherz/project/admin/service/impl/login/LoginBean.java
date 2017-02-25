@@ -7,11 +7,9 @@ import hu.schonherz.project.admin.service.mapper.login.LoginMapper;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
