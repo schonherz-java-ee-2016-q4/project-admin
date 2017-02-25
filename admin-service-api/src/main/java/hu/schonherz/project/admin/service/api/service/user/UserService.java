@@ -27,4 +27,5 @@ public interface UserService {
     void changeAvailability(Long id, boolean available);
 
     void saveAll(Collection<UserVo> users);
+
 }

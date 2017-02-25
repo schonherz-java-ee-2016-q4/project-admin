@@ -12,7 +12,7 @@
         <h:form class="ui-g" id="form" rendered="#{securityManagerBean.isPagePermitted(Pages.USER_LIST)}">
             <p:growl id="growl" showDetail="true" />
             <div class="ui-g-9 ui-md-9 ui-lg-9">
-                <p:dataTable var="user" value="#{usersView.users}"
+                <p:dataTable var="user" value="#{usersView.users}" styleClass="main-page-panel"
                              id="user-table" sortBy="${user.username}"
                              emptyMessage="#{msg.label_no_records}">
                     <p:column headerText="#{msg.field_username}">
