@@ -70,7 +70,7 @@ public class SecurityManagerBean {
         if (minimumRole != null && user.getUserRole().getStrength() < minimumRole.getStrength()) {
             if (shouldRedirect) {
                 log.warn("User " + user.getUsername() + " tried to reach " + page.name() + " without permission.");
-                navigator.redirectTo(Pages.ERROR_PAGE);
+                navigator.goToForbidden();
             }
 
             return false;

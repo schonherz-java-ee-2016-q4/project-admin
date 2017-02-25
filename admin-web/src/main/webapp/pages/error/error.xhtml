@@ -8,20 +8,13 @@
     <ui:define name="customBody">
         <div class="ui-g">
             <div style="text-align: center" class="ui-g-9 ui-md-9 ui-lg-9">
-                <h:form rendered="#{requestScope['javax.servlet.error.status_code']} != null">
-                    <h1>
-                        #{msg.error_code}: #{requestScope['javax.servlet.error.status_code']}
-                    </h1>
-                    <h5>
-                        #{requestScope['javax.servlet.error.message']}
-                    </h5>
-                </h:form>
-                <h:form rendered="#{errorBean.statusCode != null}">
-                    <h1>
-                        #{msg.error_code}: #{errorBean.statusCode}
-                    </h1>
-                    <h:outputLabel rendered="#{errorBean.message != null}" value="#{errorBean.message}"/>
-                </h:form>
+
+                <h1>
+                    #{msg.error_code}: #{requestScope['javax.servlet.error.status_code']}
+                </h1>
+                <h5>
+                    #{requestScope['javax.servlet.error.message']}
+                </h5>
             </div>
         </div>
     </ui:define>
