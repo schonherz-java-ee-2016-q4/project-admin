@@ -10,43 +10,52 @@
         <div class="ui-g">
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <h:form id="registrationForm">
+                    <div class="info-box">
+                        <b>#{msg.info_box_reg_severity} </b>#{msg.info_box_reg_header}
+                        <ul>
+                            <li>#{msg.info_box_reg_rule_required}</li>
+                            <li>#{msg.info_box_reg_rule_email}</li>
+                            <li>#{msg.info_box_reg_rule_username}</li>
+                            <li>#{msg.info_box_reg_rule_password}</li>
+                        </ul>
+                    </div>
                     <p:panel header="#{msg.form_registration}" id="registrationPanel" styleClass="main-page-panel">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"
                                          columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
                                          layout="grid" styleClass="ui-panelgrid-blank">
                                 <!-- Email -->
-                                <p:outputLabel value="#{msg.field_email}:" for="email" />
+                                <p:outputLabel value="#{msg.field_email}:" for="email"/>
                                 <p:inputText id="email" value="#{registrationView.form.email}"
                                              placeholder="example@example.com" type="email" required="true"
                                              requiredMessage="#{msg.error_empty_field}"
                                              validatorMessage="#{msg.error_invalid_email}">
                                     <f:validateRegex
-                                        pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+                                            pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"/>
                                 </p:inputText>
-                                <p:message class="user-notification" for="email" />
+                                <p:message class="user-notification" for="email"/>
                                 <!-- Username -->
-                                <p:outputLabel value="#{msg.field_username}:" for="username" />
+                                <p:outputLabel value="#{msg.field_username}:" for="username"/>
                                 <p:inputText id="username"
                                              value="#{registrationView.form.username}"
                                              placeholder="#{msg.field_username}" required="true"
                                              requiredMessage="#{msg.error_empty_field}">
-                                    <f:validateLength minimum="2" maximum="15" />
+                                    <f:validateLength minimum="2" maximum="15"/>
                                 </p:inputText>
-                                <p:message class="user-notification" for="username" />
+                                <p:message class="user-notification" for="username"/>
                                 <!-- Password -->
-                                <p:outputLabel value="#{msg.field_password}:" for="password" />
+                                <p:outputLabel value="#{msg.field_password}:" for="password"/>
                                 <p:password id="password"
                                             value="#{registrationView.form.password}"
                                             placeholder="#{msg.field_password}" required="true"
                                             requiredMessage="#{msg.error_empty_field}"
                                             match="confirmPassword">
-                                    <f:validateLength minimum="6" maximum="15" />
+                                    <f:validateLength minimum="6" maximum="15"/>
                                 </p:password>
-                                <p:message class="user-notification" for="password" />
+                                <p:message class="user-notification" for="password"/>
                                 <!-- Confirm Password -->
                                 <p:outputLabel value="#{msg.field_password_confirm}:"
-                                               for="confirmPassword" />
+                                               for="confirmPassword"/>
                                 <p:password id="confirmPassword"
                                             value="#{registrationView.form.confirmPassword}"
                                             placeholder="#{msg.field_password_confirm}"
@@ -54,7 +63,7 @@
                                             requiredMessage="#{msg.error_empty_field}">
                                 </p:password>
                                 <p:message class="user-notification" for="confirmPassword"
-                                           id="registrationNotification" />
+                                           id="registrationNotification"/>
                             </p:panelGrid>
                             <p:panelGrid columns="3"
                                          columnClasses="ui-grid-col-3,ui-grid-col-6,ui-grid-col-3"
@@ -63,7 +72,7 @@
                                 <p:commandButton value="#{msg.label_clear_fields}"
                                                  type="reset"
                                                  update="registrationPanel" process="@this">
-                                    <p:resetInput target="registrationPanel" />
+                                    <p:resetInput target="registrationPanel"/>
                                 </p:commandButton>
                                 <div></div>
                                 <!-- Register button -->
