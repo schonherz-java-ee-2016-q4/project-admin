@@ -24,7 +24,7 @@ public class NavigatorBean {
         COMPANY_REGISTRATION(SECURED_COMPANY + "registration.xhtml"),
         COMPANY_PROFILE(SECURED_COMPANY + "profile.xhtml"),
         COMPANY_LIST(SECURED_COMPANY + "companies.xhtml"),
-        ERROR_PAGE("/dummyErrorPage.xhtml");
+        ERROR_PAGE("/pages/error/error.xhtml");
 
         private final String url;
 
@@ -52,6 +52,15 @@ public class NavigatorBean {
 
     public void redirectTo(@NonNull final Pages toPage) {
         redirectTo(toPage, null);
+    }
+
+    public void goToForbidden() {
+        final int forbiddenCode = 403;
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        String fullUrl = addParameter(Pages.ERROR_PAGE.url, "statusCode", String.valueOf(forbiddenCode));
+        context.getApplication().getNavigationHandler().handleNavigation(context, null, fullUrl);
+        redirectTo(Pages.ERROR_PAGE, "statusCode", forbiddenCode);
     }
 
     private String createFullUrl(final String url, final Map<String, Object> params) {
