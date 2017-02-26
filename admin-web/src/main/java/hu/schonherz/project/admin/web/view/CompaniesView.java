@@ -1,7 +1,5 @@
 package hu.schonherz.project.admin.web.view;
 
-import hu.schonherz.admin.web.locale.LocaleManagerBean;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,15 +7,14 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
-
-import javax.faces.bean.ManagedProperty;
-
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -29,9 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 public class CompaniesView {
 
     private static final String CHANGING_SUCCESS = "growl_done";
-    private static final String ACTIVATE_SUCCESS = "growl_activate_success";
-    private static final String INACTIVATE_SUCCESS = "growl_inactivate_success";
-    private static final String SPACE = " ";
+    private static final String ACTIVATE_SUCCESS = "growl_activate_success_company";
+    private static final String INACTIVATE_SUCCESS = "growl_inactivate_success_company";
     private List<CompanyVo> companies;
 
     @ManagedProperty(value = "#{localeManagerBean}")
@@ -62,7 +58,7 @@ public class CompaniesView {
         context.addMessage(null,
                 new FacesMessage(localeManagerBean.localize(CHANGING_SUCCESS),
                         (companyVo.isActive() ? localeManagerBean.localize(INACTIVATE_SUCCESS)
-                        : localeManagerBean.localize(ACTIVATE_SUCCESS)) + SPACE + companyVo.getCompanyName()));
+                                : localeManagerBean.localize(ACTIVATE_SUCCESS)) + companyVo.getCompanyName()));
     }
 
     public void generateReport(@NonNull final CompanyVo companyVo) {
