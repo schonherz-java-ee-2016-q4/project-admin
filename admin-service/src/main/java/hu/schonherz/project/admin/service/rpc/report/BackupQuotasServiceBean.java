@@ -32,7 +32,7 @@ public class BackupQuotasServiceBean implements BackupQuotasService {
         if (companyVo == null) {
             return null;
         }
-        TicketCreationReportData reportData = savedQuotaReports.get(companyName);
+        TicketCreationReportData reportData = savedQuotaReports.get(companyVo.getId());
         QuotasVo companyQuotas = companyVo.getQuotas();
         // If there is no real data, generate random values and save it
         if (reportData == null) {
@@ -47,6 +47,7 @@ public class BackupQuotasServiceBean implements BackupQuotasService {
             reportData.setOnThisMonth(thisMonth);
 
             savedQuotaReports.put(companyVo.getId(), reportData);
+//            log.info("saved Quota Reports: {}", savedQuotaReports.toString());
             return reportData;
         }
 
@@ -62,6 +63,8 @@ public class BackupQuotasServiceBean implements BackupQuotasService {
         final double treshold = 0.6;
         if (Math.random() > treshold) {
             reportData.setToday(reportData.getToday() + one);
+            reportData.setOnThisWeek(reportData.getOnThisWeek() + one);
+            reportData.setOnThisMonth(reportData.getOnThisMonth() + one);
         }
 
         return reportData;

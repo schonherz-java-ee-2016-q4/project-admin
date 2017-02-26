@@ -80,20 +80,20 @@ public class CompanyProfileView {
 
     @PostConstruct
     public void init() {
+        if (!securityManager.isPagePermitted(NavigatorBean.Pages.COMPANY_PROFILE, false)) {
+            return;
+        }
         UserVo loggedInUser = securityManager.getLoggedInUser();
         FacesContext context = FacesContext.getCurrentInstance();
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
         if (companyIdParameter == null) {
             if (!securityManager.isUserCompanyAdmin()) {
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_LIST);
+                return;
             } else {
                 Long companyId = companyServiceRemote.findByName(loggedInUser.getCompanyName()).getId();
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
-            }
-        } else if (loggedInUser.getUserRole() == UserRole.COMPANY_ADMIN) {
-            Long companyId = companyServiceRemote.findByName(loggedInUser.getCompanyName()).getId();
-            if (!companyId.equals(Long.valueOf(companyIdParameter))) {
-                navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
+                return;
             }
         }
         currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
