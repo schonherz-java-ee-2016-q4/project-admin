@@ -1,21 +1,5 @@
 package hu.schonherz.project.admin.web.view;
 
-import java.io.Serializable;
-import java.util.Random;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
-
-import org.primefaces.model.chart.Axis;
-import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.LineChartModel;
-import org.primefaces.model.chart.LineChartSeries;
-
 import hu.schonherz.project.admin.service.api.report.ReportServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
@@ -24,8 +8,21 @@ import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.CompanyForm;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
+import java.io.Serializable;
+import java.util.Random;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.LineChartSeries;
 
 @ManagedBean(name = "companyReportView")
 @ViewScoped
@@ -40,16 +37,16 @@ public class CompanyReportView implements Serializable {
 
     @ManagedProperty(value = "#{securityManagerBean}")
     private SecurityManagerBean securityManager;
-    
+
     @EJB
     private CompanyServiceRemote companyServiceRemote;
     private CompanyForm companyProfileForm;
-    
+
     @EJB
     private ReportServiceRemote reportServiceRemote;
-    
+
     private ReportVo reportVo;
-    
+
     private LineChartModel animatedModel;
 
     private LineChartModel animatedModelMonthly;
@@ -79,7 +76,7 @@ public class CompanyReportView implements Serializable {
         if (!securityManager.isPagePermitted(NavigatorBean.Pages.COMPANY_PROFILE, false)) {
             return;
         }
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
         UserVo userVo = getLoggedInUser(context);
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
@@ -95,16 +92,16 @@ public class CompanyReportView implements Serializable {
         }
         CompanyVo currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
         companyProfileForm = new CompanyForm(currentCompanyVo);
-        
+
         reportVo = reportServiceRemote.generateReportFor(currentCompanyVo.getCompanyName());
-        
-        dailyUsage = (int)Math.round((double)reportVo.getUsedTodayTickets()/reportVo.getMaxTodayTickets()*100);
+
+        dailyUsage = (int) Math.round((double) reportVo.getUsedTodayTickets() / reportVo.getMaxTodayTickets() * 100);
         log.info("Daily usage of tickets: {}/{} in Company: {}", reportVo.getUsedTodayTickets(), reportVo.getMaxTodayTickets(), currentCompanyVo.getCompanyName());
-        
-        weeklyUsage = (int)Math.round((double)reportVo.getUsedThisWeekTickets()/reportVo.getMaxThisWeekTickets()*100);
+
+        weeklyUsage = (int) Math.round((double) reportVo.getUsedThisWeekTickets() / reportVo.getMaxThisWeekTickets() * 100);
         log.info("Daily usage of tickets: {}/{} in Company: {}", reportVo.getUsedTodayTickets(), reportVo.getMaxTodayTickets(), currentCompanyVo.getCompanyName());
-        
-        monthlyUsage = (int)Math.round((double)reportVo.getUsedThisMonthsTickets()/reportVo.getMaxThisMonthsTickets()*100);
+
+        monthlyUsage = (int) Math.round((double) reportVo.getUsedThisMonthsTickets() / reportVo.getMaxThisMonthsTickets() * 100);
         log.info("Daily usage of tickets: {}/{} in Company: {}", reportVo.getUsedTodayTickets(), reportVo.getMaxTodayTickets(), currentCompanyVo.getCompanyName());
 
         createAnimatedModels();
@@ -126,14 +123,14 @@ public class CompanyReportView implements Serializable {
         yAxisLoginsEachDay.setMax(max);
 
     }
-    
+
     private LineChartModel initLinearModel() {
         final int arrayLength = 7;
         int[] dailyLogins = new int[arrayLength];
         final int firstIndex = 0;
         dailyLogins[firstIndex] = reportVo.getLoginsToday();
         int allWeekLogins = reportVo.getLoginsThisWeek() - reportVo.getLoginsToday();
-        
+
         Random rnd = new Random();
         final int start = 1;
         for (int i = start; i < dailyLogins.length; i++) {
@@ -148,22 +145,23 @@ public class CompanyReportView implements Serializable {
                 allWeekLogins = 0;
                 break;
             }
-            
+
             dailyLogins[i] = rnd.nextInt(allWeekLogins);
             allWeekLogins -= dailyLogins[i];
         }
-        
+
         LineChartModel model = new LineChartModel();
 
         LineChartSeries days = new LineChartSeries();
         days.setLabel("Daily logins");
-        
+
         for (int i = dailyLogins.length - 1; i >= 0; i--) {
             days.set(dailyLogins.length - i, dailyLogins[i]);
         }
-        
+        log.warn("----------- {}", dailyLogins);
+
         model.addSeries(days);
-        
+
         return model;
     }
 
