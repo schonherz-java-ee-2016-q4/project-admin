@@ -17,7 +17,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
@@ -26,7 +25,6 @@ import org.primefaces.model.chart.LineChartSeries;
 
 @ManagedBean(name = "companyReportView")
 @ViewScoped
-@Data
 @Slf4j
 public class CompanyReportView implements Serializable {
 
@@ -95,14 +93,10 @@ public class CompanyReportView implements Serializable {
 
         reportVo = reportServiceRemote.generateReportFor(currentCompanyVo.getCompanyName());
 
-        dailyUsage = (int) Math.round((double) reportVo.getUsedTodayTickets() / reportVo.getMaxTodayTickets() * 100);
-        log.info("Daily usage of tickets: {}/{} in Company: {}", reportVo.getUsedTodayTickets(), reportVo.getMaxTodayTickets(), currentCompanyVo.getCompanyName());
-
-        weeklyUsage = (int) Math.round((double) reportVo.getUsedThisWeekTickets() / reportVo.getMaxThisWeekTickets() * 100);
-        log.info("Daily usage of tickets: {}/{} in Company: {}", reportVo.getUsedTodayTickets(), reportVo.getMaxTodayTickets(), currentCompanyVo.getCompanyName());
-
-        monthlyUsage = (int) Math.round((double) reportVo.getUsedThisMonthsTickets() / reportVo.getMaxThisMonthsTickets() * 100);
-        log.info("Daily usage of tickets: {}/{} in Company: {}", reportVo.getUsedTodayTickets(), reportVo.getMaxTodayTickets(), currentCompanyVo.getCompanyName());
+        final int hundred = 100;
+        dailyUsage = (int) Math.round((double) reportVo.getUsedTodayTickets() / reportVo.getMaxTodayTickets() * hundred);
+        weeklyUsage = (int) Math.round((double) reportVo.getUsedThisWeekTickets() / reportVo.getMaxThisWeekTickets() * hundred);
+        monthlyUsage = (int) Math.round((double) reportVo.getUsedThisMonthsTickets() / reportVo.getMaxThisMonthsTickets() * hundred);
 
         createAnimatedModels();
     }
@@ -162,6 +156,86 @@ public class CompanyReportView implements Serializable {
         model.addSeries(days);
 
         return model;
+    }
+
+    public NavigatorBean getNavigator() {
+        return navigator;
+    }
+
+    public void setNavigator(NavigatorBean navigator) {
+        this.navigator = navigator;
+    }
+
+    public SecurityManagerBean getSecurityManager() {
+        return securityManager;
+    }
+
+    public void setSecurityManager(SecurityManagerBean securityManager) {
+        this.securityManager = securityManager;
+    }
+
+    public CompanyServiceRemote getCompanyServiceRemote() {
+        return companyServiceRemote;
+    }
+
+    public void setCompanyServiceRemote(CompanyServiceRemote companyServiceRemote) {
+        this.companyServiceRemote = companyServiceRemote;
+    }
+
+    public CompanyForm getCompanyProfileForm() {
+        return companyProfileForm;
+    }
+
+    public void setCompanyProfileForm(CompanyForm companyProfileForm) {
+        this.companyProfileForm = companyProfileForm;
+    }
+
+    public ReportServiceRemote getReportServiceRemote() {
+        return reportServiceRemote;
+    }
+
+    public void setReportServiceRemote(ReportServiceRemote reportServiceRemote) {
+        this.reportServiceRemote = reportServiceRemote;
+    }
+
+    public ReportVo getReportVo() {
+        return reportVo;
+    }
+
+    public void setReportVo(ReportVo reportVo) {
+        this.reportVo = reportVo;
+    }
+
+    public LineChartModel getAnimatedModel() {
+        return animatedModel;
+    }
+
+    public void setAnimatedModel(LineChartModel animatedModel) {
+        this.animatedModel = animatedModel;
+    }
+
+    public int getDailyUsage() {
+        return dailyUsage;
+    }
+
+    public void setDailyUsage(int dailyUsage) {
+        this.dailyUsage = dailyUsage;
+    }
+
+    public int getWeeklyUsage() {
+        return weeklyUsage;
+    }
+
+    public void setWeeklyUsage(int weeklyUsage) {
+        this.weeklyUsage = weeklyUsage;
+    }
+
+    public int getMonthlyUsage() {
+        return monthlyUsage;
+    }
+
+    public void setMonthlyUsage(int monthlyUsage) {
+        this.monthlyUsage = monthlyUsage;
     }
 
 }
