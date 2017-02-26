@@ -1,28 +1,25 @@
 package hu.schonherz.project.admin.web.view;
 
-import hu.schonherz.admin.web.locale.LocaleManagerBean;
-import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
-import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import hu.schonherz.admin.web.locale.LocaleManagerBean;
+import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
+import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
-import java.util.Set;
-
-import javax.faces.bean.ManagedProperty;
-
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -61,7 +58,8 @@ public class UsersView {
         UserVo loggedInUser = securityManagerBean.getLoggedInUser();
         if (loggedInUser.getUserRole() == UserRole.ADMIN) {
             users = userServiceRemote.findAll();
-        } else {  // only COMPANY_ADMIN can be the other, because AGENT -s are not permitted here
+        } else { // only COMPANY_ADMIN can be the other, because AGENT -s are
+                 // not permitted here
             CompanyVo companyVo = companyServiceRemote.findByName(loggedInUser.getCompanyName());
             users = new ArrayList<>(companyVo.getAgents());
             users.add(loggedInUser);
@@ -87,7 +85,8 @@ public class UsersView {
             if (userVo.getUserRole() == UserRole.COMPANY_ADMIN) {
                 log.warn("Tried to delete company admin of {}", employerCompanyName);
                 String shortMessage = localeManager.localize(FAILURE);
-                String detailedMessage = localeManager.localize(DELETE_COMPANY_ADMIN, userVo.getUsername(), employerCompanyName);
+                String detailedMessage = localeManager.localize(DELETE_COMPANY_ADMIN, userVo.getUsername(),
+                        employerCompanyName);
                 sendMessage(shortMessage, detailedMessage);
 
                 return;
@@ -107,7 +106,8 @@ public class UsersView {
 
         userServiceRemote.delete(userVo.getId());
         init();
-        sendMessage(localeManager.localize(CHANGING_SUCCESS), localeManager.localize(DELETE_SUCCESS, userVo.getUsername()));
+        sendMessage(localeManager.localize(CHANGING_SUCCESS),
+                localeManager.localize(DELETE_SUCCESS, userVo.getUsername()));
     }
 
     public void changeUserStatus(@NonNull final UserVo userVo) {
@@ -122,7 +122,8 @@ public class UsersView {
     public void resetUserPassword(@NonNull final UserVo userVo) {
         userServiceRemote.resetPassword(userVo.getId());
         init();
-        sendMessage(localeManager.localize(CHANGING_SUCCESS), localeManager.localize(RESET_PASSWORD_SUCCESS, userVo.getUsername()));
+        sendMessage(localeManager.localize(CHANGING_SUCCESS),
+                localeManager.localize(RESET_PASSWORD_SUCCESS) + userVo.getUsername());
     }
 
     private void sendMessage(String shortMessage, String detailedMessage) {
