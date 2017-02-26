@@ -86,7 +86,7 @@ public class CompanyReportView implements Serializable {
                 return;
             } else {
                 Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
-                navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
+                navigator.redirectTo(NavigatorBean.Pages.COMPANY_REPORT, "id", companyId);
                 return;
             }
         }
@@ -158,7 +158,6 @@ public class CompanyReportView implements Serializable {
         for (int i = dailyLogins.length - 1; i >= 0; i--) {
             days.set(dailyLogins.length - i, dailyLogins[i]);
         }
-        log.warn("----------- {}", dailyLogins);
 
         model.addSeries(days);
 
