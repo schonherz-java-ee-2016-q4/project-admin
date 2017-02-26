@@ -2,7 +2,6 @@ package hu.schonherz.project.admin.service.api.vo;
 
 import java.io.Serializable;
 import lombok.Data;
-
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -30,13 +29,5 @@ public class UserVo extends BaseVo implements Serializable {
     private UserRole userRole;
 
     private String companyName;
-
-    private String fullName;
-
-    private String phone;
-
-    private  String picUrl;
-
-    private Gender gender;
 
 }

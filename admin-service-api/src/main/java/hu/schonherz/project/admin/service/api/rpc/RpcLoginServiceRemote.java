@@ -10,4 +10,6 @@ public interface RpcLoginServiceRemote {
 
     void rpcLogout(String username) throws FailedRpcLogoutException;
 
+    UserData getUserDataById(Long id);
+
 }
