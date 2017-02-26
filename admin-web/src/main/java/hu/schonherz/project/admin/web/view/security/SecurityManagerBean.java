@@ -5,6 +5,7 @@ import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -19,8 +20,6 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import static hu.schonherz.project.admin.web.view.navigation.NavigatorBean.Pages;
-
 @Data
 @Slf4j
 @ManagedBean(name = "securityManagerBean")
@@ -34,6 +33,8 @@ public class SecurityManagerBean {
     private CompanyServiceRemote companyService;
 
     private Map<Pages, UserRole> permissionMap;
+    // Buffer to store result of the isUserCompanyAdmin() method until the logged in user changes
+    private Map<Long, Boolean> isCompanyAdmin;
 
     @PostConstruct
     public void init() {
@@ -49,6 +50,8 @@ public class SecurityManagerBean {
         permissionMap.put(Pages.COMPANY_PROFILE, UserRole.COMPANY_ADMIN);
         permissionMap.put(Pages.COMPANY_REPORT, UserRole.COMPANY_ADMIN);
         permissionMap.put(Pages.COMPANY_LIST, UserRole.ADMIN);
+
+        isCompanyAdmin = new HashMap<>();
     }
 
     public boolean isPagePermitted(NavigatorBean.Pages page) {
@@ -83,20 +86,39 @@ public class SecurityManagerBean {
 
     public boolean isUserCompanyAdmin() {
         UserVo loggedInUser = getLoggedInUser();
-        if (loggedInUser == null || loggedInUser.getCompanyName() == null) {
+        if (loggedInUser == null) {
+            return false;
+        }
+        Boolean isCompAdmin = isCompanyAdmin.get(loggedInUser.getId());
+        if (isCompAdmin != null) {
+            return isCompAdmin;
+        }
+
+        Long loggedInUserId = loggedInUser.getId();
+        if (loggedInUser.getCompanyName() == null) {
+            isCompanyAdmin.clear();
+            isCompanyAdmin.put(loggedInUserId, false);
             return false;
         }
 
         if (loggedInUser.getUserRole() == UserRole.COMPANY_ADMIN) {
+            isCompanyAdmin.clear();
+            isCompanyAdmin.put(loggedInUserId, true);
             return true;
         }
 
         CompanyVo employerCompany = companyService.findByName(loggedInUser.getCompanyName());
         if (employerCompany == null) {
+            isCompanyAdmin.clear();
+            isCompanyAdmin.put(loggedInUserId, false);
             return false;
         }
 
-        return Objects.equals(employerCompany.getAdminEmail(), loggedInUser.getEmail());
+        boolean result = Objects.equals(employerCompany.getAdminEmail(), loggedInUser.getEmail());
+        isCompanyAdmin.clear();
+        isCompanyAdmin.put(loggedInUserId, result);
+
+        return result;
     }
 
     public UserVo getLoggedInUser() {
