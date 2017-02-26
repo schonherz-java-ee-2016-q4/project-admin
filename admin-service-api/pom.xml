@@ -13,6 +13,10 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>hu.schonherz.javatraining</groupId>
+            <artifactId>issue-tracker-shared-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>

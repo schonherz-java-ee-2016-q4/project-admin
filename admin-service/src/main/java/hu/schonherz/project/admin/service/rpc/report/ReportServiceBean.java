@@ -3,6 +3,7 @@ package hu.schonherz.project.admin.service.rpc.report;
 import hu.schonherz.javatraining.issuetracker.shared.api.ForAdminServiceRemote;
 import hu.schonherz.javatraining.issuetracker.shared.vo.TicketCreationReportData;
 import hu.schonherz.project.admin.service.api.login.LoginService;
+import hu.schonherz.project.admin.service.api.report.BackupQuotasService;
 import hu.schonherz.project.admin.service.api.report.ReportServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceLocal;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
@@ -37,7 +38,7 @@ public class ReportServiceBean implements ReportServiceRemote {
     // Inject in constructor via context lookup, because @EJB(lookup....) makes build fail in case of not finding bean
     private ForAdminServiceRemote remoteReportService;
     @EJB
-    private ForAdminServiceRemote backupReportService;
+    private BackupQuotasService backupReportService;
     @EJB
     private LoginService loginService;
     @EJB
@@ -66,7 +67,12 @@ public class ReportServiceBean implements ReportServiceRemote {
             return null;
         }
         TicketCreationReportData quotaUsageData = remoteReportService.getTicketCreationByCompanyReport(companyName);
-        if (quotaUsageData == null) {
+        if (quotaUsageData != null) {
+            // If it was from the real service, save the data
+            if (!(remoteReportService instanceof BackupQuotasService)) {
+                backupReportService.saveRealUsage(company.getId(), quotaUsageData);
+            }
+        } else {
             log.warn("Failed to receive quota usage data from issuetracker. Using generated data.");
             quotaUsageData = backupReportService.getTicketCreationByCompanyReport(companyName);
         }
