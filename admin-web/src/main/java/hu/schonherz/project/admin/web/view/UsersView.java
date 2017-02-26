@@ -3,26 +3,21 @@ package hu.schonherz.project.admin.web.view;
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
 import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
-
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -125,7 +120,7 @@ public class UsersView {
         sendMessage(localeManager.localize(CHANGING_SUCCESS), localeManager.localize(RESET_PASSWORD_SUCCESS, userVo.getUsername()));
     }
 
-    private void sendMessage(String shortMessage, String detailedMessage) {
+    private void sendMessage(final String shortMessage, final String detailedMessage) {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(shortMessage, detailedMessage));
     }

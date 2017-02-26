@@ -97,7 +97,7 @@ public class ReportServiceBean implements ReportServiceRemote {
         return reportVo;
     }
 
-    private void setQuotaReports(ReportVo reportVo, QuotasVo companyQuotas, TicketCreationReportData quotaUsageData) {
+    private void setQuotaReports(final ReportVo reportVo, final QuotasVo companyQuotas, final TicketCreationReportData quotaUsageData) {
         reportVo.setMaxTodayTickets(companyQuotas.getMaxDayTickets());
         reportVo.setUsedTodayTickets(quotaUsageData.getToday());
 
@@ -108,7 +108,7 @@ public class ReportServiceBean implements ReportServiceRemote {
         reportVo.setUsedThisMonthsTickets(quotaUsageData.getOnThisMonth());
     }
 
-    private void setLoginReports(ReportVo reportVo, List<LocalDate> allCompanyLogins) {
+    private void setLoginReports(final ReportVo reportVo, final List<LocalDate> allCompanyLogins) {
         // Generate today login report
         LocalDate now = LocalDate.now();
         int todayLogins = (int) allCompanyLogins.stream()

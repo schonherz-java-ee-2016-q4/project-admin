@@ -162,7 +162,7 @@ public class CompanyReportView implements Serializable {
         return navigator;
     }
 
-    public void setNavigator(NavigatorBean navigator) {
+    public void setNavigator(final NavigatorBean navigator) {
         this.navigator = navigator;
     }
 
@@ -170,7 +170,7 @@ public class CompanyReportView implements Serializable {
         return securityManager;
     }
 
-    public void setSecurityManager(SecurityManagerBean securityManager) {
+    public void setSecurityManager(final SecurityManagerBean securityManager) {
         this.securityManager = securityManager;
     }
 
@@ -178,7 +178,7 @@ public class CompanyReportView implements Serializable {
         return companyServiceRemote;
     }
 
-    public void setCompanyServiceRemote(CompanyServiceRemote companyServiceRemote) {
+    public void setCompanyServiceRemote(final CompanyServiceRemote companyServiceRemote) {
         this.companyServiceRemote = companyServiceRemote;
     }
 
@@ -186,7 +186,7 @@ public class CompanyReportView implements Serializable {
         return companyProfileForm;
     }
 
-    public void setCompanyProfileForm(CompanyForm companyProfileForm) {
+    public void setCompanyProfileForm(final CompanyForm companyProfileForm) {
         this.companyProfileForm = companyProfileForm;
     }
 
@@ -194,7 +194,7 @@ public class CompanyReportView implements Serializable {
         return reportServiceRemote;
     }
 
-    public void setReportServiceRemote(ReportServiceRemote reportServiceRemote) {
+    public void setReportServiceRemote(final ReportServiceRemote reportServiceRemote) {
         this.reportServiceRemote = reportServiceRemote;
     }
 
@@ -202,7 +202,7 @@ public class CompanyReportView implements Serializable {
         return reportVo;
     }
 
-    public void setReportVo(ReportVo reportVo) {
+    public void setReportVo(final ReportVo reportVo) {
         this.reportVo = reportVo;
     }
 
@@ -210,7 +210,7 @@ public class CompanyReportView implements Serializable {
         return animatedModel;
     }
 
-    public void setAnimatedModel(LineChartModel animatedModel) {
+    public void setAnimatedModel(final LineChartModel animatedModel) {
         this.animatedModel = animatedModel;
     }
 
@@ -218,7 +218,7 @@ public class CompanyReportView implements Serializable {
         return dailyUsage;
     }
 
-    public void setDailyUsage(int dailyUsage) {
+    public void setDailyUsage(final int dailyUsage) {
         this.dailyUsage = dailyUsage;
     }
 
@@ -226,7 +226,7 @@ public class CompanyReportView implements Serializable {
         return weeklyUsage;
     }
 
-    public void setWeeklyUsage(int weeklyUsage) {
+    public void setWeeklyUsage(final int weeklyUsage) {
         this.weeklyUsage = weeklyUsage;
     }
 
@@ -234,7 +234,7 @@ public class CompanyReportView implements Serializable {
         return monthlyUsage;
     }
 
-    public void setMonthlyUsage(int monthlyUsage) {
+    public void setMonthlyUsage(final int monthlyUsage) {
         this.monthlyUsage = monthlyUsage;
     }
 
