@@ -25,6 +25,10 @@ public class RemoteLoginServiceBean implements RemoteLoginService {
             return null;
         }
 
+        if (user.getCompanyName() == null) {
+            return null;
+        }
+
         RemoteUserVo remoteVo = new RemoteUserVo();
         remoteVo.setUsername(username);
         remoteVo.setEncryptedPassword(user.getPassword());
