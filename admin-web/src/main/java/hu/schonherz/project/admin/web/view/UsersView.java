@@ -115,7 +115,7 @@ public class UsersView {
         init();
 
         String detailedMessage = userVo.isActive() ? localeManager.localize(INACTIVATE_SUCCESS)
-                : localeManager.localize(ACTIVATE_SUCCESS, userVo.getUsername());
+                : localeManager.localize(ACTIVATE_SUCCESS) + userVo.getUsername();
         sendMessage(localeManager.localize(CHANGING_SUCCESS), detailedMessage);
     }
 
