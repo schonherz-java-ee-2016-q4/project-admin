@@ -4,9 +4,9 @@ public enum UserRole {
 
     ADMIN(2), COMPANY_ADMIN(1), AGENT(0);
 
-    int strength;
+    private final int strength;
 
-    UserRole(int strength) {
+    UserRole(final int strength) {
         this.strength = strength;
     }
 

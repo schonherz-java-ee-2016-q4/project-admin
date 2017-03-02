@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import javax.persistence.OneToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -28,8 +27,7 @@ public class CompanyEntity extends BaseEntity implements Serializable {
     @Column(nullable = false, unique = true)
     private String domainAddress;
 
-    @OneToOne
-    private UserEntity adminUser;
+    private String adminEmail;
 
     @OneToMany
     @Column(nullable = false)

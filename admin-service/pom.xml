@@ -13,6 +13,14 @@
     <packaging>ejb</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>hu.schonherz.java.training.project</groupId>
+            <artifactId>remote-admin-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>hu.schonherz.javatraining</groupId>
+            <artifactId>issue-tracker-shared-api</artifactId>
+        </dependency>
         <!-- Logging dependencies -->
         <dependency>
             <groupId>org.slf4j</groupId>

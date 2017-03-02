@@ -22,7 +22,6 @@ public class CompanyForm {
     private Long id;
     private String companyName;
     private String domainAddress;
-    private UserVo adminUser;
     private QuotasVo quotes;
     private Set<UserVo> agents;
     private boolean active;
@@ -30,9 +29,8 @@ public class CompanyForm {
     public CompanyForm(@NonNull final CompanyVo companyVo) {
         setId(companyVo.getId());
         setCompanyName(companyVo.getCompanyName());
-        setAdminUser(companyVo.getAdminUser());
-        setAdminEmail(companyVo.getAdminUser().getEmail());
-        setQuotes(companyVo.getQuotes());
+        setAdminEmail(companyVo.getAdminEmail());
+        setQuotes(companyVo.getQuotas());
         setAgents(companyVo.getAgents());
         setActive(companyVo.isActive());
         setDomainAddress(companyVo.getDomainAddress());
@@ -43,8 +41,8 @@ public class CompanyForm {
         companyVo.setId(id);
         companyVo.setCompanyName(companyName);
         companyVo.setDomainAddress(domainAddress);
-        companyVo.setAdminUser(adminUser);
-        companyVo.setQuotes(quotes);
+        companyVo.setAdminEmail(adminEmail);
+        companyVo.setQuotas(quotes);
         companyVo.setAgents(agents);
         companyVo.setActive(active);
         return companyVo;

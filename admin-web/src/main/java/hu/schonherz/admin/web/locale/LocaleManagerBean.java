@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -17,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 public class LocaleManagerBean {
 
     private static final String PROPERTIES_FILE_NAME = "l10n.localization";
+
+    private static final String SUCCESS = "success_short";
+    private static final String FAILURE = "error_failure_short";
 
     private Locale locale;
     private ResourceBundle localeMessages;
@@ -39,6 +43,13 @@ public class LocaleManagerBean {
 
     public Locale getLocale() {
         return locale;
+    }
+
+    public void sendMessage(final String compId, final FacesMessage.Severity severity, final String detailedKey) {
+        String localizedShort = severity == FacesMessage.SEVERITY_INFO ? localize(SUCCESS) : localize(FAILURE);
+        String localizedDetailed = localize(detailedKey);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(compId, new FacesMessage(severity, localizedShort, localizedDetailed));
     }
 
     public String localize(final String key, final String... params) {

@@ -1,0 +1,136 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/pages/templates/linkedLayout.xhtml">
+
+    <ui:define name="customTitle">#{msg.title_company_profile_page}</ui:define>
+    <ui:define name="customBody">
+        <div class="ui-g">
+            <div class="ui-g-9 ui-md-9 ui-lg-9">
+                <h:form id="reportForm"
+                        rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_REPORT)}">
+                    <p:panel class="reportPagePanel main-page-panel" header="#{msg.form_company_datas}"
+                             id="profilePanel" toggleable="true">
+                        <div class="ui-fluid">
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <!-- Company name -->
+                                <p:outputLabel value="#{msg.field_company_name}:"
+                                               for="companyName"/>
+                                <h:outputText id="companyName"
+                                              value="#{companyReportView.companyProfileForm.companyName}"/>
+                                <div></div>
+                                <!-- Company Administrator Email -->
+                                <p:outputLabel value="#{msg.field_admin_email}:" for="email"/>
+                                <h:outputText id="email"
+                                              value="#{companyReportView.companyProfileForm.adminEmail}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.label_domain}:" for="companyName"/>
+                                <h:outputText id="domain"
+                                              value="#{companyReportView.companyProfileForm.domainAddress}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:separator/>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_usernumber}:"
+                                               for="maxUser"/>
+                                <h:outputText id="maxUser"
+                                              value="#{companyReportView.companyProfileForm.quotes.maxUsers}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_simultaneous_login}:"
+                                               for="maxLoggedIn"/>
+                                <h:outputText id="maxLoggedIn"
+                                              value="#{companyReportView.companyProfileForm.quotes.maxLoggedIn}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_day}:"
+                                               for="maxDayTickets"/>
+                                <h:outputText id="maxDayTickets"
+                                              value="#{companyReportView.companyProfileForm.quotes.maxDayTickets}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_week}:"
+                                               for="maxWeekTickets"/>
+                                <h:outputText id="maxWeekTickets"
+                                              value="#{companyReportView.companyProfileForm.quotes.maxWeekTickets}"/>
+                                <div></div>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-5"
+                                         layout="grid" styleClass="ui-panelgrid-blank">
+                                <p:outputLabel value="#{msg.field_maximum_issuetickets_month}:"
+                                               for="maxMonthTickets"/>
+                                <h:outputText id="maxMonthTickets"
+                                              value="#{companyReportView.companyProfileForm.quotes.maxMonthTickets}"/>
+                                <div></div>
+                            </p:panelGrid>
+                        </div>
+                    </p:panel>
+                    <p:panel class="reportPagePanel"
+                             header="#{msg.title_panel_issuetickets}" id="reportPanel"
+                             toggleable="true" collapsed="true">
+                        <div class="ui-fluid">
+                            <p:panelGrid columns="3"
+                                         columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+                                         styleClass="ui-panelgrid-blank">
+                                <p:column>
+                                    <p:knob labelTemplate="{value}%"
+                                            value="#{companyReportView.dailyUsage}"
+                                            colorTheme="hot-sneaks" disabled="true"/>
+                                    <div></div>
+                                    <h:outputText id="dayTickets"
+                                                  value="#{msg.knob_label_issuetickets_daily}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:knob labelTemplate="{value}%"
+                                            value="#{companyReportView.weeklyUsage}"
+                                            colorTheme="hot-sneaks" disabled="true"/>
+                                    <div></div>
+                                    <h:outputText id="weekTickets"
+                                                  value="#{msg.knob_label_issuetickets_weekly}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:knob labelTemplate="{value}%"
+                                            value="#{companyReportView.monthlyUsage}"
+                                            colorTheme="hot-sneaks" disabled="true"/>
+                                    <div></div>
+                                    <h:outputText id="MonthTickets"
+                                                  value="#{msg.knob_label_issuetickets_monthly}"/>
+                                </p:column>
+                            </p:panelGrid>
+                        </div>
+                    </p:panel>
+                    <p:panel class="reportPagePanel"
+                             header="#{msg.title_panel_daily_logins}" id="loginReportPanelDaily"
+                             toggleable="true" collapsed="true">
+                        <div class="ui-fluid">
+                            <p:chart type="line"
+                                     responsive="true"
+                                     model="#{companyReportView.animatedModel}"
+                                     style="width:100%;"/>
+                        </div>
+                    </p:panel>
+                </h:form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

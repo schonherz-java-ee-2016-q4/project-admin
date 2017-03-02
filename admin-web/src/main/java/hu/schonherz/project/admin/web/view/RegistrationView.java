@@ -1,23 +1,20 @@
 package hu.schonherz.project.admin.web.view;
 
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
 import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
-import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
-import hu.schonherz.project.admin.service.api.vo.Gender;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.RegistrationForm;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -60,11 +57,7 @@ public class RegistrationView {
         try {
             UserVo userVo = form.getUserVo();
             setDefaultValues(userVo);
-            userVo.setFullName("Bruce Wayne asassa");
-            userVo.setGender(Gender.MALE);
-            userVo.setPhone("+36-30-1112367");
-            userVo.setCompanyName("Wayne Industries");
-            userVo.setPicUrl("https://pbs.twimg.com/profile_images/649259478332784640/7Pjcfx_v_reasonably_small.jpg");
+
             // Try to save user data
             userVo.setPassword(Encrypter.encrypt(form.getUserVo().getPassword()));
             // This vo has ID

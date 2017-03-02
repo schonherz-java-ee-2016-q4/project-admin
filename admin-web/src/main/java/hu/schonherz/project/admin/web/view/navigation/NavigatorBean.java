@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 
 @ManagedBean(name = "navigatorBean")
@@ -23,12 +25,13 @@ public class NavigatorBean {
         USER_LIST(SECURED_USER + "users.xhtml"),
         COMPANY_REGISTRATION(SECURED_COMPANY + "registration.xhtml"),
         COMPANY_PROFILE(SECURED_COMPANY + "profile.xhtml"),
+        COMPANY_REPORT(SECURED_COMPANY + "report.xhtml"),
         COMPANY_LIST(SECURED_COMPANY + "companies.xhtml"),
-        ERROR_PAGE("/dummyErrorPage.xhtml");
+        ERROR_PAGE("/pages/error/error.xhtml");
 
         private final String url;
 
-        Pages(String url) {
+        Pages(final String url) {
             this.url = url;
         }
 
@@ -52,6 +55,19 @@ public class NavigatorBean {
 
     public void redirectTo(@NonNull final Pages toPage) {
         redirectTo(toPage, null);
+    }
+
+    public void goToForbidden() {
+        final int forbiddenCode = 403;
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletResponse resp = (HttpServletResponse) context.getExternalContext().getResponse();
+        HttpServletRequest req = (HttpServletRequest) context.getExternalContext().getRequest();
+        resp.setStatus(forbiddenCode);
+        req.setAttribute("javax.servlet.error.status_code", forbiddenCode);
+        req.setAttribute("javax.servlet.error.message", "Forbidden");
+
+        context.getApplication().getNavigationHandler().handleNavigation(context, null, Pages.ERROR_PAGE.getUrl());
     }
 
     private String createFullUrl(final String url, final Map<String, Object> params) {

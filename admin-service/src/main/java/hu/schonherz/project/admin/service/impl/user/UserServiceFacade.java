@@ -1,16 +1,16 @@
 package hu.schonherz.project.admin.service.impl.user;
 
+import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.vo.UserVo;
+import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 import javax.ejb.EJB;
 import javax.ejb.EJBTransactionRolledbackException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
-
-import hu.schonherz.project.admin.service.api.service.user.UserServiceLocal;
-import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
-import hu.schonherz.project.admin.service.api.service.user.InvalidUserDataException;
-import hu.schonherz.project.admin.service.api.vo.UserVo;
 
 @Stateless(mappedName = "UserServiceFacade")
 @Remote(UserServiceRemote.class)
@@ -30,12 +30,22 @@ public class UserServiceFacade implements UserServiceRemote {
     }
 
     @Override
+    public Set<UserVo> findByCompanyName(final String companyName) {
+        return realService.findByCompanyName(companyName);
+    }
+
+    @Override
     public UserVo registrationUser(final UserVo userVo) throws InvalidUserDataException {
         try {
             return realService.registrationUser(userVo);
         } catch (EJBTransactionRolledbackException rolledBackException) {
             throw new InvalidUserDataException("Could not save user: " + userVo.getUsername(), rolledBackException);
         }
+    }
+
+    @Override
+    public void saveAll(final Collection<UserVo> users) {
+        realService.saveAll(users);
     }
 
     @Override

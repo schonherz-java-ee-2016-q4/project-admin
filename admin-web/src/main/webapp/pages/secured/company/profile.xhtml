@@ -11,7 +11,7 @@
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <h:form id="profileForm"
                         rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_PROFILE)}">
-                    <p:panel header="#{msg.form_company}" id="profilePanel">
+                    <p:panel header="#{msg.form_company}" id="profilePanel" styleClass="main-page-panel">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"
                                          columnClasses="ui-grid-col-3,ui-grid-col-4,ui-grid-col-5"
@@ -57,7 +57,7 @@
                                 <p:outputLabel value="#{msg.field_maximum_usernumber}:"
                                                for="maxUser" />
                                 <p:spinner id="maxUser"
-                                           value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" min="0"/>
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxUsers}" min="3"/>
                                 <p:message class="user-notification" for="maxUser" />
                             </p:panelGrid>
                             <p:panelGrid columns="3"
@@ -66,7 +66,7 @@
                                 <p:outputLabel value="#{msg.field_maximum_simultaneous_login}:"
                                                for="maxLoggedIn" />
                                 <p:spinner id="maxLoggedIn"
-                                           value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" min="0"/>
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxLoggedIn}" min="3"/>
                                 <p:message class="user-notification" for="maxLoggedIn" />
                             </p:panelGrid>
                             <p:panelGrid columns="3"
@@ -75,7 +75,7 @@
                                 <p:outputLabel value="#{msg.field_maximum_issuetickets_day}:"
                                                for="maxDayTickets" />
                                 <p:spinner id="maxDayTickets"
-                                           value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" min="0"/>
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxDayTickets}" min="3"/>
                                 <p:message class="user-notification" for="maxDayTickets" />
                             </p:panelGrid>
                             <p:panelGrid columns="3"
@@ -84,7 +84,7 @@
                                 <p:outputLabel value="#{msg.field_maximum_issuetickets_week}:"
                                                for="maxWeekTickets" />
                                 <p:spinner id="maxWeekTickets"
-                                           value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" min="0"/>
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxWeekTickets}" min="3"/>
                                 <p:message class="user-notification" for="maxWeekTickets" />
                             </p:panelGrid>
                             <p:panelGrid columns="3"
@@ -93,7 +93,7 @@
                                 <p:outputLabel value="#{msg.field_maximum_issuetickets_month}:"
                                                for="maxMonthTickets" />
                                 <p:spinner id="maxMonthTickets"
-                                           value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" min="0"/>
+                                           value="#{companyProfileView.companyProfileForm.quotes.maxMonthTickets}" min="3"/>
                                 <p:message class="user-notification" for="maxMonthTickets" />
                             </p:panelGrid>
                             <p:separator />
@@ -137,5 +137,4 @@
             </div>
         </div>
     </ui:define>
-    >>>>>>> company-create-edit
 </ui:composition>

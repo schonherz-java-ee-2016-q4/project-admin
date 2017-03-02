@@ -6,6 +6,9 @@
 .user-table-content {
 	text-align: center;
 }
+.company-table-content {
+	text-align: center;
+}
 
 .active-status {
 	color: #81c784;
@@ -29,4 +32,29 @@
     height: 19px;
     width: 28px;
     border-bottom-right-radius: 6px;
+}
+
+.reportPagePanel {
+	padding-bottom: 50px;
+	padding-top: 50px;
+    margin-bottom: 10px;
+}
+
+.main-page-panel {
+    margin-top: 10px;
+}
+
+.info-box {
+	min-height: 20px;
+	padding: 19px;
+	margin-bottom: 20px;
+	border: 1px solid #262626;
+	border-radius: 4px;
+    color:#dddddd;
+    background-color:#4d4d4d;
+    background:-moz-radial-gradient(50% 75%,circle,#676767,#343434);
+    background:-webkit-radial-gradient(50% 75%,circle,#676767,#343434);
+    background:-o-radial-gradient(50% 75%,circle,#676767,#343434);
+    background:-ms-radial-gradient(50% 75%,circle,#676767,#343434);
+    background:radial-gradient(50% 75%,circle,#676767,#343434);
 }
