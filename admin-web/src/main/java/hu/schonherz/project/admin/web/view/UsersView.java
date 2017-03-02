@@ -95,7 +95,7 @@ public class UsersView {
             try {
                 companyServiceRemote.save(employerComapany);
             } catch (InvalidCompanyDataException ex) {
-                log.error("Could not update company data for {}", employerCompanyName);
+                log.error("Could not update company data for " + employerCompanyName, ex);
             }
         }
 
@@ -108,9 +108,11 @@ public class UsersView {
     public void changeUserStatus(@NonNull final UserVo userVo) {
         userServiceRemote.changeStatus(userVo.getId());
         init();
-        String detailedMessage = userVo.isActive() ? localeManager.localize(INACTIVATE_SUCCESS)
-                : localeManager.localize(ACTIVATE_SUCCESS) + userVo.getUsername();
-        sendMessage(localeManager.localize(CHANGING_SUCCESS), detailedMessage);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null,
+                new FacesMessage(localeManager.localize(CHANGING_SUCCESS),
+                        (userVo.isActive() ? localeManager.localize(INACTIVATE_SUCCESS)
+                        : localeManager.localize(ACTIVATE_SUCCESS)) + userVo.getUsername()));
     }
 
     public void resetUserPassword(@NonNull final UserVo userVo) {
