@@ -97,10 +97,6 @@ public class RpcLoginServiceBean implements RpcLoginServiceRemote {
     @Override
     public UserData getUserDataById(Long id) {
         UserVo user = userService.findById(id);
-        if (user == null) {
-            return null;
-        }
-
         return UserDataVoMapper.toData(user);
     }
 

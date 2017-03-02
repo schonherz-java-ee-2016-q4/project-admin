@@ -6,6 +6,7 @@ import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.LoginForm;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
+import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -36,6 +37,8 @@ public class LoginView {
     private LocaleManagerBean localeManager;
     @ManagedProperty(value = "#{navigatorBean}")
     private NavigatorBean navigator;
+    @ManagedProperty(value = "#{securityManagerBean}")
+    private SecurityManagerBean securityManager;
 
     @PostConstruct
     public void init() {
@@ -67,6 +70,7 @@ public class LoginView {
     public void logout() {
         HttpSession session = getSession();
         session.removeAttribute("user");
+        securityManager.clearBuffer();
         navigator.redirectTo(NavigatorBean.Pages.LOGIN);
     }
 
