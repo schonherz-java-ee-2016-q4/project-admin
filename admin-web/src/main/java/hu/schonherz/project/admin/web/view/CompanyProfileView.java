@@ -1,9 +1,28 @@
 package hu.schonherz.project.admin.web.view;
 
+import hu.schonherz.admin.web.locale.LocaleManagerBean;
+import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
+import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
+import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
+import hu.schonherz.project.admin.service.api.vo.CompanyVo;
+import hu.schonherz.project.admin.service.api.vo.QuotasVo;
+import hu.schonherz.project.admin.service.api.vo.UserRole;
+import hu.schonherz.project.admin.service.api.vo.UserVo;
+import hu.schonherz.project.admin.web.util.EmailUtils;
+import hu.schonherz.project.admin.web.view.form.CompanyForm;
+import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
+import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -11,32 +30,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-
-import hu.schonherz.project.admin.service.api.vo.UserRole;
-import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
-import org.primefaces.model.DualListModel;
-
-import hu.schonherz.admin.web.locale.LocaleManagerBean;
-import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
-import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
-import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
-import hu.schonherz.project.admin.service.api.vo.CompanyVo;
-import hu.schonherz.project.admin.service.api.vo.QuotasVo;
-import hu.schonherz.project.admin.service.api.vo.UserVo;
-import hu.schonherz.project.admin.web.util.EmailUtils;
-import hu.schonherz.project.admin.web.view.form.CompanyForm;
-import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.primefaces.model.DualListModel;
 
 @ManagedBean(name = "companyProfileView")
 @ViewScoped
@@ -49,6 +46,11 @@ public class CompanyProfileView {
     private static final String EMAIL_COMP_ID = "profileForm:email";
     private static final String ERROR_ADMIN_EMAIL = "error_admin_email";
     private static final String ERROR_MODIFY_PROFILE = "error_modify_profile";
+    private static final String ERROR_WEEK_TICKETS = "error_week_tickets";
+    private static final String ERROR_MONTH_TICKETS = "error_week_tickets";
+
+    private static final String WEEK_COMP_ID = "profileForm:maxWeekTickets";
+    private static final String MONTH_COMP_ID = "profileForm:maxMonthTickets";
 
     private static final Lock LOCK;
 
@@ -80,20 +82,20 @@ public class CompanyProfileView {
 
     @PostConstruct
     public void init() {
+        if (!securityManager.isPagePermitted(NavigatorBean.Pages.COMPANY_PROFILE, false)) {
+            return;
+        }
         UserVo loggedInUser = securityManager.getLoggedInUser();
         FacesContext context = FacesContext.getCurrentInstance();
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
         if (companyIdParameter == null) {
             if (!securityManager.isUserCompanyAdmin()) {
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_LIST);
+                return;
             } else {
                 Long companyId = companyServiceRemote.findByName(loggedInUser.getCompanyName()).getId();
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
-            }
-        } else if (loggedInUser.getUserRole() == UserRole.COMPANY_ADMIN) {
-            Long companyId = companyServiceRemote.findByName(loggedInUser.getCompanyName()).getId();
-            if (!companyId.equals(Long.valueOf(companyIdParameter))) {
-                navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
+                return;
             }
         }
         currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
@@ -137,6 +139,10 @@ public class CompanyProfileView {
     }
 
     public void save() {
+        if (!validateQuotas(companyProfileForm.getQuotes())) {
+            return;
+        }
+
         try {
             LOCK.lock();
 
@@ -285,35 +291,17 @@ public class CompanyProfileView {
         return true;
     }
 
-    /*
-    private void setNewCompanyAdminIfGiven(CompanyVo companyVo) {
-        UserVo newCompAdmin = userServiceRemote.findByEmail(companyProfileForm.getAdminEmail());
-        UserVo oldCompAdmin = companyVo.getAdminUser();
-        // if company admin changed
-        if (!oldCompAdmin.getEmail().equals(newCompAdmin.getEmail())) {
-            newCompAdmin.setUserRole(UserRole.COMPANY_ADMIN);
-            oldCompAdmin.setUserRole(UserRole.AGENT);
-            oldCompAdmin.setCompanyName(null);
-
-            try {
-                userServiceRemote.registrationUser(newCompAdmin);
-                userServiceRemote.registrationUser(oldCompAdmin);
-                companyVo.setAdminUser(newCompAdmin);
-            } catch (InvalidUserDataException iude) {
-                log.error("Could not change company admin for company " + companyVo.getCompanyName(), iude);
-            }
-
-            // Update dual list model
-            List<String> source = agents.getSource();
-            List<String> target = agents.getTarget();
-            String newCompAdminName = newCompAdmin.getUsername();
-            String oldCompAdminName = oldCompAdmin.getUsername();
-            source.remove(newCompAdminName);
-            target.remove(newCompAdminName);
-            if (!source.contains(oldCompAdminName)) {
-                source.add(oldCompAdminName);
-            }
+    private boolean validateQuotas(final QuotasVo quotas) {
+        if (quotas.getMaxDayTickets() > quotas.getMaxWeekTickets()) {
+            localeManagerBean.sendMessage(WEEK_COMP_ID, FacesMessage.SEVERITY_ERROR, ERROR_WEEK_TICKETS);
+            return false;
         }
+
+        if (quotas.getMaxWeekTickets() > quotas.getMaxMonthTickets()) {
+            localeManagerBean.sendMessage(MONTH_COMP_ID, FacesMessage.SEVERITY_ERROR, ERROR_MONTH_TICKETS);
+        }
+
+        return true;
     }
-     */
+
 }

@@ -11,7 +11,7 @@
             <div class="ui-g-9 ui-md-9 ui-lg-9">
                 <h:form id="reportForm"
                         rendered="#{securityManagerBean.isPagePermitted(Pages.COMPANY_REPORT)}">
-                    <p:panel class="reportPagePanel main-page-panel" header="#{msg.form_company}"
+                    <p:panel class="reportPagePanel main-page-panel" header="#{msg.form_company_datas}"
                              id="profilePanel" toggleable="true">
                         <div class="ui-fluid">
                             <p:panelGrid columns="3"
@@ -124,25 +124,8 @@
                              toggleable="true" collapsed="true">
                         <div class="ui-fluid">
                             <p:chart type="line"
-                                     model="#{companyReportView.animatedModelDaily}"
-                                     style="width:100%;"/>
-                        </div>
-                    </p:panel>
-                    <p:panel class="reportPagePanel"
-                             header="#{msg.title_panel_monthly_logins}" id="loginReportPanelMonthly"
-                             toggleable="true" collapsed="true">
-                        <div class="ui-fluid">
-                            <p:chart type="line"
-                                     model="#{companyReportView.animatedModelMonthly}"
-                                     style="width:100%;"/>
-                        </div>
-                    </p:panel>
-                    <p:panel class="reportPagePanel"
-                             header="#{msg.title_panel_annual_logins}" id="loginReportPanelAnnual"
-                             toggleable="true" collapsed="true">
-                        <div class="ui-fluid">
-                            <p:chart type="line"
-                                     model="#{companyReportView.animatedModelAnnual}"
+                                     responsive="true"
+                                     model="#{companyReportView.animatedModel}"
                                      style="width:100%;"/>
                         </div>
                     </p:panel>

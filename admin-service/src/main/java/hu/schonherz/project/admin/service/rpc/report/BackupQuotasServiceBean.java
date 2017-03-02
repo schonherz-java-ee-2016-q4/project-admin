@@ -17,13 +17,13 @@ import lombok.NonNull;
 @Local(BackupQuotasService.class)
 public class BackupQuotasServiceBean implements BackupQuotasService {
 
-    private static final Map<Long, TicketCreationReportData> savedQuotaReports;
+    private static final Map<Long, TicketCreationReportData> SAVED_QUOTA_REPORTS;
 
     @EJB
     private CompanyServiceLocal companyService;
 
     static {
-        savedQuotaReports = new HashMap<>();
+        SAVED_QUOTA_REPORTS = new HashMap<>();
     }
 
     @Override
@@ -32,7 +32,7 @@ public class BackupQuotasServiceBean implements BackupQuotasService {
         if (companyVo == null) {
             return null;
         }
-        TicketCreationReportData reportData = savedQuotaReports.get(companyName);
+        TicketCreationReportData reportData = SAVED_QUOTA_REPORTS.get(companyVo.getId());
         QuotasVo companyQuotas = companyVo.getQuotas();
         // If there is no real data, generate random values and save it
         if (reportData == null) {
@@ -46,7 +46,8 @@ public class BackupQuotasServiceBean implements BackupQuotasService {
             reportData.setOnThisWeek(thisWeek);
             reportData.setOnThisMonth(thisMonth);
 
-            savedQuotaReports.put(companyVo.getId(), reportData);
+            SAVED_QUOTA_REPORTS.put(companyVo.getId(), reportData);
+//            log.info("saved Quota Reports: {}", savedQuotaReports.toString());
             return reportData;
         }
 
@@ -62,6 +63,8 @@ public class BackupQuotasServiceBean implements BackupQuotasService {
         final double treshold = 0.6;
         if (Math.random() > treshold) {
             reportData.setToday(reportData.getToday() + one);
+            reportData.setOnThisWeek(reportData.getOnThisWeek() + one);
+            reportData.setOnThisMonth(reportData.getOnThisMonth() + one);
         }
 
         return reportData;
@@ -69,7 +72,7 @@ public class BackupQuotasServiceBean implements BackupQuotasService {
 
     @Override
     public void saveRealUsage(@NonNull final Long companyId, @NonNull final TicketCreationReportData quotaUsage) {
-        savedQuotaReports.put(companyId, quotaUsage);
+        SAVED_QUOTA_REPORTS.put(companyId, quotaUsage);
     }
 
 }

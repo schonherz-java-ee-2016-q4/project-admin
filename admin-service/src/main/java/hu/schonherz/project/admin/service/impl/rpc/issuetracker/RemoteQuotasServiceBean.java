@@ -8,6 +8,7 @@ import hu.schonherz.project.remote.admin.api.vo.issuetracker.RemoteQuotasVo;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Stateless(mappedName = "RemoteQuotasServiceBean")
@@ -19,7 +20,7 @@ public class RemoteQuotasServiceBean implements RemoteQuotasService {
     private CompanyServiceLocal companyService;
 
     @Override
-    public RemoteQuotasVo getQuotasOfCompany(String companyName) {
+    public RemoteQuotasVo getQuotasOfCompany(@NonNull final String companyName) {
         CompanyVo companyVo = companyService.findByName(companyName);
         if (companyVo == null) {
             log.warn("Tried to get quotas of non existing company: {}", companyName);

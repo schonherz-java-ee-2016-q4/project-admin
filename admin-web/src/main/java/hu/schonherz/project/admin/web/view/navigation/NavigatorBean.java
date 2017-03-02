@@ -29,7 +29,7 @@ public class NavigatorBean {
 
         private final String url;
 
-        Pages(String url) {
+        Pages(final String url) {
             this.url = url;
         }
 

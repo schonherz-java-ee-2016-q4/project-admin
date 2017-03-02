@@ -52,7 +52,7 @@ public class UserForm {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -64,11 +64,11 @@ public class UserForm {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
+    public void setCompanyName(final String companyName) {
         this.companyName = companyName;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -76,7 +76,7 @@ public class UserForm {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(final String username) {
         this.username = username;
     }
 
@@ -84,7 +84,7 @@ public class UserForm {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -92,7 +92,7 @@ public class UserForm {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(final boolean active) {
         this.active = active;
     }
 
@@ -100,7 +100,7 @@ public class UserForm {
         return loggedIn;
     }
 
-    public void setLoggedIn(boolean loggedIn) {
+    public void setLoggedIn(final boolean loggedIn) {
         this.loggedIn = loggedIn;
     }
 
@@ -108,7 +108,7 @@ public class UserForm {
         return available;
     }
 
-    public void setAvailable(boolean available) {
+    public void setAvailable(final boolean available) {
         this.available = available;
     }
 
@@ -116,7 +116,7 @@ public class UserForm {
         return userRole;
     }
 
-    public void setUserRole(UserRole userRole) {
+    public void setUserRole(final UserRole userRole) {
         this.userRole = userRole;
     }
 

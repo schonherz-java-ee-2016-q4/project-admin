@@ -7,6 +7,7 @@ import hu.schonherz.project.remote.admin.api.vo.issuetracker.RemoteUserVo;
 import javax.ejb.EJB;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Stateless(mappedName = "RemoteLoginServiceBean")
@@ -15,10 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 public class RemoteLoginServiceBean implements RemoteLoginService {
 
     @EJB
-    UserServiceLocal userService;
+    private UserServiceLocal userService;
 
     @Override
-    public RemoteUserVo login(String username) {
+    public RemoteUserVo login(@NonNull final String username) {
         UserVo user = userService.findByUsername(username);
         if (user == null) {
             log.warn("Not existing user tried to remote login: {}", username);

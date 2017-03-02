@@ -1,14 +1,15 @@
 package hu.schonherz.project.admin.web.view;
 
-import hu.schonherz.admin.web.locale.LocaleManagerBean;
+import hu.schonherz.project.admin.service.api.report.ReportServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
-import hu.schonherz.project.admin.service.api.service.user.UserServiceRemote;
 import hu.schonherz.project.admin.service.api.vo.CompanyVo;
-import hu.schonherz.project.admin.service.api.vo.UserRole;
+import hu.schonherz.project.admin.service.api.vo.ReportVo;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.form.CompanyForm;
 import hu.schonherz.project.admin.web.view.navigation.NavigatorBean;
+import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
 import java.io.Serializable;
+import java.util.Random;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -29,20 +30,22 @@ public class CompanyReportView implements Serializable {
 
     private static final long serialVersionUID = 4342L;
 
-    @ManagedProperty(value = "#{localeManagerBean}")
-    private LocaleManagerBean localeManagerBean;
-
     @ManagedProperty(value = "#{navigatorBean}")
     private NavigatorBean navigator;
 
-    @EJB
-    private UserServiceRemote userServiceRemote;
+    @ManagedProperty(value = "#{securityManagerBean}")
+    private SecurityManagerBean securityManager;
+
     @EJB
     private CompanyServiceRemote companyServiceRemote;
-
     private CompanyForm companyProfileForm;
 
-    private LineChartModel animatedModelDaily;
+    @EJB
+    private ReportServiceRemote reportServiceRemote;
+
+    private ReportVo reportVo;
+
+    private LineChartModel animatedModel;
 
     private LineChartModel animatedModelMonthly;
 
@@ -55,7 +58,7 @@ public class CompanyReportView implements Serializable {
     private int monthlyUsage;
 
     public LineChartModel getAnimatedDaily() {
-        return animatedModelDaily;
+        return animatedModel;
     }
 
     public LineChartModel getAnimatedModelMonthly() {
@@ -68,29 +71,32 @@ public class CompanyReportView implements Serializable {
 
     @PostConstruct
     public void init() {
+        if (!securityManager.isPagePermitted(NavigatorBean.Pages.COMPANY_PROFILE, false)) {
+            return;
+        }
+
         FacesContext context = FacesContext.getCurrentInstance();
         UserVo userVo = getLoggedInUser(context);
         String companyIdParameter = context.getExternalContext().getRequestParameterMap().get("id");
         if (companyIdParameter == null) {
-            if (userVo.getUserRole().equals(UserRole.ADMIN)) {
+            if (!securityManager.isUserCompanyAdmin()) {
                 navigator.redirectTo(NavigatorBean.Pages.COMPANY_LIST);
+                return;
             } else {
                 Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
-                navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
-            }
-        } else if (userVo.getUserRole().equals(UserRole.COMPANY_ADMIN)) {
-            Long companyId = companyServiceRemote.findByName(userVo.getCompanyName()).getId();
-            if (!companyId.equals(Long.valueOf(companyIdParameter))) {
-                navigator.redirectTo(NavigatorBean.Pages.COMPANY_PROFILE, "id", companyId);
+                navigator.redirectTo(NavigatorBean.Pages.COMPANY_REPORT, "id", companyId);
+                return;
             }
         }
         CompanyVo currentCompanyVo = companyServiceRemote.findById(Long.valueOf(companyIdParameter));
         companyProfileForm = new CompanyForm(currentCompanyVo);
 
-        final int mockedData = 35;
-        dailyUsage = mockedData;
-        weeklyUsage = mockedData;
-        monthlyUsage = mockedData;
+        reportVo = reportServiceRemote.generateReportFor(currentCompanyVo.getCompanyName());
+
+        final int hundred = 100;
+        dailyUsage = (int) Math.round((double) reportVo.getUsedTodayTickets() / reportVo.getMaxTodayTickets() * hundred);
+        weeklyUsage = (int) Math.round((double) reportVo.getUsedThisWeekTickets() / reportVo.getMaxThisWeekTickets() * hundred);
+        monthlyUsage = (int) Math.round((double) reportVo.getUsedThisMonthsTickets() / reportVo.getMaxThisMonthsTickets() * hundred);
 
         createAnimatedModels();
     }
@@ -101,40 +107,50 @@ public class CompanyReportView implements Serializable {
     }
 
     private void createAnimatedModels() {
-        animatedModelDaily = initLinearModelDaily();
-        animatedModelDaily.setAnimate(true);
-        animatedModelDaily.setLegendPosition("se");
-        Axis yAxisLoginsEachDay = animatedModelDaily.getAxis(AxisType.Y);
+        animatedModel = initLinearModel();
+        animatedModel.setAnimate(true);
+        animatedModel.setLegendPosition("se");
+        Axis yAxisLoginsEachDay = animatedModel.getAxis(AxisType.Y);
         final int min = 0;
-        final int max = 10;
+        final int max = reportVo.getLoginsThisWeek();
         yAxisLoginsEachDay.setMin(min);
         yAxisLoginsEachDay.setMax(max);
 
-        animatedModelMonthly = initLinearModelMonthly();
-        animatedModelMonthly.setAnimate(true);
-        animatedModelMonthly.setLegendPosition("se");
-        Axis yAxisLoginsEachMonth = animatedModelMonthly.getAxis(AxisType.Y);
-        yAxisLoginsEachMonth.setMin(min);
-        yAxisLoginsEachMonth.setMax(max);
-
-        animatedModelAnnual = initLinearModelAnnual();
-        animatedModelAnnual.setAnimate(true);
-        animatedModelAnnual.setLegendPosition("se");
-        Axis yAxisLoginsEachYear = animatedModelAnnual.getAxis(AxisType.Y);
-        yAxisLoginsEachYear.setMin(min);
-        yAxisLoginsEachYear.setMax(max);
     }
 
-    private LineChartModel initLinearModelDaily() {
+    private LineChartModel initLinearModel() {
+        final int arrayLength = 7;
+        int[] dailyLogins = new int[arrayLength];
+        final int firstIndex = 0;
+        dailyLogins[firstIndex] = reportVo.getLoginsToday();
+        int allWeekLogins = reportVo.getLoginsThisWeek() - reportVo.getLoginsToday();
+
+        Random rnd = new Random();
+        final int start = 1;
+        for (int i = start; i < dailyLogins.length; i++) {
+            // If there are no logins left, every other day will have 0 logins
+            if (allWeekLogins <= 0) {
+                dailyLogins[i] = 0;
+                continue;
+            }
+            // If this is the last day, give it every remaining logins
+            if (i == dailyLogins.length - 1) {
+                dailyLogins[i] = allWeekLogins;
+                allWeekLogins = 0;
+                break;
+            }
+
+            dailyLogins[i] = rnd.nextInt(allWeekLogins);
+            allWeekLogins -= dailyLogins[i];
+        }
+
         LineChartModel model = new LineChartModel();
 
         LineChartSeries days = new LineChartSeries();
         days.setLabel("Daily logins");
 
-        final int start = 1;
-        final int end = 6;
-        for (int i = start; i < end; i++) {
-            days.set(i, i);
+        for (int i = dailyLogins.length - 1; i >= 0; i--) {
+            days.set(dailyLogins.length - i, dailyLogins[i]);
         }
 
         model.addSeries(days);
@@ -142,53 +158,67 @@ public class CompanyReportView implements Serializable {
         return model;
     }
 
-    private LineChartModel initLinearModelMonthly() {
-        LineChartModel model = new LineChartModel();
-
-        LineChartSeries months = new LineChartSeries();
-        months.setLabel("Monthly logins");
-
-        final int start = 1;
-        final int end = 6;
-        for (int i = start; i < end; i++) {
-            months.set(i, i);
-        }
-
-        model.addSeries(months);
-
-        return model;
+    public NavigatorBean getNavigator() {
+        return navigator;
     }
 
-    private LineChartModel initLinearModelAnnual() {
-        LineChartModel model = new LineChartModel();
+    public void setNavigator(final NavigatorBean navigator) {
+        this.navigator = navigator;
+    }
 
-        LineChartSeries years = new LineChartSeries();
-        years.setLabel("Annual logins");
+    public SecurityManagerBean getSecurityManager() {
+        return securityManager;
+    }
 
-        final int start = 2012;
-        final int end = 2017;
-        for (int i = start; i < end; i++) {
-            years.set(i, i - start);
-        }
+    public void setSecurityManager(final SecurityManagerBean securityManager) {
+        this.securityManager = securityManager;
+    }
 
-        model.addSeries(years);
+    public CompanyServiceRemote getCompanyServiceRemote() {
+        return companyServiceRemote;
+    }
 
-        return model;
+    public void setCompanyServiceRemote(final CompanyServiceRemote companyServiceRemote) {
+        this.companyServiceRemote = companyServiceRemote;
     }
 
     public CompanyForm getCompanyProfileForm() {
         return companyProfileForm;
     }
 
-    public void setCompanyProfileForm(CompanyForm companyProfileForm) {
+    public void setCompanyProfileForm(final CompanyForm companyProfileForm) {
         this.companyProfileForm = companyProfileForm;
+    }
+
+    public ReportServiceRemote getReportServiceRemote() {
+        return reportServiceRemote;
+    }
+
+    public void setReportServiceRemote(final ReportServiceRemote reportServiceRemote) {
+        this.reportServiceRemote = reportServiceRemote;
+    }
+
+    public ReportVo getReportVo() {
+        return reportVo;
+    }
+
+    public void setReportVo(final ReportVo reportVo) {
+        this.reportVo = reportVo;
+    }
+
+    public LineChartModel getAnimatedModel() {
+        return animatedModel;
+    }
+
+    public void setAnimatedModel(final LineChartModel animatedModel) {
+        this.animatedModel = animatedModel;
     }
 
     public int getDailyUsage() {
         return dailyUsage;
     }
 
-    public void setDailyUsage(int dailyUsage) {
+    public void setDailyUsage(final int dailyUsage) {
         this.dailyUsage = dailyUsage;
     }
 
@@ -196,7 +226,7 @@ public class CompanyReportView implements Serializable {
         return weeklyUsage;
     }
 
-    public void setWeeklyUsage(int weeklyUsage) {
+    public void setWeeklyUsage(final int weeklyUsage) {
         this.weeklyUsage = weeklyUsage;
     }
 
@@ -204,48 +234,8 @@ public class CompanyReportView implements Serializable {
         return monthlyUsage;
     }
 
-    public void setMonthlyUsage(int monthlyUsage) {
+    public void setMonthlyUsage(final int monthlyUsage) {
         this.monthlyUsage = monthlyUsage;
-    }
-
-    public LocaleManagerBean getLocaleManagerBean() {
-        return localeManagerBean;
-    }
-
-    public void setLocaleManagerBean(LocaleManagerBean localeManagerBean) {
-        this.localeManagerBean = localeManagerBean;
-    }
-
-    public NavigatorBean getNavigator() {
-        return navigator;
-    }
-
-    public void setNavigator(NavigatorBean navigator) {
-        this.navigator = navigator;
-    }
-
-    public UserServiceRemote getUserServiceRemote() {
-        return userServiceRemote;
-    }
-
-    public void setUserServiceRemote(UserServiceRemote userServiceRemote) {
-        this.userServiceRemote = userServiceRemote;
-    }
-
-    public CompanyServiceRemote getCompanyServiceRemote() {
-        return companyServiceRemote;
-    }
-
-    public void setCompanyServiceRemote(CompanyServiceRemote companyServiceRemote) {
-        this.companyServiceRemote = companyServiceRemote;
-    }
-
-    public LineChartModel getAnimatedModelDaily() {
-        return animatedModelDaily;
-    }
-
-    public void setAnimatedModelDaily(LineChartModel animatedModelDaily) {
-        this.animatedModelDaily = animatedModelDaily;
     }
 
 }

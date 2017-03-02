@@ -55,9 +55,9 @@
                                              update="company-table form:growl" process="@all">
                             </p:commandButton>
 
-                            <!-- Reset password button -->
+                            <!-- Generate report button -->
                             <p:commandButton id="generateReport" icon="ui-icon-clipboard"
-                                             actionListener="#{companiesView.generateReport(company)}"
+                                             actionListener="#{navigatorBean.redirectTo(Pages.COMPANY_REPORT, 'id', company.id)}"
                                              update="company-table form:growl">
                             </p:commandButton>
                         </div>

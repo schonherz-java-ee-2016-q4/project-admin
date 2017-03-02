@@ -1,21 +1,5 @@
 package hu.schonherz.project.admin.service.impl.user;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.ejb.EJB;
-import javax.ejb.Local;
-import javax.ejb.Stateless;
-import javax.ejb.TransactionManagement;
-import javax.ejb.TransactionManagementType;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
-import javax.interceptor.Interceptors;
-
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
-
 import hu.schonherz.project.admin.data.entity.UserEntity;
 import hu.schonherz.project.admin.data.repository.UserRepository;
 import hu.schonherz.project.admin.service.api.encrypter.Encrypter;
@@ -24,8 +8,21 @@ import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.service.mail.MailSender;
 import hu.schonherz.project.admin.service.mapper.user.UserEntityVoMapper;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
+import javax.interceptor.Interceptors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 @Stateless(mappedName = "UserService")
 @Local(UserServiceLocal.class)
@@ -53,7 +50,7 @@ public class UserServiceBean implements UserServiceLocal {
     }
 
     @Override
-    public Set<UserVo> findByCompanyName(String companyName) {
+    public Set<UserVo> findByCompanyName(final String companyName) {
         return UserEntityVoMapper.toVo(userRepository.findByCompanyName(companyName));
     }
 
@@ -70,7 +67,7 @@ public class UserServiceBean implements UserServiceLocal {
     }
 
     @Override
-    public void saveAll(Collection<UserVo> vos) {
+    public void saveAll(final Collection<UserVo> vos) {
         userRepository.save(UserEntityVoMapper.toEntity(vos));
     }
 

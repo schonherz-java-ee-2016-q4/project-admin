@@ -54,11 +54,11 @@ public class SecurityManagerBean {
         isCompanyAdmin = new HashMap<>();
     }
 
-    public boolean isPagePermitted(NavigatorBean.Pages page) {
+    public boolean isPagePermitted(final NavigatorBean.Pages page) {
         return isPagePermitted(page, true);
     }
 
-    public boolean isPagePermitted(NavigatorBean.Pages page, boolean shouldRedirect) {
+    public boolean isPagePermitted(final NavigatorBean.Pages page, final boolean shouldRedirect) {
         UserVo user = getLoggedInUser();
         // Check if there is a logged in user
         if (user == null) {
