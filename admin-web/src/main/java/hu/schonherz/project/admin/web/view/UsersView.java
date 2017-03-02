@@ -56,11 +56,7 @@ public class UsersView {
         UserVo loggedInUser = securityManagerBean.getLoggedInUser();
         if (loggedInUser.getUserRole() == UserRole.ADMIN) {
             users = userServiceRemote.findAll();
-        } else { // only COMPANY_ADMIN can be the other, because AGENT -s are
-            // not permitted here
-//            CompanyVo companyVo = companyServiceRemote.findByName(loggedInUser.getCompanyName());
-//            users = new ArrayList<>(companyVo.getAgents());
-//            users.add(loggedInUser);
+        } else { // only COMPANY_ADMIN can be the other, because AGENT -s are not permitted here
             users = new ArrayList<>(userServiceRemote.findByCompanyName(loggedInUser.getCompanyName()));
         }
     }
