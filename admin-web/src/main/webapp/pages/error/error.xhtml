@@ -1,20 +1,31 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:p="http://primefaces.org/ui"
-                template="/pages/templates/linkedLayout.xhtml">
+                template="/pages/templates/linkedLayout.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <ui:define name="customBody">
         <div class="ui-g">
             <div style="text-align: center" class="ui-g-9 ui-md-9 ui-lg-9">
 
-                <h1>
-                    #{msg.error_code}: #{requestScope['javax.servlet.error.status_code']}
-                </h1>
-                <h5>
-                    #{requestScope['javax.servlet.error.message']}
-                </h5>
+                <h:form rendered="#{request.getParameter('statusCode') == null}">
+                    <h1>
+                        Error code: #{requestScope['javax.servlet.error.status_code']}
+                    </h1>
+                    <h5>
+                        #{requestScope['javax.servlet.error.message']}
+                    </h5>
+                </h:form>
+                <h:form rendered="#{request.getParameter('statusCode') != null}">
+                    <h1>
+                        Error code: #{request.getParameter('statusCode')}
+                    </h1>
+                    <c:if test="#{request.getParameter('statusCode') == '403'}">
+                        <h5>
+                            Forbidden
+                        </h5>
+                    </c:if>
+                </h:form>
             </div>
         </div>
     </ui:define>

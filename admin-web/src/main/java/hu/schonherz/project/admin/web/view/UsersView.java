@@ -1,17 +1,5 @@
 package hu.schonherz.project.admin.web.view;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
-
 import hu.schonherz.admin.web.locale.LocaleManagerBean;
 import hu.schonherz.project.admin.service.api.service.company.CompanyServiceRemote;
 import hu.schonherz.project.admin.service.api.service.company.InvalidCompanyDataException;
@@ -20,6 +8,16 @@ import hu.schonherz.project.admin.service.api.vo.CompanyVo;
 import hu.schonherz.project.admin.service.api.vo.UserRole;
 import hu.schonherz.project.admin.service.api.vo.UserVo;
 import hu.schonherz.project.admin.web.view.security.SecurityManagerBean;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -58,11 +56,8 @@ public class UsersView {
         UserVo loggedInUser = securityManagerBean.getLoggedInUser();
         if (loggedInUser.getUserRole() == UserRole.ADMIN) {
             users = userServiceRemote.findAll();
-        } else { // only COMPANY_ADMIN can be the other, because AGENT -s are
-                 // not permitted here
-            CompanyVo companyVo = companyServiceRemote.findByName(loggedInUser.getCompanyName());
-            users = new ArrayList<>(companyVo.getAgents());
-            users.add(loggedInUser);
+        } else { // only COMPANY_ADMIN can be the other, because AGENT -s are not permitted here
+            users = new ArrayList<>(userServiceRemote.findByCompanyName(loggedInUser.getCompanyName()));
         }
     }
 
@@ -100,7 +95,7 @@ public class UsersView {
             try {
                 companyServiceRemote.save(employerComapany);
             } catch (InvalidCompanyDataException ex) {
-                log.error("Could not update company data for {}", employerCompanyName);
+                log.error("Could not update company data for " + employerCompanyName, ex);
             }
         }
 
@@ -113,10 +108,11 @@ public class UsersView {
     public void changeUserStatus(@NonNull final UserVo userVo) {
         userServiceRemote.changeStatus(userVo.getId());
         init();
-
-        String detailedMessage = userVo.isActive() ? localeManager.localize(INACTIVATE_SUCCESS)
-                : localeManager.localize(ACTIVATE_SUCCESS) + userVo.getUsername();
-        sendMessage(localeManager.localize(CHANGING_SUCCESS), detailedMessage);
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null,
+                new FacesMessage(localeManager.localize(CHANGING_SUCCESS),
+                        (userVo.isActive() ? localeManager.localize(INACTIVATE_SUCCESS)
+                        : localeManager.localize(ACTIVATE_SUCCESS)) + userVo.getUsername()));
     }
 
     public void resetUserPassword(@NonNull final UserVo userVo) {

@@ -121,6 +121,12 @@ public class SecurityManagerBean {
         return result;
     }
 
+    public void clearBuffer() {
+        if (isCompanyAdmin != null) {
+            isCompanyAdmin.clear();
+        }
+    }
+
     public UserVo getLoggedInUser() {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         return (UserVo) session.getAttribute("user");
