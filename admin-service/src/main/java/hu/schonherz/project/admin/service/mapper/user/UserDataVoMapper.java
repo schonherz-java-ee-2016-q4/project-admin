@@ -19,7 +19,7 @@ public final class UserDataVoMapper {
         }
 
         UserData userData = new UserData();
-        userData.setFullName("Bruce Wayne asassa");
+        userData.setFullName("Agent Wayne");
         userData.setGender(Gender.MALE);
         userData.setPhone("+36-30-1112367");
         userData.setPicUrl("https://pbs.twimg.com/profile_images/649259478332784640/7Pjcfx_v_reasonably_small.jpg");
